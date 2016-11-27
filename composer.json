@@ -54,6 +54,9 @@
         "jeroen-g/laravel-packager": "dev-master"
     },
     "autoload": {
+	"files": [
+	    "app/Http/Helpers.php"
+	],
         "classmap": [
             "database"
         ],

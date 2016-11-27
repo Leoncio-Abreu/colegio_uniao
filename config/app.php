@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'timezone' => env('app.timezone', 'UTC'),
+    'timezone' => env('app.timezone', 'America/Sao_Paulo'),
 
     /*
     |--------------------------------------------------------------------------
@@ -72,6 +72,7 @@ return [
 //        'en-US'       => 'U.S. English',
         'es'          => 'español',
         'fr'          => 'français',
+        'pt-BR'          => 'Portuguese/Brasilian',
 //        'fr-CA'       => 'français canadien',
     ],
 
@@ -86,7 +87,7 @@ return [
     |
     */
 
-    'locale' => env('app.locale', 'en'),
+    'locale' => env('app.locale', 'pt-BR'),
 
     /*
     |--------------------------------------------------------------------------
@@ -170,7 +171,7 @@ return [
     |
     | NOTE: The long name supports HTML markup for styling.
     */
-    'long_name' => env('app.long_name', '<b>Laravel</b> ESK'),
+    'long_name' => env('app.long_name', '<b>Colégio União</b>'),
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +183,7 @@ return [
     |
     | NOTE: The short name does not support any HTML markup.
     */
-    'short_name' => env('app.short_name', 'LESK'),
+    'short_name' => env('app.short_name', 'União'),
 
     /*
     |--------------------------------------------------------------------------
@@ -194,7 +195,7 @@ return [
     |
     | NOTE: The tag line supports HTML markup for styling.
     */
-    'tag_line' => env('app.tag_line', 'Anything you want'),
+    'tag_line' => env('app.tag_line', 'Colegio união'),
 
     /*
     |--------------------------------------------------------------------------
@@ -207,7 +208,7 @@ return [
     |
     | NOTE: The tag line supports HTML markup for styling.
     */
-    'copyright_line' => env('app.copyright', '<strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.'),
+    'copyright_line' => env('app.copyright', '<strong>Copyright &copy; 2016 <a href="http://www.azagga.com.br/">A/Zagga Comunicação</a>.</strong> Todos os direitos reservados.'),
 
     /*
     |--------------------------------------------------------------------------
@@ -217,7 +218,7 @@ return [
     | Boolean flag that allows users to register themselves, defaults to true.
     |
     */
-    'allow_registration' => env('app.allow_registration', true),
+    'allow_registration' => env('app.allow_registration', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -237,7 +238,7 @@ return [
     | Boolean flag that shows the Search box, defaults to true.
     |
     */
-    'search_box' => env('app.search_box', true),
+    'search_box' => env('app.search_box', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -247,7 +248,7 @@ return [
     | Boolean flag that shows the notification area boilerplate, defaults to true.
     |
     */
-    'notification_area' => env('app.notification_area', true),
+    'notification_area' => env('app.notification_area', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -257,7 +258,7 @@ return [
     | Boolean flag that shows extended user menu boilerplate, defaults to true.
     |
     */
-    'extended_user_menu' => env('app.extended_user_menu', true),
+    'extended_user_menu' => env('app.extended_user_menu', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -277,7 +278,7 @@ return [
     | Boolean flag that shows the right sidebar area boilerplate, defaults to true.
     |
     */
-    'right_sidebar' => env('app.right_sidebar', true),
+    'right_sidebar' => env('app.right_sidebar', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -346,15 +347,15 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         YAAP\Theme\ThemeServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
-//        Zofe\Rapyd\RapydServiceProvider::class,
+		Zofe\Rapyd\RapydServiceProvider::class,
         Baum\Providers\BaumServiceProvider::class,
         Sroutier\LESKModules\ModulesServiceProvider::class,
         Mgallegos\LaravelJqgrid\LaravelJqgridServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Tylercd100\LERN\LERNServiceProvider::class,
         Arcanedev\Settings\SettingsServiceProvider::class,
-        Libern\SqlLogging\SqlLoggingServiceProvider::class
-
+        Libern\SqlLogging\SqlLoggingServiceProvider::class,
+		Intervention\Image\ImageServiceProvider::class
     ),
 
     /*
@@ -416,6 +417,7 @@ return [
         'GridEncoder' => Mgallegos\LaravelJqgrid\Facades\GridEncoder::class,
         'Gravatar'    => Creativeorange\Gravatar\Facades\Gravatar::class,
         'LERN'        => Tylercd100\LERN\Facades\LERN::class,
+		'Image'		  => Intervention\Image\Facades\Image::class
         // Commented out to force the usage of the Setting model located at app/Models/Setting.php
 //        'Setting'     => Arcanedev\Settings\Facades\Setting::class,
 

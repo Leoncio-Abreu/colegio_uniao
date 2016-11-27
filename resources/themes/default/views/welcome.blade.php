@@ -1,37 +1,58 @@
-@extends('layouts.master')
-
+@extends('layouts.frontend_master')
 @section('content')
-    <h1>{{ trans('general.text.welcome') }}</h1>
-    <div class="box-body">
-        Mei ad adhuc summo cetero. Qui assum habemus signiferumque cu,
-        per idque evertitur cu, doming corpora deserunt te vis. Melius
-        oporteat ea usu. Timeam tincidunt cum et. Eam justo utroque no.
-        Enim aliquando abhorreant ea sea, vis ex efficiendi referrentur,
-        ei pro tacimates sadipscing. Et consulatu gloriatur
-        signiferumque vim, an solum antiopam periculis cum.
-    </div>
-    <div class="box-body">
-        Erat equidem ad sed. No has altera voluptatum, sit agam possim
-        bonorum no. Munere delenit duo eu. Sed prompta vivendum detraxit
-        an.
-        Ex recusabo suscipiantur vim, eam legendos scriptorem cu. Cum ex
-        nibh offendit adipiscing. Ea has iriure atomorum, iudico commodo
-        ut usu. Eruditi fierent fastidii in has, vix diam decore putent
-        ad. Hinc tollit minimum et sit, munere putent assueverit pri id.
-    </div>
-    <div class="box-body">
-        Bonorum admodum contentiones vis in. Ne eum hinc minim adolescens.
-        Ea eum veniam delectus philosophia, nam ad cibo cotidieque, integre
-        inermis mea an. Movet equidem lobortis in has, vel ad eripuit
-        debitis accusamus.
-        Offendit recteque cu pri, mel id solet dicant. Ea reque iriure ius,
-        te virtute euripidis referrentur his, mea legere semper melius cu.
-        Eu pri utroque percipit contentiones. Pri timeam fierent ad, ne
-        menandri perpetua delicatissimi vis. Sanctus ullamcorper no mea. Ex
-        vel rebum erant.
-        Ius dolorum persecuti ea. Duo at quot expetenda. Id possim delenit
-        epicuri mei. Ei eum graeco legimus vulputate. Quas dicat vim id, pro
-        id dolor consetetur, vel cu aeque pertinax qualisque. Et vim agam
-        graeci, vis purto accusam ex.
-    </div>
-@endsection
+	<div class="row">
+		@for ($i = 0; $i < count($noticias); $i++)
+		@if($i == 0)
+		<div class="col-md-5">
+				<div class="panel panel-default">
+					<div class="panel-heading text-center">
+						<h2 class="panel-title">{{ $noticias[$i]->titulo }}</h2>
+
+					</div>
+                    <div class="panel-body">
+						<img class="img-rounded text-center img-responsive" alt="" src="/upload/noticias/banner/{!! $noticias[$i]->banner !!}">						<div class="bootstrap-eh-pull-bottom clearfix"><br>
+							<p>{!! $noticias[$i]->descricao !!}
+							<a class="btn btn-warning pull-right" href="/view/noticia/{!! $noticias[$i]->id !!}" role="button">+ mais »</a></p>
+						</div>
+					</div>
+				</div>
+		</div> 
+		<div class="col-md-7">
+			<div class="row">
+		@else
+				<div class="col-md-6">
+					<div class="panel panel-default">
+		                <div class="panel-heading">
+							<h2 class="panel-title">{{ $noticias[$i]->titulo }}</h2>
+						</div>
+						<div class="panel-body">
+							<p>{!! $noticias[$i]->descricao !!}</p>
+							<div class="bootstrap-eh-pull-bottom clearfix">
+								<a class="btn btn-warning pull-right" href="/view/noticia/{{ $noticias[$i]->id }}" role="button">+ mais »</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				@if($i+1 %2 == 0 & count($noticias) != $i)
+			</div>	
+			<div class="row">
+				@endif
+		@endif
+		@endfor
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		@for ($i = 0; $i < count($atividades); $i++)
+		<div class="col-md-3">
+			<a href="/view/atividade/{!! $atividades[$i]->id !!}"><div class="panel panel-default">
+				<div class="panel-heading text-center"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/{!! $atividades[$i]->banner !!}" class="img-rounded text-center img-responsive"></div>
+				<div class="panel-body">
+					<span>{!! $atividades{0}->descricao !!}</span>
+				</div>
+				</div>
+			</a>
+		</div>
+		@endfor
+	</div>
+@stop
