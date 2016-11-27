@@ -230,7 +230,7 @@ class HomeController extends Controller
 					$npos=$nextpos[0]->posicao;
 					$nid=$nextpos[0]->id;
 				};
-				if ($npos !=0 and $ppos !=0){
+//				if ($npos !=0 and $ppos !=0){
 					if ($move == 'up')
 					{
 						\DB::table($table)
@@ -250,7 +250,7 @@ class HomeController extends Controller
 							->where('id', $pid)
 							->update(array('posicao' => $pos));
 					}
-				}
+//				}
 				return redirect()->route($table.'.index');
 //				dd($ppos,$apos,$npos);
 			}
