@@ -35,14 +35,11 @@ class NoticiasController extends Controller
 		$grid->attributes(array("class"=>"table table-striped"));
 		$grid->add('<a class="" title="Mover para cima" href="/posicao/noticias/up/{{ $id }}"><span class="fa fa-level-up"></span></a>
     <a class="" title="Mover para baixo" href="/posicao/noticias/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao');
-/*
-
-		<a href="/noticias/up/{{ $id }}"><i class="fa fa-level-up" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="/noticias/down/{{ $id }}"><i class="fa fa-level-down" aria-hidden="true"></i></a>','Posicao');
-*/
         $grid->add('visualizar','Visualizar', true);
         $grid->add('titulo','Titulo', true);
-//        $grid->add('descricao', true);
-        $grid->edit('edit', 'Editar','modify|delete');
+		$grid->add('descricao','Descricao', true);
+		$grid->add('<img src="/upload/noticias/banner/{{ $banner }}" height="80">','Foto em destaque', true);
+		$grid->edit('edit', 'Editar','modify|delete');
         $grid->paginate(20);
         $grid->build();
         return  view('noticias.index', compact('filter', 'grid', 'page_title', 'page_description'));
@@ -63,7 +60,7 @@ class NoticiasController extends Controller
         $form->add('ativo','Ativar', 'checkbox');
 		$form->add('titulo','Titulo', 'textarea')->rule('required|max:32');
 		$form->add('descricao','Descricao', 'text')->attr('id','descricao')->rule('required|max:128');
-        $form->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->move('upload/noticias/banner/')->preview(120,80);
+        $form->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->move('/upload/noticias/banner/')->preview(120,80);
 		$form->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
 /*        $form->add('foto1','Foto 1', 'image')->move('uploads/noticias/')->fit(240, 160)->preview(120,80);
 */

@@ -2,6 +2,7 @@
   "private": true,
   "devDependencies": {
     "gulp": "~3.9.0",
+    "gulp-clean-css": "^2.0.13",
     "laravel-elixir": "^1.0.0"
   }
 }
