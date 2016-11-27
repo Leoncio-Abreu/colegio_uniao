@@ -18,8 +18,8 @@ class CreateNoticiasTable extends Migration
 			$table->integer('ativo');
 			$table->integer('posicao');
 			$table->string('titulo', 32);
-            $table->text('descricao', 128);
-            $table->string('banner');
+            $table->string('descricao', 128);
+            $table->text('banner');
             $table->text('texto');
             $table->timestamps();
         });

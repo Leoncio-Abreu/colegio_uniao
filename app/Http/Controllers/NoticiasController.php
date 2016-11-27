@@ -36,9 +36,9 @@ class NoticiasController extends Controller
 		$grid->add('<a class="" title="Mover para cima" href="/posicao/noticias/up/{{ $id }}"><span class="fa fa-level-up"></span></a>
     <a class="" title="Mover para baixo" href="/posicao/noticias/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao');
         $grid->add('visualizar','Visualizar', true);
+        $grid->add('ativo','Ativar', 'checkbox');
         $grid->add('titulo','Titulo', true);
 		$grid->add('descricao','Descricao', true);
-		$grid->add('<img src="/upload/noticias/banner/{{ $banner }}" height="80">','Foto em destaque', true);
 		$grid->edit('edit', 'Editar','modify|delete');
         $grid->paginate(20);
         $grid->build();
@@ -57,13 +57,12 @@ class NoticiasController extends Controller
         $form = \DataForm::source(New Noticiashole());
 
         $form->add('visualizar','Visualizar','datetime')->rule('required');
-        $form->add('ativo','Ativar', 'checkbox');
-		$form->add('titulo','Titulo', 'textarea')->rule('required|max:32');
-		$form->add('descricao','Descricao', 'text')->attr('id','descricao')->rule('required|max:128');
-        $form->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->move('/upload/noticias/banner/')->preview(120,80);
+        $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
+		$form->add('titulo','Titulo', 'text')->rule('max:32');
+		$form->add('descricao','Descricao', 'text')->rule('max:128');
+        $form->add('banner','Foto em destaque','textarea')->attr('id','banner');
 		$form->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
-/*        $form->add('foto1','Foto 1', 'image')->move('uploads/noticias/')->fit(240, 160)->preview(120,80);
-*/
+
 		$form->submit('Save');
 
         $form->saved(function () use ($form) {
@@ -94,11 +93,6 @@ class NoticiasController extends Controller
             data.append('height', '200');
             data.append('width', '200');
             $.ajax({
-            xhr: function() {
-                var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) myXhr.upload.addEventListener('progress',progressHandlingFunction, false);
-                return myXhr;
-            },
                 url: '/imageupload',
                 cache: false,
                 contentType: false,
@@ -114,17 +108,8 @@ class NoticiasController extends Controller
                 }
             });
         };
-		function progressHandlingFunction(e){
-			if(e.lengthComputable){
-				$('progress').attr({value:e.loaded, max:e.total});
-				// reset progress on complete
-				if (e.loaded == e.total) {
-					$('progress').attr('value','0.0');
-				}
-			}
-		};
-		$('#descricao').summernote({
-            height: ($(window).height() - 300),
+		$('#banner').summernote({
+            height: '200',
 			lang: 'pt-BR',
             callbacks: {
                 onImageUpload: function(image) {
@@ -138,11 +123,6 @@ class NoticiasController extends Controller
             data.append('height', '400');
             data.append('width', '400');
             $.ajax({
-            xhr: function() {
-                var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) myXhr.upload.addEventListener('progress',progressHandlingFunction, false);
-                return myXhr;
-            },
                 url: '/imageupload',
                 cache: false,
                 contentType: false,
@@ -151,7 +131,7 @@ class NoticiasController extends Controller
                 type: 'post',
                 success: function(url) {
                     var image = $('<img>').attr('src', 'http://' + url);
-                    $('#descricao').summernote('insertNode', image[0]);
+                    $('#banner').summernote('insertNode', image[0]);
                 },
                 error: function(data) {
                     console.log(data);
@@ -175,10 +155,10 @@ class NoticiasController extends Controller
         $edit = \DataEdit::source(New Noticia());
 		$edit->link("noticias/index","Voltar", "BL")->back('');
         $edit->add('visualizar','Visualizar','datetime')->rule('required');
-        $edit->add('ativo','Ativar', 'checkbox');
-		$edit->add('titulo','Titulo', 'text')->rule('required|max:32');
-		$edit->add('descricao','Descricao', 'text')->rule('required|max:128');
-        $edit->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->move('upload/noticias/banner/')->preview(120,80);
+        $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
+		$edit->add('titulo','Titulo', 'text')->rule('max:32');
+		$edit->add('descricao','Descricao', 'text')->rule('max:128');
+        $edit->add('banner','Foto em destaque', 'textarea')->attr('id','banner');
 		$edit->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
 
 
@@ -224,12 +204,10 @@ class NoticiasController extends Controller
                     console.log(data);
                 }
             });
-        }
-		$('#descricao').summernote({
+        };
+		$('#banner').summernote({
             height: ($(window).height() - 300),
 			lang: 'pt-BR',
-            data.append('height', '400');
-            data.append('width', '400');
             callbacks: {
                 onImageUpload: function(image) {
                     uploadImage2(image[0]);
@@ -239,12 +217,9 @@ class NoticiasController extends Controller
         function uploadImage2(image) {
             var data = new FormData();
             data.append('image', image);
+            data.append('height', '400');
+            data.append('width', '400');
             $.ajax({
-            xhr: function() {
-                var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) myXhr.upload.addEventListener('progress',progressHandlingFunction, false);
-                return myXhr;
-            },
                 url: '/imageupload',
                 cache: false,
                 contentType: false,
@@ -253,13 +228,13 @@ class NoticiasController extends Controller
                 type: 'post',
                 success: function(url) {
                     var image = $('<img>').attr('src', 'http://' + url);
-                    $('#descricao').summernote('insertNode', image[0]);
+                    $('#banner').summernote('insertNode', image[0]);
                 },
                 error: function(data) {
                     console.log(data);
                 }
             });
-        };;");
+        };");
 		return $edit->view('noticias.edit', compact('edit', 'page_title', 'page_description'));
 	}
 }

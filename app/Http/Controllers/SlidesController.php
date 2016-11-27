@@ -31,7 +31,7 @@ class SlidesController extends Controller
         $filter->link("slides/create","Novo Slide");
         $filter->build();
 
-        $grid = \DataGrid::source($filter)->orderBy('visualizar','desc');
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
 		$grid->attributes(array("class"=>"table table-striped"));
 		$grid->add('<a class="" title="Mover para cima" href="/posicao/slides/up/{{ $id }}"><span class="fa fa-level-up"></span></a>
     <a class="" title="Mover para baixo" href="/posicao/slides/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao');        $grid->add('visualizar','Visualizar', true);
@@ -93,6 +93,6 @@ class SlidesController extends Controller
 			return \Redirect::to('/slides/index')->with("message","Slide atualizado com sucesso!");
         });
 		$edit->build();
-        return view('slides.edit', compact('edit', 'page_title', 'page_description'));
+        return $edit->view('slides.edit', compact('edit', 'page_title', 'page_description'));
 	}
 }

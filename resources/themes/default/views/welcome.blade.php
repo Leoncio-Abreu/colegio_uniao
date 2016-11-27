@@ -6,13 +6,13 @@
 		<div class="col-md-5">
 				<div class="panel panel-default">
 					<div class="panel-heading text-center">
-						<h2 class="panel-title">{{ $noticias[$i]->titulo }}</h2>
+						<h2 class="panel-title">@if(!is_null($noticias[$i]->titulo)){{ $noticias[$i]->titulo }}@endif</h2>
 
 					</div>
                     <div class="panel-body">
-						<img class="img-rounded text-center img-responsive" alt="" src="/upload/noticias/banner/{!! $noticias[$i]->banner !!}">						<div class="bootstrap-eh-pull-bottom clearfix"><br>
-							<p>{!! $noticias[$i]->descricao !!}
-							<a class="btn btn-warning pull-right" href="/view/noticia/{!! $noticias[$i]->id !!}" role="button">+ mais »</a></p>
+						<img class="img-rounded text-center img-responsive" alt="" src="/upload/noticias/banner/@if(!is_null($noticias[$i]->banner)){!! $noticias[$i]->banner !!}@endif">						<div class="bootstrap-eh-pull-bottom clearfix"><br>
+							<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif
+							<a class="btn btn-warning pull-right" href="/view/noticia/@if(!is_null($noticias[$i]->id)){!! $noticias[$i]->id !!}@endif" role="button">+ mais »</a></p>
 						</div>
 					</div>
 				</div>
@@ -23,12 +23,12 @@
 				<div class="col-md-6">
 					<div class="panel panel-default">
 		                <div class="panel-heading">
-							<h2 class="panel-title">{{ $noticias[$i]->titulo }}</h2>
+							<h2 class="panel-title">@if(!is_null($noticias[$i]->titulo)){{ $noticias[$i]->titulo }}@endif</h2>
 						</div>
 						<div class="panel-body">
-							<p>{!! $noticias[$i]->descricao !!}</p>
+							<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif</p>
 							<div class="bootstrap-eh-pull-bottom clearfix">
-								<a class="btn btn-warning pull-right" href="/view/noticia/{{ $noticias[$i]->id }}" role="button">+ mais »</a>
+								<a class="btn btn-warning pull-right" href="/view/noticia/@if(!is_null($noticias[$i]->id)){{ $noticias[$i]->id }}@endif" role="button">+ mais »</a>
 							</div>
 						</div>
 					</div>
@@ -45,10 +45,10 @@
 	<div class="row">
 		@for ($i = 0; $i < count($atividades); $i++)
 		<div class="col-md-3">
-			<a href="/view/atividade/{!! $atividades[$i]->id !!}"><div class="panel panel-default">
-				<div class="panel-heading text-center"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/{!! $atividades[$i]->banner !!}" class="img-rounded text-center img-responsive"></div>
+			<a href="/view/atividade/@if(!is_null($atividades[$i]->id)){!! $atividades[$i]->id !!}@endif" sti><div class="panel panel-default">
+				<div class="panel-heading text-center"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/@if(!is_null($atividades[$i]->banner)){!! $atividades[$i]->banner !!}@endif" class="img-rounded text-center img-responsive"></div>
 				<div class="panel-body">
-					<span>{!! $atividades{0}->descricao !!}</span>
+					<span style="color: black;">@if(!is_null($atividades{0}->descricao)){!! $atividades{0}->descricao !!}@endif</span>
 				</div>
 				</div>
 			</a>

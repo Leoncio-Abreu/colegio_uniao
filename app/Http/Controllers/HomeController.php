@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use Input;
 use Image;
-
+use Mail;
 class HomeController extends Controller
 {
 	public function __construct() {
@@ -67,15 +67,19 @@ class HomeController extends Controller
 		if ( preg_match('/\d/', $id) === 1  ){
 
 			$dnow = Atividade::where('id', '=', $id)
-					->value('visualizar');
+					->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
+					->where('ativo', '=', '1')
+					->value('posicao');
 			If (!is_null($dnow)){
 				$prevPages = Atividade::orderBy('posicao','desc')
-						->where('visualizar', '>', $dnow)
+						->where('visualizar', '>', \DB::raw('CURRENT_TIMESTAMP'))
+						->where('posicao', '>', $dnow)
 						->where('ativo', '=', '1')
 						->first();
 			If (is_null($prevPages)){ $prevPages = null;}		
 				$nextPages = Atividade::orderBy('posicao','desc')
-						->where('visualizar', '<', $dnow)
+						->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
+						->where('posicao', '<', $dnow)
 						->where('ativo', '=', '1')
 						->first();
 			If (is_null($nextPages)){ $nextPages = null;}		
@@ -103,18 +107,22 @@ class HomeController extends Controller
 		if ( preg_match('/\d/', $id) === 1  ){
 
 			$dnow = Noticia::where('id', '=', $id)
-					->value('visualizar');
+					->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
+					->where('ativo', '=', '1')
+					->value('posicao');
 			If (!is_null($dnow)){
 				$prevPages = Noticia::orderBy('posicao','desc')
-						->where('visualizar', '>', $dnow)
+						->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
+						->where('posicao', '>', $dnow)
 						->where('ativo', '=', '1')
 						->first();
-			If (is_null($prevPages)){ $prevPages = [];}		
+			If (is_null($prevPages)){ $prevPages = null;}		
 				$nextPages = Noticia::orderBy('posicao','desc')
-						->where('visualizar', '<', $dnow)
+						->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
+						->where('posicao', '<', $dnow)
 						->where('ativo', '=', '1')
 						->first();
-			If (is_null($nextPages)){ $nextPages = [];}		
+			If (is_null($nextPages)){ $nextPages = null;}		
 	
 				$noticia = Noticia::where('id', '=', $id)->first();
 			}
@@ -200,13 +208,13 @@ class HomeController extends Controller
 
 		if (!is_null($table) & !is_null($move) & !is_null($id) & in_array($table,$tb) & in_array($move,$mv))
 		{
-			$apos = Noticia::where('id', '=', $id)
+			$apos = \DB::table($table)->where('id', '=', $id)
 						->take(1)
 						->get();
 			If (count($apos)){
 				$pos=$apos[0]->posicao;
 				$id=$apos[0]->id;
-				$prevpos = Noticia::orderBy('posicao','desc')
+				$prevpos = \DB::table($table)->orderBy('posicao','desc')
 					->where('posicao', '<', $pos)
 					->take(1)
 					->get();
@@ -214,7 +222,7 @@ class HomeController extends Controller
 					$ppos=$prevpos[0]->posicao;
 					$pid=$prevpos[0]->id;
 				};
-					$nextpos = Noticia::orderBy('posicao','asc')
+					$nextpos = \DB::table($table)->orderBy('posicao','asc')
 							->where('posicao', '>', $pos)
 							->take(1)
 							->get();
@@ -222,24 +230,26 @@ class HomeController extends Controller
 					$npos=$nextpos[0]->posicao;
 					$nid=$nextpos[0]->id;
 				};
-				if ($move == 'up')
-				{
-					\DB::table($table)
-						->where('id', $id)
-						->update(array('posicao' => $npos));
-					\DB::table($table)
-						->where('id', $nid)
-						->update(array('posicao' => $pos));
+				if ($npos !=0 and $ppos !=0){
+					if ($move == 'up')
+					{
+						\DB::table($table)
+							->where('id', $id)
+							->update(array('posicao' => $npos));
+						\DB::table($table)
+							->where('id', $nid)
+							->update(array('posicao' => $pos));
 
-				}
-				else if ($move == 'down')
-				{
-					\DB::table($table)
-						->where('id', $id)
-						->update(array('posicao' => $ppos));
-					\DB::table($table)
-						->where('id', $pid)
-						->update(array('posicao' => $pos));
+					}
+					else if ($move == 'down')
+					{
+						\DB::table($table)
+							->where('id', $id)
+							->update(array('posicao' => $ppos));
+						\DB::table($table)
+							->where('id', $pid)
+							->update(array('posicao' => $pos));
+					}
 				}
 				return redirect()->route($table.'.index');
 //				dd($ppos,$apos,$npos);
