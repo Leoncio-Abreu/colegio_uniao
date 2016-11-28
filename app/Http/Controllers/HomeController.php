@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use Input;
 use Image;
 use Mail;
+use App\Links;
 class HomeController extends Controller
 {
 	public function __construct() {
@@ -23,8 +24,10 @@ class HomeController extends Controller
                     ->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
                     ->where('ativo', '=', '1')
                     ->get();
+		$links = Links::get();
 		view::share('slides',$slides);
-        });
+		view::share('links',$links);
+	});
     }
     /**
      * @return \Illuminate\Http\RedirectResponse
@@ -58,8 +61,8 @@ class HomeController extends Controller
                     ->where('ativo', '=', '1')
 					->take(4)
                     ->get();
- 		$links = Atividade::take(4)->get();
-		return view('welcome',compact('noticias', 'atividades', 'links'));
+// 		$links = Atividade::take(4)->get();
+		return view('welcome',compact('noticias', 'atividades'));
     }
 
 	public function viewatividade($id)

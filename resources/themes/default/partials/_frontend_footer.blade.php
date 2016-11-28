@@ -1,6 +1,6 @@
 		<div class="row">
 			<div class="col-md-12">
-				  <img alt="Bootstrap Image Preview" src={{ asset("/img/banner_boton.jpg") }} class="img-rounded text-center img-responsive">
+				  <img alt="Bootstrap Image Preview" src="/upload/banner/@if(!is_null($links{0}->banner)){{$links{0}->banner}}@endif" class="img-rounded text-center img-responsive">
 			</div>
 		</div>
 		<div class="row" style="padding-top: 15px">
@@ -27,13 +27,13 @@
 				<div>
 					<div style="padding-right: 50px; height: 306px;">
 						<br>
-						<a href="https://www.facebook.com/colegiouniao.tc/" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-facebook"></i></span></a>
+						<a href="@if(!is_null($links{1}->banner)){{$links{1}->banner}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-facebook"></i></span></a>
 						<br>
 						<br>
-						<a href="#"><span class="hb hb-xs spin"><i class="fa fa-instagram"></i></span></a>
+						<a href="@if(!is_null($links{2}->banner)){{$links{2}->banner}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-instagram"></i></span></a>
 						<br>
 						<br>
-						<a href="#"><span class="hb hb-xs spin"><i class="fa fa-youtube"></i></span></a>
+						<a href="@if(!is_null($links{3}->banner)){{$links{3}->banner}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-youtube"></i></span></a>
 					</div>
 				</div>
 			</div>
