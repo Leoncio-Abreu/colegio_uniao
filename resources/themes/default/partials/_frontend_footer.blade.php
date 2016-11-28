@@ -57,5 +57,6 @@
 			  interval: 5000
 			})
 		  });
-		  $('.box').matchHeight();
+		  $('.box-body').matchHeight();
+		  $('.box-heading').matchHeight();
 		</script>

@@ -11,8 +11,10 @@
 					</div>
                     <div class="panel-body">
 						@if(!is_null($noticias[$i]->banner)){!! $noticias[$i]->banner !!}@endif"
+						<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif
+					</div>
+					<div class="panel-footer box-footer">
 						<div class="bootstrap-eh-pull-bottom clearfix"><br>
-							<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif
 							<a class="btn btn-warning pull-right" href="/view/noticia/@if(!is_null($noticias[$i]->id)){!! $noticias[$i]->id !!}@endif" role="button">+ mais »</a></p>
 						</div>
 					</div>
@@ -23,15 +25,17 @@
 		@else
 				<div class="col-md-6">
 					<div class="panel panel-default">
-		                <div class="panel-heading">
+		                <div class="panel-heading box-heading">
 							<h2 class="panel-title">@if(!is_null($noticias[$i]->titulo)){{ $noticias[$i]->titulo }}@endif</h2>
 						</div>
-						<div class="panel-body">
+						<div class="panel-body box-body">
 							<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif</p>
+						</div>
+						<div class="panel-footer box-footer">
 							<div class="bootstrap-eh-pull-bottom clearfix">
 								<a class="btn btn-warning pull-right" href="/view/noticia/@if(!is_null($noticias[$i]->id)){{ $noticias[$i]->id }}@endif" role="button">+ mais »</a>
-							</div>
 						</div>
+							</div>
 					</div>
 				</div>
 				@if($i %2 == 0 & count($noticias) != $i+1)
