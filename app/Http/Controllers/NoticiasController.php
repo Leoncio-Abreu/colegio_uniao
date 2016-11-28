@@ -90,8 +90,8 @@ class NoticiasController extends Controller
         function uploadImage(image) {
             var data = new FormData();
             data.append('image', image);
-            data.append('height', '200');
-            data.append('width', '200');
+            data.append('height', '400');
+            data.append('width', '400');
             $.ajax({
                 url: '/imageupload',
                 cache: false,
@@ -109,7 +109,7 @@ class NoticiasController extends Controller
             });
         };
 		$('#banner').summernote({
-            height: '200',
+            height: 200,
 			lang: 'pt-BR',
             callbacks: {
                 onImageUpload: function(image) {
@@ -187,8 +187,8 @@ class NoticiasController extends Controller
         function uploadImage(image) {
             var data = new FormData();
             data.append('image', image);
-            data.append('height', '200');
-            data.append('width', '200');
+            data.append('height', '400');
+            data.append('width', '400');
             $.ajax({
                 url: '/imageupload',
                 cache: false,
@@ -206,7 +206,7 @@ class NoticiasController extends Controller
             });
         };
 		$('#banner').summernote({
-            height: ($(window).height() - 300),
+            height: 200,
 			lang: 'pt-BR',
             callbacks: {
                 onImageUpload: function(image) {

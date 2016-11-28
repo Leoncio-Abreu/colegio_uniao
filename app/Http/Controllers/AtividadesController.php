@@ -89,8 +89,8 @@ class AtividadesController extends Controller
         function uploadImage(image) {
             var data = new FormData();
             data.append('image', image);
-            data.append('height', '200');
-            data.append('width', '200');
+            data.append('height', '400');
+            data.append('width', '400');
             $.ajax({
                 url: '/imageupload',
                 cache: false,
@@ -154,8 +154,8 @@ class AtividadesController extends Controller
         function uploadImage(image) {
             var data = new FormData();
             data.append('image', image);
-            data.append('height', '200');
-            data.append('width', '200');
+            data.append('height', '400');
+            data.append('width', '400');
             $.ajax({
                 url: '/imageupload',
                 cache: false,
