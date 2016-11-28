@@ -33,7 +33,7 @@
 						</div>
 					</div>
 				</div>
-				@if($i+1 %2 == 0 & count($noticias) != $i)
+				@if($i %2 == 0 & count($noticias) != $i+1)
 			</div>	
 			<div class="row">
 				@endif

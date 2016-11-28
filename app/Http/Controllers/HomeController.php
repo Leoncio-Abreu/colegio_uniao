@@ -188,11 +188,11 @@ class HomeController extends Controller
 				$move = Image::make($file->getRealPath())->resize($width, $height, function ($c) {
         $c->aspectRatio();
         $c->upsize();
-})->save(public_path()."/upload/imageUpload/".$fileName);
+})->save(public_path()."/upload/imageupload/".$fileName);
 //$img = Image::canvas($width, $height);
 //$image = Image::make($path);
 //				$move = $file->move(public_path()."/upload/imageUpload/", $fileName);
-				return \Response::json(\Request::server('HTTP_HOST').'/upload/imageUpload/'. $fileName);
+				return \Response::json(\Request::server('HTTP_HOST').'/upload/imageupload/'. $fileName);
 			}
 		}
 	}
