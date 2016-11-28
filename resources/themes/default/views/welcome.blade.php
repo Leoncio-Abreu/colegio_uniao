@@ -10,7 +10,8 @@
 
 					</div>
                     <div class="panel-body">
-						<img class="img-rounded text-center img-responsive" alt="" src="/upload/noticias/banner/@if(!is_null($noticias[$i]->banner)){!! $noticias[$i]->banner !!}@endif">						<div class="bootstrap-eh-pull-bottom clearfix"><br>
+						@if(!is_null($noticias[$i]->banner)){!! $noticias[$i]->banner !!}@endif"
+						<div class="bootstrap-eh-pull-bottom clearfix"><br>
 							<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif
 							<a class="btn btn-warning pull-right" href="/view/noticia/@if(!is_null($noticias[$i]->id)){!! $noticias[$i]->id !!}@endif" role="button">+ mais »</a></p>
 						</div>
