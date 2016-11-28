@@ -9,7 +9,7 @@
 						<h2 class="panel-title">@if(!is_null($noticias[$i]->titulo)){{ $noticias[$i]->titulo }}@endif</h2>
 
 					</div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="text-align: center;">
 						@if(!is_null($noticias[$i]->banner)){!! $noticias[$i]->banner !!}@endif"
 						<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif
 					</div>
@@ -51,7 +51,7 @@
 		@for ($i = 0; $i < count($atividades); $i++)
 		<div class="col-md-3">
 			<a href="/view/atividade/@if(!is_null($atividades[$i]->id)){!! $atividades[$i]->id !!}@endif" sti><div class="panel panel-default">
-				<div class="panel-heading text-center"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/@if(!is_null($atividades[$i]->banner)){!! $atividades[$i]->banner !!}@endif" class="img-rounded text-center img-responsive"></div>
+				<div class="panel-heading"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/@if(!is_null($atividades[$i]->banner)){!! $atividades[$i]->banner !!}@endif" class="img-rounded img-responsive"  style="display: block; margin-left: auto; margin-right: auto;"></div>
 				<div class="panel-body">
 					<span style="color: black;">@if(!is_null($atividades{0}->descricao)){!! $atividades{0}->descricao !!}@endif</span>
 				</div>

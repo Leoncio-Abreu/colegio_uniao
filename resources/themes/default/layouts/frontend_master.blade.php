@@ -45,11 +45,6 @@
 			.bg_white {
 				background: white;
 			  }
-			@media only screen and (max-width : 767px) {
-				.box {
-					height: auto !important;
-				} 
-			}
 			body {
 				-webkit-font-smoothing: antialiased;
 			}
@@ -84,6 +79,27 @@
 			body{ 
 				background: lightgray !important;
 			}
+#outer{
+    width:100%;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+#inner{
+    width:50%;
+}
 		</style>
 	</head>
 	<body id="page-top" class="index">
