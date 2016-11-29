@@ -147,7 +147,12 @@ class ProductionSeeder extends Seeder
         $routeFaust = Route::where('name', 'faust')->get()->first();
         $routeFaust->permission()->associate($permOpenToAll);
         $routeFaust->save();
-        $routeView = Route::where('name', 'like', "view.%")->get()->all();
+
+        $routeFaust = Route::where('name', 'sendemail')->get()->first();
+        $routeFaust->permission()->associate($permOpenToAll);
+        $routeFaust->save();
+	
+	$routeView = Route::where('name', 'like', "view.%")->get()->all();
         foreach ($routeView as $route)
         {
             $route->permission()->associate($permOpenToAll);

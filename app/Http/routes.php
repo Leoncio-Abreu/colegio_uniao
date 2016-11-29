@@ -30,6 +30,7 @@ Route::get( 'password/reset/{token}',   ['as' => 'reset_password',          'use
 Route::post('password/reset',           ['as' => 'reset_passwordPost',      'uses' => 'Auth\PasswordController@postReset']);
 // Registration terms
 Route::get( 'faust',                    ['as' => 'faust',                   'uses' => 'FaustController@index']);
+Route::post('sendemail', ['as' => 'sendemail', 'uses' => 'EmailController@sendemail']);
 
 // Application routes...
 Route::get( '/',       ['as' => 'backslash',   'uses' => 'HomeController@index']);
