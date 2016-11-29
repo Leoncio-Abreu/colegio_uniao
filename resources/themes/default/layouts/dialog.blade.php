@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>{{ Setting::get('app.short_name') }} | {{ $page_title or "Page Title" }}</title>

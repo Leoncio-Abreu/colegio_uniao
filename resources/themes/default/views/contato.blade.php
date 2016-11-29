@@ -14,13 +14,13 @@
   <div class="col-md-4">
   <div class="radio">
     <label for="radios-0">
-      <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+      <input type="radio" name="radios" id="radios-0" value="I" checked="checked">
       Unidade I
     </label>
 	</div>
   <div class="radio">
     <label for="radios-1">
-      <input type="radio" name="radios" id="radios-1" value="2">
+      <input type="radio" name="radios" id="radios-1" value="II">
       Unidade II
     </label>
 	</div>
@@ -29,7 +29,7 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="nome_pai">Seu nome:</label>  
+  <label class="col-md-4 control-label" for="nome_pai">Nome do pai/mãe:</label>  
   <div class="col-md-4">
   <input id="nome_pai" name="nome_pai" type="text" placeholder="Digite o seu nome" class="form-control input-md" required="">
     
