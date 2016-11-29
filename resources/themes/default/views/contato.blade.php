@@ -65,9 +65,9 @@
 
 <!-- Textarea -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Mensagem:">Mensagem:</label>
+  <label class="col-md-4 control-label" for="mensagem:">Mensagem:</label>
   <div class="col-md-4">                     
-    <textarea class="form-control" id="Mensagem:" placeholder="Digite a mensagem" name="Mensagem:"></textarea>
+    <textarea class="form-control" id="mensagem:" placeholder="Digite a mensagem" name="mensagem:"></textarea>
   </div>
 </div>
 
