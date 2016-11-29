@@ -27,7 +27,7 @@ class LinksController extends Controller
         $grid->add('name', 'Redes Sociais/Banner');
 		$grid->add('url', 'Link')->cell( function ($value, $row) {
 			if ($row->id == 1) {
-				return '<img src="upload/banner/'.$value.'" height="120px">';
+				return '<img src="/upload/banner/'.$value.'" height="120px">';
 			}
 			else
 				return $value;
