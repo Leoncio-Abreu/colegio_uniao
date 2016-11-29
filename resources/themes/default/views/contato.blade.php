@@ -2,7 +2,7 @@
 @section('content')
       <div class="row">
           <div class="col-md-12">
-<form class="form-horizontal">
+<form class="form-horizontal" action="/sendemail" method="post">
 <fieldset>
 
 <!-- Form Name -->

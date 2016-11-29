@@ -14,13 +14,13 @@ class CreateAtividadesTable extends Migration
     {
         Schema::create('atividades', function (Blueprint $table) {
             $table->increments('id');
-			$table->timestamp('visualizar');
-			$table->integer('ativo');
-			$table->integer('posicao');
-			$table->string('titulo', 32);
-            $table->string('descricao', 128);
-            $table->string('banner');
-            $table->text('texto');
+            $table->timestamp('visualizar')->nullable();
+            $table->integer('ativo')->nullable();
+            $table->integer('posicao')->nullable();
+            $table->string('titulo', 32)->nullable();
+            $table->string('descricao', 128)->nullable();
+            $table->string('banner')->nullable();
+            $table->text('texto')->nullable();
             $table->timestamps();
         });
     }

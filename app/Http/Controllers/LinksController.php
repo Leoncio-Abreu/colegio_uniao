@@ -27,7 +27,7 @@ class LinksController extends Controller
         $grid->add('name', 'Redes Sociais/Banner');
 		$grid->add('url', 'Link')->cell( function ($value, $row) {
 			if ($row->id == 1) {
-				return '<img src="/upload/banner/'.$value.'" height="120px">';
+				return '<img src="upload/banner/'.$value.'" height="120px">';
 			}
 			else
 				return $value;
@@ -64,7 +64,7 @@ class LinksController extends Controller
 		$edit->attributes(array("class"=>"table table-striped"));
 		$edit->link("/links/index","Voltar", "BL")->back('');
 		if ($i == 1)
-	        $edit->add('url',$nome, 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->move('/upload/banner/')->preview(120,80);
+	        $edit->add('url',$nome, 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->move('upload/banner/')->preview(120,80);
 		else
 	        $edit->add('url',$nome,'text')->rule('required');
 

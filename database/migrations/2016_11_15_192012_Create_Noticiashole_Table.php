@@ -13,15 +13,15 @@ class CreateNoticiasholeTable extends Migration
     public function up()
     {
         Schema::create('noticiashole', function (Blueprint $table) {
-			$table->engine = 'BLACKHOLE';
+	$table->engine = 'BLACKHOLE';
             $table->increments('id');
-			$table->timestamp('visualizar');
-			$table->integer('ativo');
-			$table->integer('posicao');
-			$table->string('titulo', 32);
-            $table->string('descricao', 128);
-            $table->text('banner');
-            $table->text('texto');
+            $table->timestamp('visualizar')->nullable();
+            $table->integer('ativo')->nullable();
+            $table->integer('posicao')->nullable();
+            $table->string('titulo', 32)->nullable();
+            $table->string('descricao', 128)->nullable();
+            $table->text('banner')->nullable();
+            $table->text('texto')->nullable();
             $table->timestamps();
         });
     }

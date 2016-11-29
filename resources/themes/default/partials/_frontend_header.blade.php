@@ -20,7 +20,7 @@
 									<li><a href="http://www.sistemapoliedro.com.br" target="_blank">Poliedro</a></li>
 									<li><a href="http://redepitagoras.com.br" target="_blank">Pitágoras</a></li>
 									<li><a href="http://www.iebeducation.com.br" target="_blank">IEB</a></li>
-									<li><a href="">Vídeos</a></li>
+									<li><a href="https://www.youtube.com/channel/UC_2TKlsIbCU6mfeKVkVEeIQ" target="_blank">Vídeos</a></li>
 								</ul>
 								@if (Auth::user()) <a class="btn btn-warning pull-right" href="painel" target="_blank">Painel</a>@endif
 							</div>

@@ -14,13 +14,13 @@ class CreateNoticiasTable extends Migration
     {
         Schema::create('noticias', function (Blueprint $table) {
             $table->increments('id');
-			$table->timestamp('visualizar');
-			$table->integer('ativo');
-			$table->integer('posicao');
-			$table->string('titulo', 32);
-            $table->string('descricao', 128);
-            $table->text('banner');
-            $table->text('texto');
+            $table->timestamp('visualizar')->nullable();
+            $table->integer('ativo')->nullable();
+            $table->integer('posicao')->nullable();
+            $table->string('titulo', 32)->nullable();
+            $table->string('descricao', 128)->nullable();
+            $table->text('banner')->nullable();
+            $table->text('texto')->nullable();
             $table->timestamps();
         });
     }
