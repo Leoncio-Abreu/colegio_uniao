@@ -10,8 +10,8 @@
 
 					</div>
                     <div class="panel-body" style="text-align: center;">
-						@if(!is_null($noticias[$i]->banner)){!! $noticias[$i]->banner !!}@endif"
-						<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif
+						@if(!is_null($noticias[$i]->banner)){!! $noticias[$i]->banner !!}@endif
+						<p>@if(!is_null($noticias[$i]->descricao)){!! $noticias[$i]->descricao !!}@endif</p>
 					</div>
 					<div class="panel-footer box-footer">
 						<div class="bootstrap-eh-pull-bottom clearfix"><br>
@@ -53,7 +53,7 @@
 			<a href="/view/atividade/@if(!is_null($atividades[$i]->id)){!! $atividades[$i]->id !!}@endif" sti><div class="panel panel-default">
 				<div class="panel-heading"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/@if(!is_null($atividades[$i]->banner)){!! $atividades[$i]->banner !!}@endif" class="img-rounded img-responsive"  style="display: block; margin-left: auto; margin-right: auto;"></div>
 				<div class="panel-body">
-					<span style="color: black;">@if(!is_null($atividades{0}->descricao)){!! $atividades{0}->descricao !!}@endif</span>
+					<span style="color: black;">@if(!is_null($atividades[$i]->descricao)){!! $atividades[$i]->descricao !!}@endif</span>
 				</div>
 				</div>
 			</a>
