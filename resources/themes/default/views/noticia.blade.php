@@ -3,8 +3,8 @@
 
 <div class="panel" >
 	<div class="panel-heading clearfix"><h2 class="panel-title">{!! $noticia->titulo!!}</h2></div>
-	<div class="panel-body"><span>{!! $noticia->texto !!}</br></span>
-		<div class="panel-footer" style="text-align: center;background-color: white;">
+	<div class="panel-body"><div class="container-fluid">{!! $noticia->texto !!}</div></br>
+		<div class="panel-footer" style="text-align: center;">
 			@if(count($prevPages))
 				<a class="btn btn-warning pull-left" href="/view/noticia/@if(count($prevPages)){{ $prevPages->id}}@endif" role="button" ><< Anterior</a>
 			@endif

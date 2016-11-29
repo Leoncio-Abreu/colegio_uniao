@@ -75,7 +75,7 @@ class HomeController extends Controller
 					->value('posicao');
 			If (!is_null($dnow)){
 				$prevPages = Atividade::orderBy('posicao','desc')
-						->where('visualizar', '>', \DB::raw('CURRENT_TIMESTAMP'))
+						->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
 						->where('posicao', '>', $dnow)
 						->where('ativo', '=', '1')
 						->first();
