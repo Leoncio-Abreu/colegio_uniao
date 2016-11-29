@@ -20,18 +20,20 @@ class EmailController extends Controller
 	$assunto = $request->input('assunto');
 	$mensagem = $request->input('mensagem');
 
-	// To Colégio
-	Mail::send(['html' => 'emails.html.contato', 'text' => 'emails.text.contato'], ['unidade' => $unidade, 'nome_pai' => $nome_pai, 'nome_aluno' => $nome_aluno, 'email' => $email, 'assunto' => $assunto, 'mensagem' => $mensagem], function ($message) {
-		$message->from($email, $nome_aluno);
+	dd($request);
+	// To Colegio
+	Mail::send(['html' => 'emails.html.contato', 'text' => 'emails.text.contato'], ['unidade' => $unidade, 'nome_pai' => $nome_pai, 'nome_aluno' => $nome_aluno, 'email' => $email, 'assunto' => $assunto, 'mensagem' => $mensagem], function ($message) use ($email, $nome_aluno, $assunto) {
+		$message->replyTo($email);
+		$message->from(Setting::get('mail.system_sender_address'), Setting::get('mail.system_sender_label'));
 		$message->to(Setting::get('mail.system_sender_address'), Setting::get('mail.system_sender_label'));
 		$message->subject($assunto);
 	});
 	
-	// To Sender
-/*	Mail::send(['html' => 'emails.html.contatosender', 'text' => 'emails.text.contatosender'], ['unidade' => $unidade, 'nome_pai' => $nome_pai, 'nome_aluno' => $nome_aluno, 'email' => $email, 'assunto' => $assunto, 'mensagem' => $mensagem], function ($message) {
+ 	// To Sender
+	Mail::send(['html' => 'emails.html.contato', 'text' => 'emails.text.contato'], ['unidade' => $unidade, 'nome_pai' => $nome_pai, 'nome_aluno' => $nome_aluno, 'email' => $email, 'assunto' => $assunto, 'mensagem' => $mensagem], function ($message) use ($email) {
 		$message->from(Setting::get('mail.system_sender_address'), Setting::get('mail.system_sender_label'));
-		$message->to($email, $nome_aluno);
+		$message->to($email);
 		$message->subject('Contato pelo site do colégio União');
 	});
- */  }
+ }
 }
