@@ -4,9 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8e825669a74aea90b87b23e911067c89",
-    "content-hash": "321175d8b9f6c906187ef23ba5132ee6",
+    "hash": "53862c283ecf06cc8e698364ae110cde",
+    "content-hash": "628a55783538564f82db21589285664b",
     "packages": [
+        {
+            "name": "anhskohbo/no-captcha",
+            "version": "2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anhskohbo/no-captcha.git",
+                "reference": "07fd1583feae651c4db3652719f2d46fa23c4fd4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anhskohbo/no-captcha/zipball/07fd1583feae651c4db3652719f2d46fa23c4fd4",
+                "reference": "07fd1583feae651c4db3652719f2d46fa23c4fd4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Anhskohbo\\NoCaptcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "anhskohbo",
+                    "email": "anhskohbo@gmail.com"
+                }
+            ],
+            "description": "No CAPTCHA reCAPTCHA For Laravel.",
+            "keywords": [
+                "captcha",
+                "laravel",
+                "laravel4",
+                "laravel5",
+                "no-captcha",
+                "recaptcha"
+            ],
+            "time": "2016-08-24 16:35:03"
+        },
         {
             "name": "arcanedev/settings",
             "version": "1.2.0",
@@ -884,7 +929,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/51f6934c19635fa1c69680482522c734a0121463",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/432b80084acb401f9f2daba461679ace39cf67df",
                 "reference": "432b80084acb401f9f2daba461679ace39cf67df",
                 "shasum": ""
             },
@@ -4228,12 +4273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jeroen-G/laravel-packager.git",
-                "reference": "836b2d0adedfee14e2a76575b77dd16ac5b4cc71"
+                "reference": "84dc5f885fcd28fef25c2c01ab93ea6d7a5ecc18"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Jeroen-G/laravel-packager/zipball/84dc5f885fcd28fef25c2c01ab93ea6d7a5ecc18",
-                "reference": "836b2d0adedfee14e2a76575b77dd16ac5b4cc71",
+                "reference": "84dc5f885fcd28fef25c2c01ab93ea6d7a5ecc18",
                 "shasum": ""
             },
             "require": {
@@ -4268,7 +4313,7 @@
                 "package",
                 "packager"
             ],
-            "time": "2016-06-27 14:24:24"
+            "time": "2016-11-03 07:53:20"
         },
         {
             "name": "mockery/mockery",

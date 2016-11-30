@@ -17,7 +17,7 @@
 	<td><b>Assunto:</b></td><td>{{ $assunto }}</td>
 </tr>
 <tr>
-	<td><b>Mensagem:</b></td><td>{!! $mensagem !!}</td>
+	<td><b>Mensagem:</b></td><td>{!! str_replace('\r\n','<br>',$mensagem) !!}</td>
 </tr>
 </table>
 

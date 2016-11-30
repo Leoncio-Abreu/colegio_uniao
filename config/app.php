@@ -355,7 +355,8 @@ return [
         Tylercd100\LERN\LERNServiceProvider::class,
         Arcanedev\Settings\SettingsServiceProvider::class,
         Libern\SqlLogging\SqlLoggingServiceProvider::class,
-		Intervention\Image\ImageServiceProvider::class
+	Intervention\Image\ImageServiceProvider::class,
+	Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
     ),
 
     /*
@@ -417,7 +418,7 @@ return [
         'GridEncoder' => Mgallegos\LaravelJqgrid\Facades\GridEncoder::class,
         'Gravatar'    => Creativeorange\Gravatar\Facades\Gravatar::class,
         'LERN'        => Tylercd100\LERN\Facades\LERN::class,
-		'Image'		  => Intervention\Image\Facades\Image::class
+	'Image'	      => Intervention\Image\Facades\Image::class,
         // Commented out to force the usage of the Setting model located at app/Models/Setting.php
 //        'Setting'     => Arcanedev\Settings\Facades\Setting::class,
 

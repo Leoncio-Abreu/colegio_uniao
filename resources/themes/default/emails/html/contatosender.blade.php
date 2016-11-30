@@ -15,6 +15,6 @@ Assunto: {{ $assunto }}<br>
 <br>
 Mensagem:<br>
 <br>
-{!! $mensagem !!}
+{!! str_replace('\r\n','<br>', $mensagem) !!}
 
 

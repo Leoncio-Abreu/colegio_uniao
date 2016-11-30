@@ -19,10 +19,10 @@ class EmailController extends Controller
 	$email = $request->input('email');
 	$assunto = $request->input('assunto');
 	$mensagem = $request->input('mensagem');
+	
 
-	dd($request);
 	// To Colegio
-	Mail::send(['html' => 'emails.html.contato', 'text' => 'emails.text.contato'], ['unidade' => $unidade, 'nome_pai' => $nome_pai, 'nome_aluno' => $nome_aluno, 'email' => $email, 'assunto' => $assunto, 'mensagem' => $mensagem], function ($message) use ($email, $nome_aluno, $assunto) {
+	Mail::send(['html' => 'emails.html.contato', 'text' => 'emails.text.contato'], ['unidade' => $unidade, 'nome_pai' => $nome_pai, 'nome_aluno' => $nome_aluno, 'email' => $email, 'assunto' => $assunto, 'mensagem' => $mensagem, function ($message) use ($email, $nome_aluno, $assunto) {
 		$message->replyTo($email);
 		$message->from(Setting::get('mail.system_sender_address'), Setting::get('mail.system_sender_label'));
 		$message->to(Setting::get('mail.system_sender_address'), Setting::get('mail.system_sender_label'));
