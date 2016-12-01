@@ -25,7 +25,7 @@ class EmailController extends Controller
 		  	'nome_aluno' => 'required',
 		  	'email' => 'required|email',
 			'assunto' => 'required',
-//			'g-recaptcha-response' => 'required|captcha',
+			'g-recaptcha-response' => 'required|captcha',
 			'mensagem' => 'required',
 		);
 		$validator = Validator::make($data, $rules, [],['g-recaptcha-response' => ' Captcha']);
