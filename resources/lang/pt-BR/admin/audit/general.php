@@ -37,8 +37,8 @@ return [
         'username'            =>  'Nome do usuário',
         'category'            =>  'Categoria',
         'message'             =>  'Mensagem',
-        'date'                =>  'Date',
-        'data'                =>  'Data',
+        'date'                =>  'Data',
+        'data'                =>  'Dados',
         'actions'             =>  'Ações',
     ],
 

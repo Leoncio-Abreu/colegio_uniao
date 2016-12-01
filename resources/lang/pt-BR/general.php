@@ -2,6 +2,10 @@
 
 return [
 
+    'text'              => [
+        'welcome'   => 'Bem vindo',
+    ],
+
     'button'              => [
         'cancel'            => 'Cancelar',
         'close'             => 'Fechar',
@@ -24,6 +28,7 @@ return [
 
     'status'              => [
         'enabled'           => 'Ativado',
+        'email-validated'   => 'Você confirmou sua conta com êxito.',
         'profile'              => [
             'updated'             => 'Perfil atualizado',
         ],
@@ -38,6 +43,7 @@ return [
         'routes'            => 'Rotas',
         'data'              => 'Data',
         'profile'           => 'Perfil',
+        'settings'          => 'Configurações',
     ],
 
     'error'              => [
@@ -52,7 +58,7 @@ return [
         'internal-error-500'    => 'Erro interno',
         'client-error'          => 'Erro do cliente: :error-code',
         'server-error'          => 'Erro do servidor: :error-code',
-        'what-is-this'          => 'What does this mean?',
+        'what-is-this'          => 'O que isto significa?',
         '403-explanation'       => 'A página ou função que você tentou acessar é proibida. O administrador foi contatado!',
         '404-explanation'       => 'A página ou função que você está procurando não pôde ser localizada. Tente voltar para a página anterior ou seleccionar uma nova página.',
         '500-explanation'       => 'Um problema sério ocorreu no servidor, vamos olhar para ele o mais rápido possível e corrigir a situação.',
@@ -70,6 +76,7 @@ return [
         'msg-account-created-login-in' => 'Registo bem sucedido, conta criada, entrar como: :username.',
         'msg-account-created-disabled' => 'Registo bem sucedido, conta criada, mas * desativada *: :username.',
         'msg-profile-show'             => 'Mostrando perfil de: :username.',
+        'msg-profile-update'           => 'Atualizando perfil de: :username.',
         'msg-profile-update'           => 'Atualizando perfil de: :username.',
     ],
 

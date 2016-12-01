@@ -38,7 +38,6 @@ return [
     'error'               => [
         'cant-delete-this-permission' => 'Esta permissão não pode ser excluído',
         'cant-delete-perm-in-use'     => 'Esta permissão está em uso ou protegidos',
-        'cant-edit-this-permission'   => 'Esta permissão não pode ser editado',
     ],
 
     'page'              => [
@@ -85,6 +84,11 @@ return [
         'optimize'      =>  'Optimize a definição de Módulos',
         'initialize'    =>  'Iniciar',
         'uninitialize'  =>  'Parar',
+    ],
+
+    'delete-confirm'              => [
+        'title'   => 'Desinstalando module',
+        'body'    => 'Tem a certeza de que pretende anular a inicialização do módulo com o nome ":name"? <br/> Em muitos casos a chamada de uninitialize para um módulo terá que excluir ou limpar todos os dados do banco de dados interno, fazendo com que os dados do módulo sejam perdidos. Você tem um backup apenas no caso? Esta operação pode ser irreversível. <br/> Para obter mais informações, consulte a documentação do módulo.',
     ],
 
 ];

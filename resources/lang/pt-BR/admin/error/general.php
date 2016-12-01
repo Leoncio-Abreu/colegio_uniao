@@ -33,7 +33,7 @@ return [
     'columns'             => [
         'user'                =>  'Usuário',
         'message'             =>  'Mensagem',
-        'class'               =>  'Classe',
+        'class'               =>  'Classee',
         'url'                 =>  'URL',
         'date'                =>  'Data',
         'file'                =>  'Arquivo',
@@ -41,7 +41,7 @@ return [
         'status_code'         =>  'código de Status',
         'line'                =>  'Linha',
         'trace'               =>  'Rastro',
-        'data'                =>  'Data',
+        'data'                =>  'Dados',
         'method'              =>  'Metodo',
     ],
 

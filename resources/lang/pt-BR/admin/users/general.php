@@ -80,10 +80,25 @@ return [
         'actions'                   =>  'Ações',
         'effective'                 =>  'Eficaz',
         'enabled'                   =>  'Ativado',
+        'theme'                     =>  'Tema',
+        'time_zone'                 =>  'Fuso horário',
+        'locale'                    =>  'Localização',
+        'time_format'               =>  'Formato de hora',
     ],
 
     'button'               => [
         'create'    =>  'Criar novo usuário',
+    ],
+
+    'options'               => [
+        '12_hours'    =>  '12 horas',
+        '24_hours'    =>  '24 horas',
+    ],
+
+    'placeholder'           => [
+        'select-theme'         => 'Selecione um tema',
+        'select-time_zone'     => 'Selecione um fuso horário',
+        'select-locale'        => 'Selecionar uma localização',
     ],
 
 

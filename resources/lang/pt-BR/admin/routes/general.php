@@ -83,5 +83,8 @@ return [
         'save-perms-assignment' => 'Salvar atribuições de permissão',
     ],
 
+    'placeholder'   => [
+        'select-permission' => 'Selecionar permissão',
+    ],
 
 ];

@@ -17,13 +17,14 @@ return array(
 
     'modal-delete-title'   => 'Menu apagar',
     'modal-delete-message' => 'Tem certeza que deseja deletar o menu ID :id com o rótulo :label? Esta operação é irreversível',
+
     'modal-delete-title-cant-be-deleted'   => 'Erro a Deletar',
     'modal-delete-message-cant-be-deleted' => 'Você não pode excluir o menu ID :id com o rótulo :label!',
 
     'enabled'   => 'Ativo',
     'url'       => 'URL',
     'separator' => 'Separador',
-    'icon'      => 'Icon',
+    'icon'      => 'Icone',
     'position'  => 'Posição',
     'parent'    => 'Principal',
     'label'     => 'Rótolo',
@@ -33,8 +34,8 @@ return array(
 
     'menu-builder-admin-title'         => 'Construção de Menus Admin',
     'menu-builder-admin-description'   => 'Aqui você pode construir seu menu. Clique em um item de menu existente para
-                                           editá-lo e clique no botão <i>Salvar</ i> para salvar as alterações.<br/>
-                                           Clique no <i>Limpar</ i> para criar uma nova entrada.',
+                                           editá-lo e clique no botão <i>Salvar</ i> para salvar as alterações.<br/>
+                                           Clique no <i>Limpar</ i> para criar uma nova entrada.',
 
     'update-success'  =>  'Menu atualizado com sucesso',
     'create-success'  =>  'Menu criado com sucesso',
