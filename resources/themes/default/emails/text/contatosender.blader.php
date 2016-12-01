@@ -15,6 +15,6 @@ Assunto: {{ $assunto }}
 
 Mensagem:
 
-{!! $mensagem !!}
+{{ $mensagem }}
 
 
