@@ -86,6 +86,6 @@ return [
             'description'       => 'Displaying user: :full_name',
             'section-title'     => 'Profile details'
         ],
-    ],
+   ],
 
 ];

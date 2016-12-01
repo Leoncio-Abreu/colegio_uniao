@@ -156,12 +156,12 @@
 
                                 @if ( Setting::get('app.user_profile_link') )
                                     <div class="pull-left">
-                                        {!! link_to_route('user.profile', 'Profile', [], ['class' => "btn btn-default btn-flat"]) !!}
+                                        {!! link_to_route('user.profile', trans('auth/general.profile'), [], ['class' => "btn btn-default btn-flat"]) !!}
                                     </div>
                                 @endif
 
                                 <div class="pull-right">
-                                    {!! link_to_route('logout', 'Sign out', [], ['class' => "btn btn-default btn-flat"]) !!}
+                                    {!! link_to_route('logout', trans('auth/general.logout') , [], ['class' => "btn btn-default btn-flat"]) !!}
                                 </div>
                             </li>
                         </ul>
@@ -174,9 +174,9 @@
                         </li>
                     @endif
                 @else
-                    <li>{!! link_to_route('login', 'Sign in') !!}</li>
+                    <li>{!! link_to_route('login', trans('auth/general.login')) !!}</li>
                     @if (Setting::get('app.allow_registration'))
-                        <li>{!! link_to_route('register', 'Register') !!}</li>
+                        <li>{!! link_to_route('register', trans('auth/general.register')) !!}</li>
                     @endif
                 @endif
             </ul>

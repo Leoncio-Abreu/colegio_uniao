@@ -87,5 +87,4 @@ return [
             'section-title'     => 'Detalhes do perfil'
         ],
     ],
-
 ];
