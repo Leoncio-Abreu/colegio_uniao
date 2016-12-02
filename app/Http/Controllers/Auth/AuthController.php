@@ -129,7 +129,7 @@ class AuthController extends Controller
      */
     public function getLogin()
     {
-        $page_title = "Login";
+        $page_title = trans('auth/dialog.button.sign-in');
 
         return view('auth.login', compact('page_title'));
     }
@@ -141,7 +141,7 @@ class AuthController extends Controller
      */
     public function getRegister()
     {
-        $page_title = "Register";
+        $page_title = trans('auth/dialog.button.register');
 
         return view('auth.register', compact('page_title'));
     }
@@ -231,7 +231,7 @@ class AuthController extends Controller
 
     public function getVerify()
     {
-        $page_title = "Verify email";
+        $page_title = trans('auth/dialog.text.verify-email');
 
         return view('auth.verify', compact('page_title'));
     }

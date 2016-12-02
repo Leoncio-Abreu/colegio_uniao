@@ -51,7 +51,7 @@ class PasswordController extends Controller
      */
     public function getEmail()
     {
-        $page_title = "Recover password";
+        $page_title = trans('auth/dialog.text.recover-password');
 
         return view('auth.password', compact('page_title'));
     }
@@ -108,7 +108,7 @@ class PasswordController extends Controller
             throw new NotFoundHttpException;
         }
 
-        $page_title = "Reset password";
+        $page_title = trans('auth/dialog.button.reset-password');
 
         return view('auth.reset', compact('page_title'))->with('token', $token);
     }
