@@ -32,14 +32,24 @@ class SlidesController extends Controller
         $filter->build();
 
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
-		$grid->attributes(array("class"=>"table table-striped"));
-		$grid->add('<a class="" title="Mover para cima" href="/posicao/slides/up/{{ $id }}"><span class="fa fa-level-up"></span></a>
-    <a class="" title="Mover para baixo" href="/posicao/slides/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao');        $grid->add('visualizar','Visualizar', true);
-        $grid->add('ativo','Ativar', 'true');
-        $grid->add('<img src="/upload/slides/{{ $banner }}" height="120px">','Banner');
-        $grid->edit('edit', 'Editar','modify|delete');
+	$grid->attributes(array("class"=>"table table-striped", 'align'=>'center', 'valign' => 'middle'));
+	$grid->add('<a class="" title="Mover para cima" href="/posicao/slides/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/slides/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao')->style("text-align: center; vertical-align: middle;");
+	$grid->add('visualizar','Visualizar', true)->style("text-align: center; vertical-align: middle;");
+        $grid->add('ativo','Ativar', 'true')->cell( function ($value) {
+		if ($value == 1) {
+			
+           						return '<i class="fa fa-toggle-on" aria-hidden="true"></i>';
+						}
+						else return '<i class="fa fa-toggle-off" aria-hidden="true"></i>';
+    					  })->style("text-align: center; vertical-align: middle;");
+        $grid->add('<img src="/upload/slides/{{ $banner }}" height="120px">','Banner')->style("text-align: center; vertical-align: middle;");
+	$grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
+    $grid->row(function ($row) {
+	    $row->style("text-align: center; vertical-align: middle;");
+	    $row->attributes(array('align'=>'center', 'valign' => 'middle'));
+    });
         $grid->paginate(20);
-        $grid->build();
+	$grid->build();
         return  view('slides.index', compact('grid', 'page_title', 'page_description','filter'));    }
 
     /**
