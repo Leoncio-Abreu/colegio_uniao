@@ -68,8 +68,9 @@ class LinksController extends Controller
 		else
 	        $edit->add('url',$nome,'text')->rule('required');
 
-        $edit->saved(function () use ($edit) {
-			return \Redirect::to('/links/index')->with("message","Link atualizado com sucesso!");
+		$edit->saved(function () use ($edit) {
+			\Flash::success("Link atualizado com sucesso!");
+			return \Redirect::to('/links/index');
         });
 		$edit->build();
 		return $edit->view('links.edit', compact('edit', 'page_title', 'page_description'));
