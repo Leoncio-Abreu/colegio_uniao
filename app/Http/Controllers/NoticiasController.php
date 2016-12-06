@@ -32,14 +32,31 @@ class NoticiasController extends Controller
         $filter->build();
 
         $grid = \DataGrid::source($filter)->orderBy('posicao','des');
-		$grid->attributes(array("class"=>"table table-striped"));
-		$grid->add('<a class="" title="Mover para cima" href="/posicao/noticias/up/{{ $id }}"><span class="fa fa-level-up"></span></a>
-    <a class="" title="Mover para baixo" href="/posicao/noticias/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao');
-        $grid->add('visualizar','Visualizar', true);
-        $grid->add('ativo','Ativar', 'checkbox');
-        $grid->add('titulo','Titulo', true);
-		$grid->add('descricao','Descricao', true);
-		$grid->edit('edit', 'Editar','modify|delete');
+	$grid->attributes(array("class"=>"table table-striped", 'align'=>'center', 'valign' => 'middle'));
+	$grid->add('<a class="" title="Mover para cima" href="/posicao/noticias/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/noticias/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao')->style("text-align: center; vertical-align: middle;");
+        $grid->add('visualizar','Visualizar', true)->style("text-align: center; vertical-align: middle;");
+        $grid->add('ativo','Ativar', 'true')->cell( function ($value) {
+		if ($value == 1) {
+			return '<i class="fa fa-toggle-on" aria-hidden="true" style="color:green"></i>';
+		}
+		else return '<i class="fa fa-toggle-off" aria-hidden="true" style="color:red"></i>';
+    	})->style("text-align: center; vertical-align: middle;");
+        $grid->add('titulo','Titulo', true)->style("text-align: center; vertical-align: middle;");
+	$grid->add('descricao','Descricao', true)->style("text-align: center; vertical-align: middle;");
+        $grid->add('{!! $banner !!}', 'Foto em destaque')->style("vertical-align: middle;");
+        $grid->add('{!! $texto !!}', 'Texto')->style("vertical-align: middle;");
+	$grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
+	$grid->row(function ($row) {
+	    $row->cell('<a class="" title="Mover para cima" href="/posicao/noticias/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/noticias/down/{{ $id }}"><span class="fa fa-level-down"></span></a>')->style("vertical-align: middle;");
+	    $row->cell('visualizar')->style("vertical-align: middle;");
+	    $row->cell('ativo')->style("vertical-align: middle;");
+	    $row->cell('titulo')->style("vertical-align: middle;");
+	    $row->cell('descricao')->style("vertical-align: middle;");
+	    $row->cell('_edit')->style("vertical-align: middle;");
+	    $row->cell('{!! $banner !!}')->style("vertical-align: middle; max-width:400px;overflow: hidden;");
+	    $row->cell('{!! $texto !!}')->style("text-align: left;max-width:400px;");
+	    $row->attributes(array('align'=>'center'));
+    	});
         $grid->paginate(20);
         $grid->build();
         return  view('noticias.index', compact('filter', 'grid', 'page_title', 'page_description'));
@@ -51,25 +68,26 @@ class NoticiasController extends Controller
      */
     public function create()
     {
-		$page_title ="Not&#237;cias";
-		$page_description = "Nova not&#237;cia";
+	$page_title ="Not&#237;cias";
+	$page_description = "Nova not&#237;cia";
 
         $form = \DataForm::source(New Noticiashole());
 
         $form->add('visualizar','Visualizar','datetime')->rule('required');
         $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
-		$form->add('titulo','Titulo', 'text')->rule('max:32');
-		$form->add('descricao','Descricao', 'text')->rule('max:128');
+	$form->add('titulo','Titulo', 'text')->rule('max:32');
+	$form->add('descricao','Descricao', 'text')->rule('max:128');
         $form->add('banner','Foto em destaque','textarea')->attr('id','banner');
-		$form->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
+	$form->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
 
-		$form->submit('Save');
+	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
             $form->link("/noticias/create","Nova notícia");
-			return \Redirect::to('noticias/index')->with("message","Noticía introduzida com sucesso!");
+	    \Flash::success("Noticía adicionada com sucesso!");
+            return \Redirect::to('noticias/index');
         });
-		$form->build();
+	$form->build();
         Rapyd::js('summernote/summernote.min.js');
         Rapyd::js('summernote/lang/summernote-pt-BR.js');
         Rapyd::css('summernote/summernote.css');
@@ -149,22 +167,22 @@ class NoticiasController extends Controller
      */
     public function edit(Request $request)
     {
-		$page_title ="Not&#237;cias";
-		$page_description = "Alterar not&#237;cia";
+	$page_title ="Not&#237;cias";
+	$page_description = "Alterar not&#237;cia";
 
         $edit = \DataEdit::source(New Noticia());
-		$edit->link("noticias/index","Voltar", "BL")->back('');
+	$edit->link("noticias/index","Voltar", "BL")->back('');
         $edit->add('visualizar','Visualizar','datetime')->rule('required');
-        $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
-		$edit->add('titulo','Titulo', 'text')->rule('max:32');
-		$edit->add('descricao','Descricao', 'text')->rule('max:128');
+        $edit->add('ativo','Ativar', 'checkbox');
+	$edit->add('titulo','Titulo', 'text')->rule('max:32');
+	$edit->add('descricao','Descricao', 'text')->rule('max:128');
         $edit->add('banner','Foto em destaque', 'textarea')->attr('id','banner');
-		$edit->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
+	$edit->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
 
 
         $edit->saved(function () use ($edit) {
-//			$message = \Input::get('texto','<p></p>'); // Summernote input field
-			return \Redirect::to('noticias/index')->with("message","Noticía atualizada com sucesso!");
+		\Flash::success("Noticía atualizado com sucesso!");
+		return \Redirect::to('noticias/index');
         });
 		$edit->build();
         Rapyd::js('summernote/summernote.min.js');

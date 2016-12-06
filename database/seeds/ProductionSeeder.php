@@ -391,7 +391,8 @@ class ProductionSeeder extends Seeder
             "display_name"  => "Limpar auditoria",
             "description"   => "Os usuários estão autorizados a limpar itens antigos do registro de auditoria.",
             "enabled"       => true
-                $roleAuditPurgers->perms()->attach($permAuditPurge->id);
+        ]);
+        $roleAuditPurgers->perms()->attach($permAuditPurge->id);
         // Create role: error-viewers
         // Assign permission: error-log-view
         $roleErrorViewers = Role::create([
@@ -426,7 +427,7 @@ class ProductionSeeder extends Seeder
             "enabled"       => true
         ]);
         $userRoot->roles()->attach($roleAdmins->id);
-        $LinkBanner = Links::create([
+/*        $LinkBanner = Links::create([
             "url"    => "banner_boton.jpg",
 			"name"	=> "Banner",
         ]);
@@ -443,7 +444,7 @@ class ProductionSeeder extends Seeder
 			"name" => "Youtube",
         ]);
 
-
+ */
         ////////////////////////////////////
         // Create menu: root
         $menuRoot = Menu::create([

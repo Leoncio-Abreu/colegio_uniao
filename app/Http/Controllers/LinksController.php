@@ -18,21 +18,21 @@ class LinksController extends Controller
      */
     public function index()
     {
-		$page_title = 'Not&#237;cias';
+	$page_title = 'Not&#237;cias';
         $page_description = 'Pesquisar Not&#237;cias';
 
         $grid = \DataGrid::source(Links::orderBy('id','asc'));
-		$grid->attributes(array("class"=>"table table-striped"));
+	$grid->attributes(array("class"=>"table table-striped"));
 //		$grid->link("/links/index","Voltar", "BL")->back('');
         $grid->add('name', 'Redes Sociais/Banner');
-		$grid->add('url', 'Link')->cell( function ($value, $row) {
-			if ($row->id == 1) {
-				return '<img src="upload/banner/'.$value.'" height="120px">';
-			}
-			else
-				return $value;
-			}
-		);
+	$grid->add('url', 'Link')->cell( function ($value, $row) {
+		if ($row->id == 1) {
+			return '<img src="/upload/banner/'.$value.'" height="120px">';
+		}
+		else {
+			return $value;
+		}
+	});
 //		$grid->add('url','Endereço');
         $grid->edit('edit', 'Editar','modify');
         $grid->build();

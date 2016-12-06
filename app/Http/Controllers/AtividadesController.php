@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-//use Controller;
 use App\Atividade;
 use Zofe\Rapyd\Rapyd;
 use Image;
@@ -33,12 +32,33 @@ class AtividadesController extends Controller
         $filter->build();
 
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
-		$grid->attributes(array("class"=>"table table-striped"));
-		$grid->add('<a class="" title="Mover para cima" href="/posicao/atividades/up/{{ $id }}"><span class="fa fa-level-up"></span></a>
-    <a class="" title="Mover para baixo" href="/posicao/atividades/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao');        $grid->add('visualizar','Visualizar', true);
-        $grid->add('titulo','Titulo', true);
-        $grid->add('descricao', 'Descri&ccedil;&atilde;o', true);
-        $grid->edit('edit', 'Editar','modify|delete');
+	$grid->attributes(array("class"=>"table table-striped", 'align'=>'center', 'valign' => 'middle'));
+	$grid->add('<a class="" title="Mover para cima" href="/posicao/atividades/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/atividades/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao')->style("text-align: center; vertical-align: middle;");
+	$grid->add('visualizar','Visualizar', true)->style("text-align: center; vertical-align: middle;");
+        $grid->add('ativo','Ativar', 'true')->cell( function ($value) {
+		if ($value == 1) {
+			return '<i class="fa fa-toggle-on" aria-hidden="true" style="color:green"></i>';
+		}
+		else return '<i class="fa fa-toggle-off" aria-hidden="true" style="color:red"></i>';
+    	})->style("text-align: center; vertical-align: middle;");
+        $grid->add('titulo','Titulo', true)->style("text-align: center; vertical-align: middle;");
+        $grid->add('descricao', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
+	$grid->add('banner', 'Foto em destaque')->cell( function ($value, $row) {
+			return '<img src="/upload/atividades/banner/'.$value.'" height="120px">';
+	})->style("text-align: center; vertical-align: middle;");
+        $grid->add('{!! $texto !!}', 'Texto')->style("vertical-align: middle;");
+        $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
+	$grid->row(function ($row) {
+	    $row->cell('<a class="" title="Mover para cima" href="/posicao/atividades/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/atividades/down/{{ $id }}"><span class="fa fa-level-down"></span></a>')->style("vertical-align: middle;");
+	    $row->cell('visualizar')->style("vertical-align: middle;");
+	    $row->cell('ativo')->style("vertical-align: middle;");
+	    $row->cell('titulo')->style("vertical-align: middle;");
+	    $row->cell('descricao')->style("vertical-align: middle;");
+	    $row->cell('_edit')->style("vertical-align: middle;");
+//	    $row->cell('{!! $banner !!}')->style("vertical-align: middle; max-width:400px;overflow: hidden;");
+	    $row->cell('{!! $texto !!}')->style("text-align: left;max-width:400px;");
+	    $row->attributes(array('align'=>'center'));
+    	});
         $grid->paginate(20);
         $grid->build();
         return	view('atividades.index', compact('filter', 'grid', 'page_title', 'page_description'));    }
@@ -50,24 +70,25 @@ class AtividadesController extends Controller
      */
     public function create()
     {
-		$page_title ="Atividades";
-		$page_description = "Nova atividade";
+	$page_title ="Atividades";
+	$page_description = "Nova atividade";
 
         $form = \DataForm::source(New Atividade());
-		$form->attributes(['id'=>'atividade']);
+	$form->attributes(['id'=>'atividade']);
         $form->add('visualizar','Visualizar','datetime')->rule('required');
         $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
-		$form->add('titulo','Titulo', 'text')->rule('required|max:32');
-		$form->add('descricao','Descri&ccedil;&atilde;o', 'text')->rule('required|max:128');
+	$form->add('titulo','Titulo', 'text')->rule('required|max:32');
+	$form->add('descricao','Descri&ccedil;&atilde;o', 'text')->rule('required|max:128');
         $form->add('banner','Foto em destaque', 'image')->rule('required')->move('upload/atividades/banner/')->preview(120,80);
-		$form->add('texto','Texto', 'textarea')->attributes(["id"=>"texto"])->rule('required');
-		$form->submit('Salvar');
+	$form->add('texto','Texto', 'textarea')->attributes(["id"=>"texto"])->rule('required');
+	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
             $form->link("/atividades/create","Nova atividade");
-			return \Redirect::to('atividades/index')->with("message","Atividade salva com sucesso!");
-        });
-		$form->build();
+	    \Flash::success("Atividade adicionada com sucesso!");
+	    return \Redirect::to('atividades/index');
+	});
+	$form->build();
         Rapyd::js('summernote/summernote.min.js');
         Rapyd::js('summernote/lang/summernote-pt-BR.js');
         Rapyd::css('summernote/summernote.css');
@@ -118,20 +139,21 @@ class AtividadesController extends Controller
      */
     public function edit(Request $request)
     {
-		$page_title ="Atividades";
-		$page_description = "Alterar atividade";
+	$page_title ="Atividades";
+	$page_description = "Alterar atividade";
 
         $edit = \DataEdit::source(New Atividade());
-		$edit->link("atividades/index","Voltar", "BL")->back('');
+	$edit->link("atividades/index","Voltar", "BL")->back('');
         $edit->add('visualizar','Visualizar','datetime')->rule('required');
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
-		$edit->add('titulo','Titulo', 'text')->rule('required|max:32');
-		$edit->add('descricao','Descri&ccedil;&atilde;o', 'text')->rule('required|max:128');
+	$edit->add('titulo','Titulo', 'text')->rule('required|max:32');
+	$edit->add('descricao','Descri&ccedil;&atilde;o', 'text')->rule('required|max:128');
         $edit->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->rule('required')->move('upload/atividades/banner/')->preview(120,80);
-		$edit->add('texto','Texto', 'textarea')->attributes(["id"=>"texto"])->rule('required');
+	$edit->add('texto','Texto', 'textarea')->attributes(["id"=>"texto"])->rule('required');
 
-        $edit->saved(function () use ($edit) {
-			return \Redirect::to('atividades/index')->with("message","Atividade atualizada com sucesso!");
+	$edit->saved(function () use ($edit) {
+		\Flash::success("Atividade atualizada com sucesso!");
+		return \Redirect::to('atividades/index');
         });
 		$edit->build();
         Rapyd::js('summernote/summernote.min.js');
