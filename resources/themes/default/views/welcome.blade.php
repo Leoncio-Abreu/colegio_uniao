@@ -50,13 +50,14 @@
 	<div class="row">
 		@for ($i = 0; $i < count($atividades); $i++)
 		<div class="col-md-3">
-			<a href="/view/atividade/@if(!is_null($atividades[$i]->id)){!! $atividades[$i]->id !!}@endif" sti><div class="panel panel-default">
-				<div class="panel-heading"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/@if(!is_null($atividades[$i]->banner)){!! $atividades[$i]->banner !!}@endif" class="img-rounded img-responsive"  style="display: block; margin-left: auto; margin-right: auto;"></div>
-				<div class="panel-body">
+		    <a href="/view/atividade/@if(!is_null($atividades[$i]->id)){!! $atividades[$i]->id !!}@endif" sti>
+			<div class="panel panel-default">
+				<div class="panel-heading box-atividadesc"><img alt="Bootstrap Image Preview" src="/upload/atividades/banner/@if(!is_null($atividades[$i]->banner)){!! $atividades[$i]->banner !!}@endif" class="img-rounded img-responsive"  style="display: block; margin-left: auto; margin-right: auto;"></div>
+				<div class="panel-body  box-atividadesf">
 					<span style="color: black;">@if(!is_null($atividades[$i]->descricao)){!! $atividades[$i]->descricao !!}@endif</span>
 				</div>
-				</div>
-			</a>
+			</div>
+		    </a>
 		</div>
 		@endfor
 	</div>

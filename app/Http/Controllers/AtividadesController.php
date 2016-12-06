@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Atividade;
+use App\Atividadehole;
 use Zofe\Rapyd\Rapyd;
 use Image;
 
@@ -73,7 +74,7 @@ class AtividadesController extends Controller
 	$page_title ="Atividades";
 	$page_description = "Nova atividade";
 
-        $form = \DataForm::source(New Atividade());
+        $form = \DataForm::source(New Atividadehole());
 	$form->attributes(['id'=>'atividade']);
         $form->add('visualizar','Visualizar','datetime')->rule('required');
         $form->add('ativo','Ativar', 'checkbox')->insertValue(1);

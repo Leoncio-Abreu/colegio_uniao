@@ -74,4 +74,6 @@
 		  });
 		  $('.box-body').matchHeight();
 		  $('.box-heading').matchHeight();
+		  $('.box-atividadesc').matchHeight();
+		  $('.box-atividadesf').matchHeight();
 		</script>

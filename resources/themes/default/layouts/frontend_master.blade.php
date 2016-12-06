@@ -106,7 +106,7 @@
 		<div class="container">
 		@include('partials._frontend_header')
 		@yield('content')
-        @include('partials._frontend_footer')
+        	@include('partials._frontend_footer')
 		</div>
 	</body>
 </html>
