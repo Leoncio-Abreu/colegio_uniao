@@ -225,38 +225,35 @@ class HomeController extends Controller
 					$ppos=$prevpos[0]->posicao;
 					$pid=$prevpos[0]->id;
 				};
-					$nextpos = \DB::table($table)->orderBy('posicao','asc')
-							->where('posicao', '>', $pos)
-							->take(1)
-							->get();
+				$nextpos = \DB::table($table)->orderBy('posicao','asc')
+					->where('posicao', '>', $pos)
+					->take(1)
+					->get();
 				If (count($nextpos)){
 					$npos=$nextpos[0]->posicao;
 					$nid=$nextpos[0]->id;
 				};
-//				if ($npos !=0 and $ppos !=0){
-					if ($move == 'up')
-					{
-						\DB::table($table)
-							->where('id', $id)
-							->update(array('posicao' => $npos));
-						\DB::table($table)
-							->where('id', $nid)
-							->update(array('posicao' => $pos));
+				if ($move == 'up' & !is_null($npos))
+				{
+					\DB::table($table)
+						->where('id', $id)
+						->update(array('posicao' => $npos));
+					\DB::table($table)
+						->where('id', $nid)
+						->update(array('posicao' => $pos));
 
-					}
-					else if ($move == 'down')
-					{
-						\DB::table($table)
-							->where('id', $id)
-							->update(array('posicao' => $ppos));
-						\DB::table($table)
-							->where('id', $pid)
-							->update(array('posicao' => $pos));
-					}
-//				}
-				return redirect()->route($table.'.index');
-//				dd($ppos,$apos,$npos);
+				}
+				else if ($move == 'down' & !is_null($ppos))
+				{
+					\DB::table($table)
+						->where('id', $id)
+						->update(array('posicao' => $ppos));
+					\DB::table($table)
+						->where('id', $pid)
+						->update(array('posicao' => $pos));
+				}
 			}
 		}
+		return redirect()->route($table.'.index');
 	}
 }
