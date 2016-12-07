@@ -19,13 +19,21 @@
     <link href="{{ asset("/jquery-ui/base/jquery-ui.css") }}" rel="stylesheet" type="text/css" />
     <!-- Application CSS-->
     <link href="{{ asset(elixir('css/all.css')) }}" rel="stylesheet" type="text/css" />
+    {!! Rapyd::styles() !!}
     <style type="text/css">
         .datetimepicker {z-index: 999999;}
-.sizer {
-  height: 120px;
-}
+	.sizer {
+	  height: 102px;
+	}
+       .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
+       {
+         border-top: 1px solid #000000;
+         border-bottom: 1px solid #000000;
+       }
+       .rpd-dataform, .rpd-datagrid {
+         padding: 5px 0;
+       }      
     </style>
-    {!! Rapyd::styles() !!}
     <!-- Head -->
     @include('partials._head')
 
