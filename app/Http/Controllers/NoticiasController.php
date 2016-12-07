@@ -52,7 +52,7 @@ class NoticiasController extends Controller
 	    $row->cell('titulo')->style("vertical-align: middle;");
 	    $row->cell('descricao')->style("vertical-align: middle;");
 	    $row->cell('_edit')->style("vertical-align: middle;");
-	    $row->cell('{!! $banner !!}')->style("vertical-align: middle; max-width:200px;overflow: hidden;");
+	    $row->cell('{!! $banner !!}')->style("vertical-align: middle; max-height:150px;overflow: hidden;");
 	    $row->attributes(array('align'=>'center'));
     	});
         $grid->paginate(20);
