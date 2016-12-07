@@ -43,7 +43,7 @@ class NoticiasController extends Controller
     	})->style("text-align: center; vertical-align: middle;");
         $grid->add('titulo','Titulo', true)->style("text-align: center; vertical-align: middle;");
 	$grid->add('descricao','Descricao', true)->style("text-align: center; vertical-align: middle;");
-        $grid->add('{!! $banner !!}', 'Foto em destaque')->style("vertical-align: middle;");
+        $grid->add('<div class="sizer"><div class="embed-responsive embed-responsive-16by9">{!! $banner !!}</div></div>', 'Foto em destaque')->style("vertical-align: middle;");
 	$grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
 	$grid->row(function ($row) {
 	    $row->cell('<a class="" title="Mover para cima" href="/posicao/noticias/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/noticias/down/{{ $id }}"><span class="fa fa-level-down"></span></a>')->style("vertical-align: middle;");
@@ -52,7 +52,7 @@ class NoticiasController extends Controller
 	    $row->cell('titulo')->style("vertical-align: middle;");
 	    $row->cell('descricao')->style("vertical-align: middle;");
 	    $row->cell('_edit')->style("vertical-align: middle;");
-	    $row->cell('{!! $banner !!}')->style("vertical-align: middle; max-height:150px;overflow: hidden;");
+	    $row->cell('<div class="sizer"><div class="embed-responsive embed-responsive-16by9">{!! $banner !!}</div></div>')->style("vertical-align: middle; max-height:120px;overflow: hidden;");
 	    $row->attributes(array('align'=>'center'));
     	});
         $grid->paginate(20);

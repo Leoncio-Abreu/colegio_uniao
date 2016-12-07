@@ -21,6 +21,9 @@
     <link href="{{ asset(elixir('css/all.css')) }}" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .datetimepicker {z-index: 999999;}
+.sizer {
+  height: 120px;
+}
     </style>
     {!! Rapyd::styles() !!}
     <!-- Head -->
