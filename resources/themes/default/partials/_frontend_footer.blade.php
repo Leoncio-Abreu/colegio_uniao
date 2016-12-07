@@ -63,9 +63,7 @@
 		<script src="{{ asset ("/bower_components/admin-lte/plugins/jQuery/jQuery-2.1.4.min.js") }}" type="text/javascript"></script>
 		<script src="{{ asset ("/bower_components/admin-lte/bootstrap/js/bootstrap.min.js") }}" type="text/javascript"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js" type="text/javascript"></script>
-		<script src="{{ asset ("/js/hexagons.min.js") }}" type="text/javascript"></script>
-		<script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script>
-		<script src="js/scripts.js" type="text/javascript"></script>
+		<script src="{{ asset ('/js/hexagons.min.js') }}" type="text/javascript"></script>
 		<script type="text/javascript">
 		  $(document).ready(function(){
 			$('.carousel').carousel({
