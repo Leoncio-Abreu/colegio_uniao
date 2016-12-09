@@ -168,7 +168,7 @@ class ProductionSeeder extends Seeder
         $routeUserProfile->save();
         $routeUserProfilePatch = Route::where('name', 'user.profile.patch')->get()->first();
         $routeUserProfilePatch->permission()->associate($permBasicAuthenticated);
-		$routeUserProfilePatch->save();
+	$routeUserProfilePatch->save();
         $routeNoticias = Route::where('name', 'like', "noticias.%")->get()->all();
         foreach ($routeNoticias as $route)
         {
@@ -182,13 +182,13 @@ class ProductionSeeder extends Seeder
             $route->save();
         }
 
-		$routeAtividades = Route::where('name', 'like', "slides.%")->get()->all();
+	$routeAtividades = Route::where('name', 'like', "slides.%")->get()->all();
         foreach ($routeAtividades as $route)
         {
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
         }
-		$routeLinks = Route::where('name', 'like', "links.%")->get()->all();
+	$routeLinks = Route::where('name', 'like', "links.%")->get()->all();
         foreach ($routeLinks as $route)
         {
             $route->permission()->associate($permBasicAuthenticated);
@@ -198,21 +198,38 @@ class ProductionSeeder extends Seeder
         $routePainel->permission()->associate($permBasicAuthenticated);
 		$routePainel->save();
 
-		$routeimageUpload = Route::where('name', 'like', "imageupload%")->get()->all();
+	$routeimageUpload = Route::where('name', 'like', "imageupload%")->get()->all();
         foreach ($routeimageUpload as $route)
         {
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
         }
 
-		$routePosicao = Route::where('name', 'like', "posicao%")->get()->all();
+	$routePosicao = Route::where('name', 'like', "posicao%")->get()->all();
         foreach ($routePosicao as $route)
         {
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
         }
 
-		// Associate the audit-log permissions
+        $routeGaleria = Route::where('name', 'galeria.index')->get()->first();
+        $routeGaleria->permission()->associate($permOpenToAll);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.show_album')->get()->first();
+        $routeGaleria->permission()->associate($permOpenToAll);
+        $routeGaleria->save();
+
+        $routeGaleria = Route::where('name', 'galeria.create_album_form')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.create_album')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.delete_album')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+
+	// Associate the audit-log permissions
         $routeAuditView = Route::where('name', 'admin.audit.index')->get()->first();
         $routeAuditView->permission()->associate($permAuditLogView);
         $routeAuditView->save();

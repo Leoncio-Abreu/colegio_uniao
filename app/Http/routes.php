@@ -43,6 +43,8 @@ Route::get( 'contato', ['as' => 'contato',     'uses' => 'HomeController@contato
 Route::get( 'view/atividade/{id}', ['as' => 'view.atividade',     'uses' => 'HomeController@viewatividade']);
 Route::get( 'view/noticia/{id}', ['as' => 'view.noticia',     'uses' => 'HomeController@viewnoticia']);
 Route::any( 'imageupload', ['as' => 'imageupload',     'uses' => 'HomeController@imageupload']);
+Route::get('galeria/', array('as' => 'galeria.index','uses' => 'AlbumsController@getList'));
+Route::get('galeria/album/{id}', array('as' => 'galeria.show_album','uses' => 'AlbumsController@getAlbum'));
 
 // Routes in this group must be authorized.
 Route::group(['middleware' => 'authorize'], function () {
@@ -51,28 +53,32 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::get(   'user/profile',   ['as' => 'user.profile',       'uses' => 'UsersController@profile']);
     Route::patch( 'user/profile',   ['as' => 'user.profile.patch', 'uses' => 'UsersController@profileUpdate']);
 
-	Route::any( 'noticias/create',   ['as' => 'noticias.create', 'uses' => 'NoticiasController@create']);
-	Route::any( 'noticias/index',   ['as' => 'noticias.index', 'uses' => 'NoticiasController@index']);
-	Route::any( 'noticias/store',   ['as' => 'noticias.store', 'uses' => 'NoticiasController@store']);
-	Route::any('noticias/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'noticias.edit',    'uses' => 'NoticiasController@edit']);
-	Route::get( 'view/atividade/{id}', ['as' => 'view.atividade',     'uses' => 'HomeController@viewatividade']);
+    Route::any( 'noticias/create',   ['as' => 'noticias.create', 'uses' => 'NoticiasController@create']);
+    Route::any( 'noticias/index',   ['as' => 'noticias.index', 'uses' => 'NoticiasController@index']);
+    Route::any( 'noticias/store',   ['as' => 'noticias.store', 'uses' => 'NoticiasController@store']);
+    Route::any('noticias/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'noticias.edit',    'uses' => 'NoticiasController@edit']);
+    Route::get( 'view/atividade/{id}', ['as' => 'view.atividade',     'uses' => 'HomeController@viewatividade']);
 
-	Route::any( 'atividades/create',   ['as' => 'atividades.create', 'uses' => 'AtividadesController@create']);
-	Route::any( 'atividades/index',   ['as' => 'atividades.index', 'uses' => 'AtividadesController@index']);
-	Route::any( 'atividades/store',   ['as' => 'atividades.store', 'uses' => 'AtividadesController@store']);
-	Route::any( 'atividades/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'atividades.edit',    'uses' => 'AtividadesController@edit']);
+    Route::any( 'atividades/create',   ['as' => 'atividades.create', 'uses' => 'AtividadesController@create']);
+    Route::any( 'atividades/index',   ['as' => 'atividades.index', 'uses' => 'AtividadesController@index']);
+    Route::any( 'atividades/store',   ['as' => 'atividades.store', 'uses' => 'AtividadesController@store']);
+    Route::any( 'atividades/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'atividades.edit',    'uses' => 'AtividadesController@edit']);
     
-	Route::any( 'slides/create',   ['as' => 'slides.create', 'uses' => 'SlidesController@create']);
-	Route::any( 'slides/index',   ['as' => 'slides.index', 'uses' => 'SlidesController@index']);
-	Route::any( 'slides/store',   ['as' => 'slides.store', 'uses' => 'SlidesController@store']);
-	Route::any( 'slides/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'slides.edit',    'uses' => 'SlidesController@edit']);
+    Route::any( 'slides/create',   ['as' => 'slides.create', 'uses' => 'SlidesController@create']);
+    Route::any( 'slides/index',   ['as' => 'slides.index', 'uses' => 'SlidesController@index']);
+    Route::any( 'slides/store',   ['as' => 'slides.store', 'uses' => 'SlidesController@store']);
+    Route::any( 'slides/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'slides.edit',    'uses' => 'SlidesController@edit']);
 
-	Route::any( 'links/create',											['as' => 'links.create', 'uses' => 'LinksController@create']);
-	Route::any( 'links/index',											['as' => 'links.index',  'uses' => 'LinksController@index']);
-	Route::any( 'links/store',											['as' => 'links.store',  'uses' => 'LinksController@store']);
-	Route::any( 'links/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'links.edit',   'uses' => 'LinksController@edit']);
+    Route::any( 'links/create',											['as' => 'links.create', 'uses' => 'LinksController@create']);
+    Route::any( 'links/index',											['as' => 'links.index',  'uses' => 'LinksController@index']);
+    Route::any( 'links/store',											['as' => 'links.store',  'uses' => 'LinksController@store']);
+    Route::any( 'links/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'links.edit',   'uses' => 'LinksController@edit']);
 
-	Route::get( 'posicao/{table}/{move}/{id}', ['as' => 'posicao',     'uses' => 'HomeController@posicao']);
+    Route::get( 'posicao/{table}/{move}/{id}', ['as' => 'posicao',     'uses' => 'HomeController@posicao']);
+        
+    Route::get('galeria/createalbum', array('as' => 'galeria.create_album_form','uses' => 'AlbumsController@getForm'));
+    Route::post('galeria/createalbum', array('as' => 'galeria.create_album','uses' => 'AlbumsController@postCreate'));
+    Route::get('galeria/deletealbum/{id}', array('as' => 'galeria.delete_album','uses' => 'AlbumsController@getDelete'));
 
 	// Site administration section
     Route::group(['prefix' => 'admin'], function () {
