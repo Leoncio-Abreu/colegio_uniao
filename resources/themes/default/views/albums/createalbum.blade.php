@@ -18,10 +18,10 @@
           <span class="icon-bar"></span>
           <span lclass="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">Awesome Albums</a>
+        <a class="navbar-brand" href="/">Galeria</a>
         <div class="nav-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><ahref="{{URL::route('create_album_form')}}">CreateNew Album</a></li>
+            <li class="active"><ahref="{{URL::route('galeria.create_album_form')}}">CreateNew Album</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -46,22 +46,23 @@
           </div>
         @endif
 
-        <form name="createnewalbum" method="POST"action="{{URL::route('create_album')}}"enctype="multipart/form-data">
-          <fieldset>
-            <legend>Create an Album</legend>
+        <form name="createnewalbum" method="POST"action="{{URL::route('galeria.create_album')}}"enctype="multipart/form-data">
+	  {!! Form::token() !!}
+	  <fieldset>
+            <legend>Criar um album</legend>
             <div class="form-group">
-              <label for="name">Album Name</label>
-              <input name="name" type="text" class="form-control"placeholder="Album Name"value="{{Input::old('name')}}">
+              <label for="name">Nome do album</label>
+              <input name="name" type="text" class="form-control"placeholder="Nome do album"value="{{Input::old('name')}}">
             </div>
             <div class="form-group">
-              <label for="description">Album Description</label>
-              <textarea name="description" type="text"class="form-control" placeholder="Albumdescription">{{Input::old('descrption')}}</textarea>
+              <label for="description">Descrição do album</label>
+              <textarea name="description" type="text"class="form-control" placeholder="Descrição do album">{{Input::old('descrption')}}</textarea>
             </div>
             <div class="form-group">
-              <label for="cover_image">Select a Cover Image</label>
-              {{Form::file('cover_image')}}
+              <label for="cover_image">Escolha a foto de destaque</label>
+              {!! Form::file('cover_image') !!}
             </div>
-            <button type="submit" class="btnbtn-default">Create!</button>
+            <button type="submit" class="btnbtn-default">Criar!</button>
           </fieldset>
         </form>
       </div>

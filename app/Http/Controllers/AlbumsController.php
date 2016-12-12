@@ -6,21 +6,24 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Album;
- 
+use App\Album;
+use App\Photo;
+use \Validator;
+use \Input;
+use \Redirect;
+
 class AlbumsController extends Controller
 {
   public function getList()
   {
     $albums = Album::with('Photos')->get();
-    return View('albums.index')
-    ->with('albums',$albums);
+    return View('albums.index')->with('albums',$albums);
   }
   public function getAlbum($id)
   {
     $album = Album::with('Photos')->find($id);
-    return View('albums.album')
-    ->with('album',$album);
+	dd($album);
+    return View('albums.album')->with('album',$album);
   }
   public function getForm()
   {
@@ -38,7 +41,7 @@ class AlbumsController extends Controller
     $validator = Validator::make(Input::all(), $rules);
     if($validator->fails()){
 
-      return Redirect::route('galeria/create_album_form')
+      return Redirect::route('galeria.create_album_form')
       ->withErrors($validator)
       ->withInput();
     }
@@ -56,7 +59,7 @@ class AlbumsController extends Controller
       'cover_image' => $filename,
     ));
 
-    return Redirect::route('galeria/show_album',array('id'=>$album->id));
+    return Redirect::route('galeria.show_album',array('id'=>$album->id));
   }
 
   public function getDelete($id)
@@ -65,6 +68,6 @@ class AlbumsController extends Controller
 
     $album->delete();
 
-    return Redirect::route('galeria/index');
+    return Redirect::route('galeria.index');
   }
 }

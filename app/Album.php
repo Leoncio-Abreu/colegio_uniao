@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Photo;
 
 class Album extends Model
 {
@@ -13,6 +14,6 @@ class Album extends Model
 
   public function Photos(){
 
-    return $this->has_many('images');
+    return $this->hasmany('App\Photo');
   }
 }

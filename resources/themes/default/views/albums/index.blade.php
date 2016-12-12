@@ -29,7 +29,7 @@
       <a class="navbar-brand" href="/">Awesome Albums</a>
       <div class="nav-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="{{URL::route('create_album_form')}}">Create New Album</a></li>
+          <li><a href="{{URL::route('galeria.create_album_form')}}">Create New Album</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -49,7 +49,7 @@
                   <p>{{$album->description}}</p>
                   <p>{{count($album->Photos)}} image(s).</p>
                   <p>Created date:  {{ date("d F Y",strtotime($album->created_at)) }} at {{date("g:ha",strtotime($album->created_at)) }}</p>
-                  <p><a href="{{URL::route('show_album',%20array('id'=>$album->id))}}" class="btn btn-big btn-default">Show Gallery</a></p>
+                  <p><a href="{{URL::route('galeria.show_album',array('id'=>$album->id))}}" class="btn btn-big btn-default">Show Gallery</a></p>
                 </div>
               </div>
             </div>

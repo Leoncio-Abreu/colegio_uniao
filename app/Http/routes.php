@@ -56,7 +56,7 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::any( 'noticias/create',   ['as' => 'noticias.create', 'uses' => 'NoticiasController@create']);
     Route::any( 'noticias/index',   ['as' => 'noticias.index', 'uses' => 'NoticiasController@index']);
     Route::any( 'noticias/store',   ['as' => 'noticias.store', 'uses' => 'NoticiasController@store']);
-    Route::any('noticias/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'noticias.edit',    'uses' => 'NoticiasController@edit']);
+    Route::any( 'noticias/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'noticias.edit',    'uses' => 'NoticiasController@edit']);
     Route::get( 'view/atividade/{id}', ['as' => 'view.atividade',     'uses' => 'HomeController@viewatividade']);
 
     Route::any( 'atividades/create',   ['as' => 'atividades.create', 'uses' => 'AtividadesController@create']);
@@ -79,9 +79,13 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::get('galeria/createalbum', array('as' => 'galeria.create_album_form','uses' => 'AlbumsController@getForm'));
     Route::post('galeria/createalbum', array('as' => 'galeria.create_album','uses' => 'AlbumsController@postCreate'));
     Route::get('galeria/deletealbum/{id}', array('as' => 'galeria.delete_album','uses' => 'AlbumsController@getDelete'));
+    Route::get('galeria/addimage/{id}', array('as' => 'galeria.add_image','uses' => 'ImagesController@getForm'));
+    Route::post('galeria/addimage', array('as' => 'galeria.add_image_to_album','uses' => 'ImagesController@postAdd'));
+    Route::get('galeria/deleteimage/{id}', array('as' => 'galeria.delete_image','uses' => 'ImagesController@getDelete'));
+    Route::post('galeria/moveimage', array('as' => 'galeria.move_image', 'uses' => 'ImagesController@postMove'));
 
-	// Site administration section
-    Route::group(['prefix' => 'admin'], function () {
+        // Site administration section
+	Route::group(['prefix' => 'admin'], function () {
         // User routes
         Route::post(  'users/enableSelected',          ['as' => 'admin.users.enable-selected',  'uses' => 'UsersController@enableSelected']);
         Route::post(  'users/disableSelected',         ['as' => 'admin.users.disable-selected', 'uses' => 'UsersController@disableSelected']);

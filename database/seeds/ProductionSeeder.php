@@ -224,8 +224,20 @@ class ProductionSeeder extends Seeder
         $routeGaleria->save();
         $routeGaleria = Route::where('name', 'galeria.create_album')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
-        $routeGaleria->save();
+	$routeGaleria->save();
         $routeGaleria = Route::where('name', 'galeria.delete_album')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+	$routeGaleria = Route::where('name', 'galeria.add_image')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.add_image_to_album')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.delete_image')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.move_image')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
         $routeGaleria->save();
 
