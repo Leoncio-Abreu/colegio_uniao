@@ -10,7 +10,7 @@ use App\Album;
 use \Validator;
 use \Input;
 use \Redirect;
-use App\Photo;
+use App\Images;
 
 
 class ImagesController extends Controller
@@ -45,7 +45,7 @@ public function getForm($id)
     $extension = $file->getClientOriginalExtension();
     $filename=$random_name.'_album_image.'.$extension;
     $uploadSuccess = Input::file('image')->move($destinationPath, $filename);
-    Photo::create(array(
+    Images::create(array(
       'description' => Input::get('description'),
       'image' => $filename,
       'album_id'=> Input::get('album_id')
@@ -55,7 +55,7 @@ public function getForm($id)
   }
   public function getDelete($id)
   {
-    $image = Photo::find($id);
+    $image = Images::find($id);
     $image->delete();
     return Redirect::route('galeria.show_album',array('id'=>$image->album_id));
   }
@@ -71,7 +71,7 @@ public function getForm($id)
     if($validator->fails()){
       return Redirect::route('galeria.index');
     }
-    $image = Photo::find(Input::get('photo'));
+    $image = Images::find(Input::get('photo'));
     $image->album_id = Input::get('new_album');
     $image->save();
     return Redirect::route('galeria.show_album',array('id'=>Input::get('new_album')));

@@ -20,7 +20,7 @@
           </div>
         @endif
 
-        <form name="createnewalbum" method="POST"action="{{URL::route('galeria.create_album')}}"enctype="multipart/form-data">
+        <form name="editalbum" method="POST"action="{{URL::route('galeria._album')}}"enctype="multipart/form-data">
 	  {!! Form::token() !!}
 	  <fieldset>
             <legend>Criar um Album:</legend>

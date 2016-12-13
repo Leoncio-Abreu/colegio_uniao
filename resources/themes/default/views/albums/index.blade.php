@@ -1,55 +1,28 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Awesome Albums</title>
-    <!-- Latest compiled and minified CSS -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+@extends('layouts.master')
+@section('head_extra')
     <style>
-      body {
-        padding-top: 50px;
-      }
       .starter-template {
         padding: 40px 15px;
       text-align: center;
       }
     </style>
-  </head>
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+@endsection
+@section('content')
+<a href="{{URL::route('galeria.create_album_form')}}">Criar novo Album</a>
       <div class="container">
-      <button type="button" class="navbar-toggle"data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Awesome Albums</a>
-      <div class="nav-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="{{URL::route('galeria.create_album_form')}}">Create New Album</a></li>
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div>
-    </div>
-    
-      <div class="container">
-    
         <div class="starter-template">
-      
         <div class="row">
           @foreach($albums as $album)
             <div class="col-lg-3">
-              <div class="thumbnail" style="min-height: 514px;">
+              <div class="thumbnail">
                 <img alt="{{$album->name}}" src="/albums/{{$album->cover_image}}">
                 <div class="caption">
                   <h3>{{$album->name}}</h3>
                   <p>{{$album->description}}</p>
                   <p>{{count($album->Photos)}} image(s).</p>
                   <p>Created date:  {{ date("d F Y",strtotime($album->created_at)) }} at {{date("g:ha",strtotime($album->created_at)) }}</p>
-                  <p><a href="{{URL::route('galeria.show_album',array('id'=>$album->id))}}" class="btn btn-big btn-default">Show Gallery</a></p>
+                  <p><a href="{{URL::route('galeria.show_album',array('id'=>$album->id))}}" class="btn btn-big btn-default">Ver Album</a></p>
+                  <p><a href="{{URL::route('galeria.edit_album',array('id'=>$album->id))}}" class="btn btn-big btn-default">Editar Album</a></p>
                 </div>
               </div>
             </div>
@@ -57,7 +30,4 @@
         </div>
     
       </div><!-- /.container -->
-    </div>
-    
-  </body>
-</html>
+@endsection

@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Album;
-use App\Photo;
+use App\Images;
 use \Validator;
 use \Input;
 use \Redirect;
+use Image;
 
 class AlbumsController extends Controller
 {
@@ -19,11 +20,18 @@ class AlbumsController extends Controller
     $albums = Album::with('Photos')->get();
     return View('albums.index')->with('albums',$albums);
   }
+  public function editAlbum($id)
+  {
+    $album = Album::with('Photos')->find($id);
+    return View('albums.editalbum', compact('album'));
+  }
+
   public function getAlbum($id)
   {
     $album = Album::with('Photos')->find($id);
-	dd($album);
-    return View('albums.album')->with('album',$album);
+    $albums = Album::with('Photos')->where('id', '<>', $id)->get();
+//	dd($album);
+    return View('albums.album', compact('album','albums'));
   }
   public function getForm()
   {
@@ -51,13 +59,32 @@ class AlbumsController extends Controller
     $destinationPath = 'albums/';
     $extension = $file->getClientOriginalExtension();
     $filename=$random_name.'_cover.'.$extension;
-    $uploadSuccess = Input::file('cover_image')
-    ->move($destinationPath, $filename);
+    $uploadSuccess = Input::file('cover_image')->move($destinationPath, $filename);
     $album = Album::create(array(
       'name' => Input::get('name'),
       'description' => Input::get('description'),
       'cover_image' => $filename,
     ));
+
+	try 
+    	{
+    		$extension 	= $file->getClientOriginalExtension();
+    		$imageRealPath 	= $destinationPath . '/' . $filename;
+    		$thumbName 	= 'thumb_'. $filename;
+	    	
+	    	//$imageManager = new ImageManager(); // use this if you don't want facade style code
+    		//$img = $imageManager->make($imageRealPath);
+	    
+	    	$img = Image::make($imageRealPath); // use this if you want facade style code
+	    	$img->resize(intval('245'), null, function($constraint) {
+	    		 $constraint->aspectRatio();
+	    	});
+	    	$img->save(public_path()."/albums/". $thumbName);
+    	}
+    	catch(Exception $e)
+    	{
+    		return false;
+	}
 
     return Redirect::route('galeria.show_album',array('id'=>$album->id));
   }
