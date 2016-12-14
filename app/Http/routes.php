@@ -78,9 +78,13 @@ Route::group(['middleware' => 'authorize'], function () {
         
     Route::get('galeria/createalbum', array('as' => 'galeria.create_album_form','uses' => 'AlbumsController@getForm'));
     Route::post('galeria/createalbum', array('as' => 'galeria.create_album','uses' => 'AlbumsController@postCreate'));
+    Route::get('galeria/editalbum/{id}', array('as' => 'galeria.edit_album_form','uses' => 'AlbumsController@editForm'));
+    Route::post('galeria/editalbum', array('as' => 'galeria.edit_album','uses' => 'AlbumsController@postEdit'));
     Route::get('galeria/deletealbum/{id}', array('as' => 'galeria.delete_album','uses' => 'AlbumsController@getDelete'));
     Route::get('galeria/addimage/{id}', array('as' => 'galeria.add_image','uses' => 'ImagesController@getForm'));
     Route::post('galeria/addimage', array('as' => 'galeria.add_image_to_album','uses' => 'ImagesController@postAdd'));
+    Route::get('galeria/editimage/{id}', array('as' => 'galeria.edit_image','uses' => 'ImagesController@editForm'));
+    Route::post('galeria/editimage', array('as' => 'galeria.edit_image_to_album','uses' => 'ImagesController@postEdit'));
     Route::get('galeria/deleteimage/{id}', array('as' => 'galeria.delete_image','uses' => 'ImagesController@getDelete'));
     Route::post('galeria/moveimage', array('as' => 'galeria.move_image', 'uses' => 'ImagesController@postMove'));
 
