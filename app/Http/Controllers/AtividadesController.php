@@ -80,7 +80,14 @@ class AtividadesController extends Controller
         $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$form->add('titulo','Titulo', 'text')->rule('required|max:32');
 	$form->add('descricao','Descri&ccedil;&atilde;o', 'text')->rule('required|max:128');
-        $form->add('banner','Foto em destaque', 'image')->rule('required')->move('upload/atividades/banner/')->preview(120,80);
+        $form->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->rule('required')->move('upload/atividades/banner/')
+			->image(function ($image) {
+				$image->resize(120, 80, function($constraint) {
+	    			$constraint->aspectRatio();
+	    		});
+	    		$image->save(public_path()."/upload/atividades/banner/thumb_". \Input::file('banner')->getClientOriginalName());
+			})
+			->preview(120,80);
 	$form->add('texto','Texto', 'textarea')->attributes(["id"=>"texto"])->rule('required');
 	$form->submit('Salvar');
 
@@ -149,7 +156,14 @@ class AtividadesController extends Controller
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$edit->add('titulo','Titulo', 'text')->rule('required|max:32');
 	$edit->add('descricao','Descri&ccedil;&atilde;o', 'text')->rule('required|max:128');
-        $edit->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->rule('required')->move('upload/atividades/banner/')->preview(120,80);
+        $edit->add('banner','Foto em destaque', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')->rule('required')->move('upload/atividades/banner/')
+			->image(function ($image) {
+				$image->resize(120, 80, function($constraint) {
+	    			$constraint->aspectRatio();
+	    		});
+	    		$image->save(public_path()."/upload/atividades/banner/thumb_". \Input::file('banner')->getClientOriginalName());
+			})
+			->preview(120,80);
 	$edit->add('texto','Texto', 'textarea')->attributes(["id"=>"texto"])->rule('required');
 
 	$edit->saved(function () use ($edit) {
