@@ -796,5 +796,19 @@ class ProductionSeeder extends Seeder
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.
         ]);
+        $menuGaleria = Menu::create([
+            'name'          => 'galeria',
+            'label'         => 'Galeria',
+            'position'      => 997,                 // Artificially high number to ensure that it is rendered last.
+            'icon'          => 'fa fa-slideshare',
+            'separator'     => false,
+            'url'           => null,                // No url.
+            'enabled'       => true,
+            'parent_id'     => $menuHome->id,       // Parent is root.
+            'route_id'      => Route::where('name', 'like', "galeria.index")->get()->first()->id,                // No route
+            'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
+                                                   // any sub-items, the admin menu will be rendered, otherwise it will
+                                                    // not.
+        ]);
 	}
 }

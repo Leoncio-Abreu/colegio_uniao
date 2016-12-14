@@ -20,7 +20,7 @@
           </div>
         @endif
 
-        <form name="createnewalbum" method="POST"action="{{URL::route('galeria.create_album')}}"enctype="multipart/form-data">
+        <form name="createnewalbum" method="POST" action="{{URL::route('galeria.create_album')}}" enctype="multipart/form-data">
 	  {!! Form::token() !!}
 	  <fieldset>
             <legend>Criar um Album:</legend>
@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
               <label for="description">Descrição do Album:</label>
-              <textarea name="description" type="text"class="form-control" placeholder="Descrição do album">{{Input::old('descrption')}}</textarea>
+              <textarea name="description" type="text"class="form-control" placeholder="Descrição do album">{{Input::old('description')}}</textarea>
             </div>
             <div class="form-group">
               <label for="cover_image">foto de destaque do Album:</label>

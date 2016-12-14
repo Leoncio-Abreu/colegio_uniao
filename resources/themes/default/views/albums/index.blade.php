@@ -22,7 +22,7 @@
                   <p>{{count($album->Photos)}} image(s).</p>
                   <p>Created date:  {{ date("d F Y",strtotime($album->created_at)) }} at {{date("g:ha",strtotime($album->created_at)) }}</p>
                   <p><a href="{{URL::route('galeria.show_album',array('id'=>$album->id))}}" class="btn btn-big btn-default">Ver Album</a></p>
-                  <p><a href="{{URL::route('galeria.edit_album',array('id'=>$album->id))}}" class="btn btn-big btn-default">Editar Album</a></p>
+                  <p><a href="{{URL::route('galeria.edit_album_form',array('id'=>$album->id))}}" class="btn btn-big btn-default">Editar Album</a></p>
                 </div>
               </div>
             </div>

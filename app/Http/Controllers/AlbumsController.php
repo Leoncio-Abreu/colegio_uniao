@@ -20,7 +20,7 @@ class AlbumsController extends Controller
     $albums = Album::with('Photos')->get();
     return View('albums.index')->with('albums',$albums);
   }
-  public function editAlbum($id)
+  public function editForm($id)
   {
     $album = Album::with('Photos')->find($id);
     return View('albums.editalbum', compact('album'));
@@ -68,7 +68,6 @@ class AlbumsController extends Controller
 
 	try 
     	{
-    		$extension 	= $file->getClientOriginalExtension();
     		$imageRealPath 	= $destinationPath . '/' . $filename;
     		$thumbName 	= 'thumb_'. $filename;
 	    	
@@ -84,6 +83,58 @@ class AlbumsController extends Controller
     	catch(Exception $e)
     	{
     		return false;
+	}
+
+    return Redirect::route('galeria.show_album',array('id'=>$album->id));
+  }
+
+  public function postEdit()
+  {
+    $rules = array(
+
+      'name' => 'required',
+      'cover_image'=>'required|image'
+
+    );
+    
+    $validator = Validator::make(Input::all(), $rules);
+    if($validator->fails()){
+
+      return Redirect::route('galeria.edit_album_form')
+      ->withErrors($validator)
+      ->withInput();
+    }
+
+    $file = Input::file('cover_image');
+    $random_name = str_random(8);
+    $destinationPath = 'albums/';
+    $extension = $file->getClientOriginalExtension();
+    $filename=$random_name.'_cover.'.$extension;
+    $uploadSuccess = Input::file('cover_image')->move($destinationPath, $filename);
+    $album = Album::with('Photos')->find(Input::get('id'));
+    $album->name = Input::get('name');
+    $album->description = Input::get('description');
+    $album->cover_image = $filename;
+    $album->save();
+
+	try 
+    	{
+    		$extension 	= $file->getClientOriginalExtension();
+    		$imageRealPath 	= $destinationPath . '/' . $filename;
+    		$thumbName 	= 'thumb_'. $filename;
+	    	
+	    	//$imageManager = new ImageManager(); // use this if you don't want facade style code
+    		//$img = $imageManager->make($imageRealPath);
+	    
+	    	$img = Image::make($imageRealPath); // use this if you want facade style code
+	    	$img->resize(intval('245'), null, function($constraint) {
+	    		 $constraint->aspectRatio();
+	    	});
+	    	$img->save(public_path()."/albums/". $thumbName);
+    	}
+    	catch(Exception $e)
+    	{
+    		Redirect::route('galeria.show_album',array('id'=>$album->id));
 	}
 
     return Redirect::route('galeria.show_album',array('id'=>$album->id));

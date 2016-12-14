@@ -22,6 +22,13 @@ public function getForm($id)
     ->with('album',$album);
   }
 
+public function editForm($id)
+  {
+    $album = Album::find($id);
+    return View('albums.editimage')
+    ->with('album',$album);
+  }
+
   public function postAdd()
   {
     $rules = array(
@@ -53,6 +60,41 @@ public function getForm($id)
 
     return Redirect::route('galeria.show_album',array('id'=>Input::get('album_id')));
   }
+
+  public function postEdit()
+  {
+    $rules = array(
+
+      'id' => 'required|numeric',
+      'album_id' => 'required|numeric|exists:albums,id',
+      'image'=>'required|image'
+
+    );
+    
+    $validator = Validator::make(Input::all(), $rules);
+    if($validator->fails()){
+
+      return Redirect::route('galeria.edit_image',array('id' =>Input::get('album_id')))
+      ->withErrors($validator)
+      ->withInput();
+    }
+
+    $file = Input::file('image');
+    $random_name = str_random(8);
+    $destinationPath = 'albums/';
+    $extension = $file->getClientOriginalExtension();
+    $filename=$random_name.'_album_image.'.$extension;
+    $uploadSuccess = Input::file('image')->move($destinationPath, $filename);
+
+    $image = Images::find(Input::get('id'));
+    $image->description = Input::get('description');
+    $image->image = $filename;
+    $image->album_id = Input::get('album_id');
+    $image->save();
+	
+    return Redirect::route('galeria.show_album',array('id'=>Input::get('album_id')));
+  }
+
   public function getDelete($id)
   {
     $image = Images::find($id);

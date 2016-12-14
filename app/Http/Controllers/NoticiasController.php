@@ -69,20 +69,20 @@ class NoticiasController extends Controller
 	$page_title ="Not&#237;cias";
 	$page_description = "Nova not&#237;cia";
 
-        $form = \DataForm::source(New Noticiashole());
+    $form = \DataForm::source(New Noticiashole());
 
-        $form->add('visualizar','Visualizar','datetime')->rule('required');
-        $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
+    $form->add('visualizar','Visualizar','datetime')->rule('required');
+    $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$form->add('titulo','Titulo', 'text')->rule('max:32');
 	$form->add('descricao','Descricao', 'text')->rule('max:128');
-        $form->add('banner','Foto em destaque','textarea')->attr('id','banner');
+    $form->add('banner','Foto em destaque','textarea')->attr('id','banner');
 	$form->add('texto','Texto', 'textarea')->attr('id','texto')->rule('required');
 
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
             $form->link("/noticias/create","Nova notícia");
-	    \Flash::success("Noticía adicionada com sucesso!");
+			\Flash::success("Noticía adicionada com sucesso!");
             return \Redirect::to('noticias/index');
         });
 	$form->build();
