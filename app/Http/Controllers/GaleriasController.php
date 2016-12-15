@@ -6,35 +6,34 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Album;
-use App\Images;
+use App\Galeria;
 use \Validator;
 use \Input;
 use \Redirect;
 use Image;
 
-class AlbumsController extends Controller
+class GaleriasController extends Controller
 {
   public function getList()
   {
-    $albums = Album::with('Photos')->get();
-    return View('albums.albums')->with('albums',$albums);
+    $galerias = Galeria::with('Albums')->get();
+    return View('albums.galerias')->with('galerias',$galerias);
   }
   public function editForm($id)
   {
-    $album = Album::with('Photos')->find($id);
-    return View('albums.editalbum', compact('album'));
+    $galeria = Galeria::with('Albums')->find($id);
+    return View('albums.editgaleria', compact('galeria'));
   }
 
-  public function getAlbum($id)
+  public function getGaleria($id)
   {
-    $album = Album::with('Photos')->find($id);
-    $albums = Album::with('Photos')->where('id', '<>', $id)->get();
-    return View('albums.album', compact('album','albums'));
+    $galeria = Galeria::with('Albums')->find($id);
+    $galerias = Galeria::with('Albums')->where('id', '<>', $id)->get();
+    return View('albums.galeria', compact('galeria','galerias'));
   }
   public function getForm()
   {
-    return View('albums.createalbum');
+    return View('albums.creategaleria');
   }
   public function postCreate()
   {
@@ -48,7 +47,7 @@ class AlbumsController extends Controller
     $validator = Validator::make(Input::all(), $rules);
     if($validator->fails()){
 
-      return Redirect::route('galeria.create_album_form')
+      return Redirect::route('galeria.create_galeria_form')
       ->withErrors($validator)
       ->withInput();
     }
@@ -59,7 +58,7 @@ class AlbumsController extends Controller
     $extension = $file->getClientOriginalExtension();
     $filename=$random_name.'_cover.'.$extension;
     $uploadSuccess = Input::file('cover_image')->move($destinationPath, $filename);
-    $album = Album::create(array(
+    $galeria = Galeria::create(array(
       'name' => Input::get('name'),
       'description' => Input::get('description'),
       'cover_image' => $filename,
@@ -84,7 +83,7 @@ class AlbumsController extends Controller
     		return false;
 	}
 
-    return Redirect::route('galeria.show_album',array('id'=>$album->id));
+    return Redirect::route('galeria.show_galeria',array('id'=>$galeria->id));
   }
 
   public function postEdit()
@@ -99,7 +98,7 @@ class AlbumsController extends Controller
     $validator = Validator::make(Input::all(), $rules);
     if($validator->fails()){
 
-      return Redirect::route('galeria.edit_album_form')
+      return Redirect::route('galeria.edit_galeria_form')
       ->withErrors($validator)
       ->withInput();
     }
@@ -110,11 +109,11 @@ class AlbumsController extends Controller
     $extension = $file->getClientOriginalExtension();
     $filename=$random_name.'_cover.'.$extension;
     $uploadSuccess = Input::file('cover_image')->move($destinationPath, $filename);
-    $album = Album::with('Photos')->find(Input::get('id'));
-    $album->name = Input::get('name');
-    $album->description = Input::get('description');
-    $album->cover_image = $filename;
-    $album->save();
+    $galeria = Galeria::find(Input::get('id'));
+    $galeria->name = Input::get('name');
+    $galeria->description = Input::get('description');
+    $galeria->cover_image = $filename;
+    $galeria->save();
 
 	try 
     	{
@@ -133,18 +132,18 @@ class AlbumsController extends Controller
     	}
     	catch(Exception $e)
     	{
-    		Redirect::route('galeria.show_album',array('id'=>$album->id));
+    		Redirect::route('galeria.show_galeria',array('id'=>$galeria->id));
 	}
 
-    return Redirect::route('galeria.show_album',array('id'=>$album->id));
+    return Redirect::route('galeria.show_galeria',array('id'=>$galeria->id));
   }
 
   public function getDelete($id)
   {
-    $album = Album::find($id);
+    $galeria = Galeria::find($id);
 
-    $album->delete();
+    $galeria->delete();
 
-    return Redirect::route('galeria.album_index');
+    return Redirect::route('galeria.index');
   }
 }

@@ -215,7 +215,13 @@ class ProductionSeeder extends Seeder
         $routeGaleria = Route::where('name', 'galeria.index')->get()->first();
         $routeGaleria->permission()->associate($permOpenToAll);
         $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.album_index')->get()->first();
+        $routeGaleria->permission()->associate($permOpenToAll);
+        $routeGaleria->save();
         $routeGaleria = Route::where('name', 'galeria.show_album')->get()->first();
+        $routeGaleria->permission()->associate($permOpenToAll);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.show_galeria')->get()->first();
         $routeGaleria->permission()->associate($permOpenToAll);
         $routeGaleria->save();
 
@@ -225,21 +231,53 @@ class ProductionSeeder extends Seeder
         $routeGaleria = Route::where('name', 'galeria.create_album')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
 	$routeGaleria->save();
-        $routeGaleria = Route::where('name', 'galeria.delete_album')->get()->first();
+        $routeGaleria = Route::where('name', 'galeria.edit_album')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
         $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.edit_album_form')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.delete_album')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+	$routeGaleria->save();
+
 	$routeGaleria = Route::where('name', 'galeria.add_image')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
         $routeGaleria->save();
         $routeGaleria = Route::where('name', 'galeria.add_image_to_album')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
+	$routeGaleria->save();
+	$routeGaleria = Route::where('name', 'galeria.edit_image')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
         $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.edit_image_to_album')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+	$routeGaleria->save();
         $routeGaleria = Route::where('name', 'galeria.delete_image')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
         $routeGaleria->save();
         $routeGaleria = Route::where('name', 'galeria.move_image')->get()->first();
         $routeGaleria->permission()->associate($permBasicAuthenticated);
         $routeGaleria->save();
+
+
+
+        $routeGaleria = Route::where('name', 'galeria.create_galeria_form')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.create_galeria')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+	$routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.edit_galeria_form')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.edit_galeria')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+        $routeGaleria->save();
+        $routeGaleria = Route::where('name', 'galeria.delete_galeria')->get()->first();
+        $routeGaleria->permission()->associate($permBasicAuthenticated);
+	$routeGaleria->save();
+
 
 	// Associate the audit-log permissions
         $routeAuditView = Route::where('name', 'admin.audit.index')->get()->first();

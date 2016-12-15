@@ -9,6 +9,6 @@ class Images extends Model
   
   protected $table = 'images';
   
-  protected $fillable = array('album_id','description','image');
+  protected $fillable = array('description','image');
   
 }
