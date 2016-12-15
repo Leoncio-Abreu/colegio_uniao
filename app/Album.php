@@ -10,7 +10,7 @@ class Album extends Model
 
   protected $table = 'albums';
 
-  protected $fillable = array('name','description','cover_image');
+  protected $fillable = array('ativo','posicao','name','description','cover_image');
 
   public function Images(){
     return $this->belongsToMany('App\Images', 'album_image', 'album_id','image_id');

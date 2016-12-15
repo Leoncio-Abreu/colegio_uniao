@@ -10,7 +10,7 @@ class Turma extends Model
 
   protected $table = 'turmas';
 
-  protected $fillable = array('name','description','cover_image');
+  protected $fillable = array('ativo','posicao','name','description','cover_image');
 
   public function Galerias(){
     return $this->belongsToMany('App\Galeria', 'turma_galeria', 'turma_id','galeria_id');
