@@ -1,6 +1,6 @@
 		<div class="row">
 			<div class="col-md-12">
-				  <img alt="Bootstrap Image Preview" src="/upload/banner/@if(!is_null($links{0}->url)){{$links{0}->url}}@endif" class="img-rounded text-center img-responsive">
+				  @if(count($links))<img alt="Bootstrap Image Preview" src="/upload/banner/@if(!is_null($links{0}->url)){{$links{0}->url}}@endif" class="img-rounded text-center img-responsive">@endif
 			</div>
 		</div>
 		<div class="row" style="padding-top: 15px">
@@ -39,13 +39,13 @@
 					<div class="col-md-12">
 						<div class="row">
 							<div class="col-md-4 col-xs-4" style="text-align: center;">
-									<a href="@if(!is_null($links{1}->url)){{$links{1}->url}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-facebook"></i></span></a>
+								@if(count($links))<a href="@if(!is_null($links{1}->url)){{$links{1}->url}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-facebook"></i></span></a>@endif
 							</div>
 							<div class="col-md-4 col-xs-4" style="text-align: center;">
-								<a href="@if(!is_null($links{2}->url)){{$links{2}->url}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-instagram"></i></span></a>
+								@if(count($links))<a href="@if(!is_null($links{2}->url)){{$links{2}->url}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-instagram"></i></span></a>@endif
 							</div>
 							<div class="col-md-4 col-xs-4" style="text-align: center;">
-							<a href="@if(!is_null($links{3}->url)){{$links{3}->url}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-youtube"></i></span></a>
+								@if(count($links))<a href="@if(!is_null($links{3}->url)){{$links{3}->url}}@endif" target="_blank"><span class="hb hb-xs spin"><i class="fa fa-youtube"></i></span></a>@endif
 							</div>
 						</div>
 					</div>
