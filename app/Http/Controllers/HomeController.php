@@ -206,7 +206,12 @@ class HomeController extends Controller
 		$pid=null;
 		$npos=null;
 		$nid=null;
-		$tb=['noticias', 'atividades', 'slides'];
+		$i = explode(".",$table);
+		if (count($i) > 1) {
+		    $route = $table;
+		    $table = $i[count($i)-1];
+		}
+		$tb=['noticias', 'atividades', 'slides', 'anos', 'unidades', 'turmas', 'galerias', 'albums', 'images'];
 		$mv=['up', 'down'];
 
 		if (!is_null($table) & !is_null($move) & !is_null($id) & in_array($table,$tb) & in_array($move,$mv))
@@ -254,6 +259,6 @@ class HomeController extends Controller
 				}
 			}
 		}
-		return redirect()->route($table.'.index');
+		return Redirect::back();
 	}
 }
