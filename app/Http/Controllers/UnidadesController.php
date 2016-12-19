@@ -58,7 +58,7 @@ class UnidadesController extends Controller
 	    $row->cell('_edit')->style("vertical-align: middle;");
 	    $row->attributes(array('align'=>'center'));
     	});
-        $grid->paginate(20);
+        $grid->paginate(8);
         $grid->build();
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }
@@ -97,9 +97,9 @@ class UnidadesController extends Controller
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
-            $form->link("/galeria/unidades/create","Nova Unidade");
+            $form->link("/galerias/unidades/create","Nova Unidade");
 	    \Flash::success("Unidade adicionada com sucesso!");
-	    return \Redirect::to('/galeria/unidades/index');
+	    return \Redirect::to('/galerias/unidades/index');
 	});
 	$form->build();
         return $form->view('galerias.create', compact('form', 'page_title', 'page_description'));
@@ -144,5 +144,26 @@ class UnidadesController extends Controller
         });
 	$edit->build();
 	return $edit->view('galerias.create', compact('edit', 'page_title', 'page_description'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view($id)
+    {
+        $page_title = 'Galeria';
+	$page_description = 'Unidades | Visualizar Galeria da '.Unidade::where('id', '=', $id)->pluck('name');
+	$title = 'Turma';
+	$route = 'turmas';
+
+        $grid = \DataGrid::source(Turma::whereHas('unidades', function ($query) use ($id) {$query->where('id', '=', $id);})->where('ativo', '=', 1));
+	$grid->add('name','Unidade', true);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('cover_image', 'Foto');
+        $grid->paginate(8);
+	$grid->build();
+	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }
 }

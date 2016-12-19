@@ -49,6 +49,14 @@ Route::any( 'imageupload', ['as' => 'imageupload',     'uses' => 'HomeController
 //Route::get('galeria/Album', array('as' => 'galeria.album_index','uses' => 'AlbumsController@getList'));
 //Route::get('galeria/album/{id}', array('as' => 'galeria.show_album','uses' => 'AlbumsController@getAlbum'));
 
+Route::get( 'galerias/view/anos/{id}',   ['as' => 'galerias.view.anos', 'uses' => 'AnosController@view']);
+Route::get( 'galerias/view/unidades/{id}',   ['as' => 'galerias.view.unidades', 'uses' => 'UnidadesController@view']);
+Route::get( 'galerias/view/turmas/{id}',   ['as' => 'galerias.view.turmas', 'uses' => 'TurmasController@view']);
+Route::get( 'galerias/view/galerias/{id}',   ['as' => 'galerias.view.galerias', 'uses' => 'GaleriasController@view']);
+Route::get( 'galerias/view/albums/{id}',   ['as' => 'galerias.view.albums', 'uses' => 'AlbumsController@view']);
+Route::get( 'galerias/view/images/{id}',   ['as' => 'galerias.view.images', 'uses' => 'ImagesController@view']);
+
+
 // Routes in this group must be authorized.
 Route::group(['middleware' => 'authorize'], function () {
     // Application routes...
@@ -87,37 +95,31 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::any( 'galerias/anos/create',   ['as' => 'galerias.anos.create', 'uses' => 'AnosController@create']);
     Route::any( 'galerias/anos/index',   ['as' => 'galerias.anos.index', 'uses' => 'AnosController@index']);
     Route::any( 'galerias/anos/store',   ['as' => 'galerias.anos.store', 'uses' => 'AnosController@store']);
-    Route::get( 'galerias/anos/view/{$id}',   ['as' => 'galerias.anos.view', 'uses' => 'AnosController@view']);
     Route::any( 'galerias/anos/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.anos.edit',    'uses' => 'AnosController@edit']);
 
     Route::any( 'galerias/unidades/create',   ['as' => 'galerias.unidades.create', 'uses' => 'UnidadesController@create']);
     Route::any( 'galerias/unidades/index',   ['as' => 'galerias.unidades.index', 'uses' => 'UnidadesController@index']);
     Route::any( 'galerias/unidades/store',   ['as' => 'galerias.unidades.store', 'uses' => 'UnidadesController@store']);
-    Route::get( 'galerias/unidades/view/{$id}',   ['as' => 'galerias.unidades.view', 'uses' => 'UnidadesController@view']);
     Route::any( 'galerias/unidades/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.unidades.edit',    'uses' => 'UnidadesController@edit']);
 
     Route::any( 'galerias/turmas/create',   ['as' => 'galerias.turmas.create', 'uses' => 'TurmasController@create']);
     Route::any( 'galerias/turmas/index',   ['as' => 'galerias.turmas.index', 'uses' => 'TurmasController@index']);
     Route::any( 'galerias/turmas/store',   ['as' => 'galerias.turmas.store', 'uses' => 'TurmasController@store']);
-    Route::get( 'galerias/turmas/view/{$id}',   ['as' => 'galerias.turmas.view', 'uses' => 'TurmasController@view']);
     Route::any( 'galerias/turmas/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.turmas.edit',    'uses' => 'TurmasController@edit']);
 
     Route::any( 'galerias/galerias/create',   ['as' => 'galerias.galerias.create', 'uses' => 'GaleriasController@create']);
     Route::any( 'galerias/galerias/index',   ['as' => 'galerias.galerias.index', 'uses' => 'GaleriasController@index']);
     Route::any( 'galerias/galerias/store',   ['as' => 'galerias.galerias.store', 'uses' => 'GaleriasController@store']);
-    Route::get( 'galerias/galerias/view/{$id}',   ['as' => 'galerias.galerias.view', 'uses' => 'GaleriasController@view']);
     Route::any( 'galerias/galerias/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.galerias.edit',    'uses' => 'GaleriasController@edit']);
 
     Route::any( 'galerias/albums/create',   ['as' => 'galerias.albums.create', 'uses' => 'AlbumsController@create']);
     Route::any( 'galerias/albums/index',   ['as' => 'galerias.albums.index', 'uses' => 'AlbumsController@index']);
     Route::any( 'galerias/albums/store',   ['as' => 'galerias.albums.store', 'uses' => 'AlbumsController@store']);
-    Route::get( 'galerias/albums/view/{$id}',   ['as' => 'galerias.albums.view', 'uses' => 'AlbumsController@view']);
     Route::any( 'galerias/albums/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.albums.edit',    'uses' => 'AlbumsController@edit']);
 
     Route::any( 'galerias/images/create',   ['as' => 'galerias.images.create', 'uses' => 'ImagesController@create']);
     Route::any( 'galerias/images/index',   ['as' => 'galerias.images.index', 'uses' => 'ImagesController@index']);
     Route::any( 'galerias/images/store',   ['as' => 'galerias.images.store', 'uses' => 'ImagesController@store']);
-    Route::get( 'galerias/images/view/{$id}',   ['as' => 'galerias.images.view', 'uses' => 'ImagesController@view']);
     Route::any( 'galerias/images/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.images.edit',    'uses' => 'ImagesController@edit']);
     
 /*    
