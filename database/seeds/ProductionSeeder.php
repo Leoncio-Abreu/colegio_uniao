@@ -240,8 +240,8 @@ class ProductionSeeder extends Seeder
             $route->save();
         }
 
-	$routeGaleriasGalerias = Route::where('name', 'like', "galerias.galerias.%")->get()->all();
-        foreach ($routeGaleriasGalerias as $route)
+	$routeGaleriasAtividades = Route::where('name', 'like', "galerias.atividades.%")->get()->all();
+        foreach ($routeGaleriasAtividades as $route)
         {
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
@@ -254,8 +254,8 @@ class ProductionSeeder extends Seeder
             $route->save();
         }
 
-	$routeGaleriasImagens = Route::where('name', 'like', "galerias.images.%")->get()->all();
-        foreach ($routeGaleriasImagens as $route)
+	$routeGaleriasFotos = Route::where('name', 'like', "galerias.fotos.%")->get()->all();
+        foreach ($routeGaleriasFotos as $route)
         {
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
@@ -921,7 +921,7 @@ class ProductionSeeder extends Seeder
             'url'           => null,                // No url.
             'enabled'       => true,
             'parent_id'     => $menuGaleriaFotos->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.images.create")->get()->first()->id,                // No route
+            'route_id'      => Route::where('name', 'like', "galerias.fotos.create")->get()->first()->id,                // No route
             'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.
@@ -935,7 +935,7 @@ class ProductionSeeder extends Seeder
             'url'           => null,                // No url.
             'enabled'       => true,
             'parent_id'     => $menuGaleriaFotos->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.images.index")->get()->first()->id,                // No route
+            'route_id'      => Route::where('name', 'like', "galerias.fotos.index")->get()->first()->id,                // No route
             'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.
@@ -1066,9 +1066,9 @@ class ProductionSeeder extends Seeder
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.
         ]);
-        $menuGaleriaGalerias = Menu::create([
-            'name'          => 'galerias',
-            'label'         => 'Galerias',
+        $menuGaleriaAtividades = Menu::create([
+            'name'          => 'gatividades',
+            'label'         => 'Atividades',
             'position'      => 5,                 // Artificially high number to ensure that it is rendered last.
             'icon'          => 'fa fa-slideshare',
             'separator'     => false,
@@ -1080,30 +1080,30 @@ class ProductionSeeder extends Seeder
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.
         ]);
-        $menuGaleriaGaleriasNovo = Menu::create([
-            'name'          => 'galeriasnovo',
-            'label'         => 'Adicionar Galeria',
+        $menuGaleriaAtividadesNovo = Menu::create([
+            'name'          => 'gatividadesnovo',
+            'label'         => 'Adicionar Atividade',
             'position'      => 1,                 // Artificially high number to ensure that it is rendered last.
             'icon'          => 'fa fa-slideshare',
             'separator'     => false,
             'url'           => null,                // No url.
             'enabled'       => true,
-            'parent_id'     => $menuGaleriaGalerias->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.galerias.create")->get()->first()->id,                // No route
+            'parent_id'     => $menuGaleriaAtividades->id,       // Parent is root.
+            'route_id'      => Route::where('name', 'like', "galerias.atividades.create")->get()->first()->id,                // No route
             'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.
         ]);
-        $menuGaleriaGaleriasindex = Menu::create([
-            'name'          => 'galeriasindex',
-            'label'         => 'Ver Galerias',
+        $menuGaleriaAtividadesindex = Menu::create([
+            'name'          => 'gatividadesindex',
+            'label'         => 'Ver Atividades',
             'position'      => 2,                 // Artificially high number to ensure that it is rendered last.
             'icon'          => 'fa fa-slideshare',
             'separator'     => false,
             'url'           => null,                // No url.
             'enabled'       => true,
-            'parent_id'     => $menuGaleriaGalerias->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.galerias.index")->get()->first()->id,                // No route
+            'parent_id'     => $menuGaleriaAtividades->id,       // Parent is root.
+            'route_id'      => Route::where('name', 'like', "galerias.atividades.index")->get()->first()->id,                // No route
             'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.

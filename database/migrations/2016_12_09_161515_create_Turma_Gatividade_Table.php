@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGaleriaAlbumTable extends Migration
+class CreateTurmaGatividadeTable extends Migration
 {	
   /**
   * Run the migrations.
@@ -12,10 +12,10 @@ class CreateGaleriaAlbumTable extends Migration
   */
   public function up()
     {
-        Schema::table("galeria_album", function ($table) {
+        Schema::table("turma_gatividade", function ($table) {
             $table->create();
-            $table->integer('galeria_id')->unsigned();
-            $table->integer('album_id')->unsigned();
+            $table->integer('turma_id')->unsigned();
+            $table->integer('atividade_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateGaleriaAlbumTable extends Migration
   */
   public function down()
   {
-    Schema::drop('galeria_album');
+    Schema::drop('turma_gatividade');
   }
 }

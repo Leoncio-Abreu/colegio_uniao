@@ -32,7 +32,7 @@ class TurmasController extends Controller
         $filter->add('description','Descri&ccedil;&atilde;o', 'text');
         $filter->submit('Procurar');
         $filter->reset('Resetar');
-        $filter->link("galerias/turma/create","Novo Turma");
+        $filter->link("galerias/turmas/create","Novo Turma");
         $filter->build();
 
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGaleriasTable extends Migration
+class CreateGatividadesTable extends Migration
 {
   /**
   * Run the migrations.
@@ -12,7 +12,7 @@ class CreateGaleriasTable extends Migration
   */
   public function up()
   {
-    Schema::create('galerias', function(Blueprint $table)
+    Schema::create('gatividades', function(Blueprint $table)
     {
       $table->increments('id')->unsigned();
       $table->integer('ativo');
@@ -23,7 +23,7 @@ class CreateGaleriasTable extends Migration
       $table->timestamps();
     });
 
-    Schema::create('galeriashole', function(Blueprint $table)
+    Schema::create('gatividadeshole', function(Blueprint $table)
     {
       $table->engine = 'BLACKHOLE';
       $table->increments('id')->unsigned();
@@ -36,14 +36,15 @@ class CreateGaleriasTable extends Migration
     });
 
     DB::unprepared('
-		CREATE TRIGGER `tr_galerias_posicao` BEFORE INSERT ON `galeriashole`
+		CREATE TRIGGER `tr_gatividades_posicao` BEFORE INSERT ON `gatividadeshole`
 		FOR EACH ROW BEGIN
 			DECLARE pos int; 
-			SELECT max(posicao) into pos FROM `galerias`;
+			SELECT max(posicao) into pos FROM `gatividades`;
 			IF (pos IS NULL) THEN
-				INSERT INTO `galerias` (`ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
+				INSERT INTO `gatividades` (`ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
 			ELSE
-				INSERT INTO `galerias` (`ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ativo, pos + 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
+				UPDATE `gatividades` set posicao = posicao + 1 where posicao >= pos;
+				INSERT INTO `gatividades` (`ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
 			END IF;
 		END
     ');
@@ -56,8 +57,8 @@ class CreateGaleriasTable extends Migration
   */
   public function down()
   {
-    Schema::drop('galerias');
-    Schema::drop('galeriashole');
-    DB::unprepared('DROP TRIGGER `tr_galerias_posicao`');
+    Schema::drop('gatividades');
+    Schema::drop('gatividadeshole');
+    DB::unprepared('DROP TRIGGER `tr_gatividades_posicao`');
   }
 }

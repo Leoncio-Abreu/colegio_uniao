@@ -3,7 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Images;
+use App\Foto;
+use App\Gatividade;
 
 class Album extends Model
 {
@@ -12,7 +13,11 @@ class Album extends Model
 
   protected $fillable = array('ativo','posicao','name','description','cover_image');
 
-  public function Images(){
-    return $this->belongsToMany('App\Images', 'album_image', 'album_id','image_id');
+  public function atividades(){
+    return $this->belongsToMany('App\Gatividade', 'gatividades_album', 'album_id','atividade_id');
+  }
+
+  public function fotos(){
+    return $this->has_many('App\Foto');
   }
 }

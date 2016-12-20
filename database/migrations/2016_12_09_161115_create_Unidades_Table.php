@@ -43,7 +43,8 @@ class CreateUnidadesTable extends Migration
 			IF (pos IS NULL) THEN
 				INSERT INTO `unidades` (`ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
 			ELSE
-				INSERT INTO `unidades` (`ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ativo, pos + 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
+				UPDATE `unidades` set posicao = posicao + 1;
+				INSERT INTO `unidades` (`ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
 			END IF;
 		END
     ');
