@@ -11,6 +11,7 @@ use Image;
 use App\Unidade;
 use App\Unidadehole;
 use App\Turma;
+use App\Ano;
 
 class UnidadesController extends Controller
 {
@@ -27,11 +28,10 @@ class UnidadesController extends Controller
 	$route = 'unidades';
 
         $filter = \DataFilter::source(new Unidade());
-        $filter->add('name','Unidade', 'text');
-        $filter->add('description','Descri&ccedil;&atilde;o', 'text');
-        $filter->submit('Procurar');
+	$filter->add('ano_id','Ano','select')->rule('required')->option('','')->options(Ano::lists('name','id'));
+	$filter->submit('Filtrar');
         $filter->reset('Resetar');
-        $filter->link("galerias/unidades/create/".$ano,"Nova Unidade");
+        $filter->link("galerias/unidades/create/","Criar nova Unidade");
         $filter->build();
 
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
@@ -74,8 +74,14 @@ class UnidadesController extends Controller
 	$page_description = "Galeria | Criar nova Unidade";
 	$filename = '';
 
-        $form = \DataForm::source(New Unidadehole());
-        $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
+	$form = \DataForm::source(New Unidadehole());
+	$form->link("galerias/unidades/index","Voltar", "BL")->back('');
+	$form->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::lists('name','id'));
+/*            ->onchange('$.get("/admin/article/checkboxes", {id_category: $("#id_category").val()}, 
+function (data) {
+        $("#div_options").html(data);
+});')*/	
+        $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$form->add('name','Unidade', 'text')->rule('required');
 	$form->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
 	if(\Input::hasFile('cover_image')){
@@ -93,7 +99,6 @@ class UnidadesController extends Controller
 	    	});
 	    	$image->save(public_path()."/galeria/unidades/120x80_". $filename);
 	    })->move(public_path().'/galeria/unidades/',$filename)->preview(120,80);
-	$form->add('unidades','Unidades a serem visualizadas','checkboxgroup')->options(Unidade::lists('name', 'id')->where('ativo', '=', '1')->all());
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {

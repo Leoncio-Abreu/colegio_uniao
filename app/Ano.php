@@ -14,7 +14,7 @@ class Ano extends Model
 
   public function unidades()
   {
-    return $this->belongsToMany('App\Unidade', 'ano_unidade', 'ano_id','unidade_id');
+    return $this->has_many('App\Unidade');
   }
 
 }

@@ -49,12 +49,12 @@ Route::any( 'imageupload', ['as' => 'imageupload',     'uses' => 'HomeController
 //Route::get('galeria/Album', array('as' => 'galeria.album_index','uses' => 'AlbumsController@getList'));
 //Route::get('galeria/album/{id}', array('as' => 'galeria.show_album','uses' => 'AlbumsController@getAlbum'));
 
-Route::get( 'galerias/view/ano',   ['as' => 'galerias.view.anos', 'uses' => 'AnosController@view']);
-Route::get( 'galerias/view/unidade/{ano?}',   ['as' => 'galerias.view.anos', 'uses' => 'UnidadesController@view']);
-Route::get( 'galerias/view/turma/{unidade?}',   ['as' => 'galerias.view.anos', 'uses' => 'TurmasController@view']);
-Route::get( 'galerias/view/atividade/{turma?}/{atividade?}',   ['as' => 'galerias.view.anos', 'uses' => 'GatividadesController@view']);
-Route::get( 'galerias/view/album/{atividade?}',   ['as' => 'galerias.view.anos', 'uses' => 'AlbumsController@view']);
-Route::get( 'galerias/view/foto/{ano?}/{unidade?}/{turma?}/{atividade?}/{album?}/{foto?}',   ['as' => 'galerias.view.anos', 'uses' => 'FotosController@view']);
+Route::get( 'galerias/view/anos/{id?}/{slide?}',   ['as' => 'galerias.view.anos', 'uses' => 'AnosController@view']);
+Route::get( 'galerias/view/unidades/{id?}/{slide?}',   ['as' => 'galerias.view.unidades', 'uses' => 'UnidadesController@view']);
+Route::get( 'galerias/view/turmas/{id?}/{slide?}',   ['as' => 'galerias.view.turmas', 'uses' => 'TurmasController@view']);
+Route::get( 'galerias/view/atividades/{id?}/{slide?}',   ['as' => 'galerias.view.atividades', 'uses' => 'GatividadesController@view']);
+Route::get( 'galerias/view/albums/{id?}/{slide?}',   ['as' => 'galerias.view.albums', 'uses' => 'AlbumsController@view']);
+Route::get( 'galerias/view/fotos/{id?}/{slide?}',   ['as' => 'galerias.view.fotos', 'uses' => 'FotosController@view']);
 
 // Routes in this group must be authorized.
 Route::group(['middleware' => 'authorize'], function () {

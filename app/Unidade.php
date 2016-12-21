@@ -10,13 +10,13 @@ class Unidade extends Model
 
   protected $table = 'unidades';
 
-  protected $fillable = array('ativo','posicao','name','description','cover_image');
+  protected $fillable = array('ano_id', 'ativo','posicao','name','description','cover_image');
 
   public function turmas(){
-    return $this->belongsToMany('App\Turma', 'unidade_turma', 'unidade_id','turma_id');
+    return $this->has_many('App\Turma');
   }
 
   public function anos(){
-    return $this->belongsToMany('App\Ano', 'ano_unidade', 'unidade_id','ano_id');
+    return $this->belongsTo('App\Ano');
   }
 }

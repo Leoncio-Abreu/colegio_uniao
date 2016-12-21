@@ -23,15 +23,14 @@ class AnosController extends Controller
     {
         $page_title = 'Anos';
 	$page_description = 'Pesquisar anos';
-	$title = 'Ano';
+	$title = 'Anos';
 	$route = 'anos';
 
         $filter = \DataFilter::source(new Ano());
-        $filter->add('name','Ano', 'text');
-        $filter->add('description','Descri&ccedil;&atilde;o', 'text');
-        $filter->submit('Procurar');
+	$filter->add('id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'));
+        $filter->submit('Filtrar');
         $filter->reset('Resetar');
-        $filter->link("galerias/ano/create","Novo Ano");
+        $filter->link("galerias/anos/create","Criar novo Ano");
         $filter->build();
 
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
@@ -43,22 +42,13 @@ class AnosController extends Controller
 		}
 		else return '<i class="fa fa-toggle-off" aria-hidden="true" style="color:red"></i>';
     	})->style("text-align: center; vertical-align: middle;");
-	$grid->add('name','Ano', true)->style("text-align: center; vertical-align: middle;");
+	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
         $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
 	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
 			return '<img src="/galeria/anos/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-	$grid->row(function ($row) {
-	    $row->cell('<a class="" title="Mover para cima" href="/posicao/galerias.anos/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/galerias.anos/down/{{ $id }}"><span class="fa fa-level-down"></span></a>')->style("vertical-align: middle;");
-	    $row->cell('ativo')->style("vertical-align: middle;");
-	    $row->cell('name')->style("vertical-align: middle;");
-	    $row->cell('cover_image')->style("vertical-align: middle;");
-	    $row->cell('description')->style("vertical-align: middle;");
-	    $row->cell('_edit')->style("vertical-align: middle;");
-	    $row->attributes(array('align'=>'center'));
-    	});
-        $grid->paginate(20);
+        $grid->paginate(8);
         $grid->build();
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }
@@ -75,8 +65,9 @@ class AnosController extends Controller
 	$filename = "";
 
         $form = \DataForm::source(New Anohole());
-        $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
-	$form->add('name','Ano', 'text')->rule('required');
+	$form->link("galerias/anos/index","Voltar", "BL")->back('');
+	$form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
+	$form->add('name','Nome', 'text')->rule('required');
 	$form->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
@@ -93,7 +84,6 @@ class AnosController extends Controller
 	    	});
 	    	$image->save(public_path()."/galeria/anos/120x80_". $filename);
 	    })->move(public_path().'/galeria/anos/',$filename)->preview(120,80);
-	$form->add('unidades','Unidades a serem visualizadas','checkboxgroup')->options(Unidade::lists('name', 'id')->where('ativo', '=', '1')->all());
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
@@ -120,7 +110,7 @@ class AnosController extends Controller
         $edit = \DataEdit::source(New Ano());
 	$edit->link("galerias/anos/index","Voltar", "BL")->back('');
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
-	$edit->add('name','Ano', 'text')->rule('required');
+	$edit->add('name','Nome', 'text')->rule('required');
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
@@ -137,7 +127,6 @@ class AnosController extends Controller
 	    	});
 	    	$image->save(public_path()."/galeria/anos/120x80_". $filename);
 	    })->move(public_path().'/galeria/anos/',$filename)->preview(120,80);
-	$edit->add('unidades','Unidades a serem visualizadas','checkboxgroup')->options(Unidade::where('ativo', '=', '1')->lists('name', 'id')->all());
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Ano atualizado com sucesso!");
 		return \Redirect::to('galerias/anos/index');
@@ -151,7 +140,7 @@ class AnosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view($id)
+    public function view($id = null, $slide = null)
     {
 	$page_title = 'Galeria';
 
@@ -159,13 +148,16 @@ class AnosController extends Controller
 	$title = 'Unidade';
 	$route = 'unidades';
 
-        $grid = \DataGrid::source(Unidade::whereHas('anos', function ($query) use ($id) {$query->where('id', '=', $id);})->where('ativo', '=', 1));
-	$grid->add('name','Unidade', true);
+        $grid = \DataGrid::source(Unidade::where('ano_id', '=', $id));
+	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('cover_image', 'Foto');
         $grid->paginate(8);
 	$grid->build();
-	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
+	if ($slide)
+		return	view('galerias.slide', compact('filter','grid'));
+	else
+		return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }
 
 }

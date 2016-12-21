@@ -11,14 +11,14 @@ class Turma extends Model
 
   protected $table = 'turmas';
 
-  protected $fillable = array('ativo','posicao','name','description','cover_image');
+  protected $fillable = array('atividade_id', 'ativo','posicao','name','description','cover_image');
 
   public function unidades(){
-    return $this->belongsToMany('App\Unidade', 'unidade_turma', 'turma_id','unidade_id');
+    return $this->belongsTo('App\Unidade');
   }
 
   public function atividades(){
-    return $this->belongsToMany('App\Gatividade', 'turma_gatividade', 'turma_id','atividade_id');
+    return $this->has_many('App\Gatividade');
   }
 
 }
