@@ -8,10 +8,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Zofe\Rapyd\Rapyd;
 use Image;
+use App\Unidade;
 use App\Turma;
 use App\Turmahole;
-use App\Unidade;
-use App\Galeria;
+use App\Gatividade;
 
 class TurmasController extends Controller
 {
@@ -28,8 +28,7 @@ class TurmasController extends Controller
 	$route = 'turmas';
 
         $filter = \DataFilter::source(new Turma());
-        $filter->add('name','Turma', 'text');
-        $filter->add('description','Descri&ccedil;&atilde;o', 'text');
+	$filter->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('ano_id'));
         $filter->submit('Procurar');
         $filter->reset('Resetar');
         $filter->link("galerias/turmas/create","Novo Turma");
@@ -44,22 +43,13 @@ class TurmasController extends Controller
 		}
 		else return '<i class="fa fa-toggle-off" aria-hidden="true" style="color:red"></i>';
     	})->style("text-align: center; vertical-align: middle;");
-	$grid->add('name','Turma', true)->style("text-align: center; vertical-align: middle;");
+	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
         $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
 	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
 			return '<img src="/galeria/turmas/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-	$grid->row(function ($row) {
-	    $row->cell('<a class="" title="Mover para cima" href="/posicao/galerias.turmas/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/galerias.turmas/down/{{ $id }}"><span class="fa fa-level-down"></span></a>')->style("vertical-align: middle;");
-	    $row->cell('ativo')->style("vertical-align: middle;");
-	    $row->cell('name')->style("vertical-align: middle;");
-	    $row->cell('cover_image')->style("vertical-align: middle;");
-	    $row->cell('description')->style("vertical-align: middle;");
-	    $row->cell('_edit')->style("vertical-align: middle;");
-	    $row->attributes(array('align'=>'center'));
-    	});
-        $grid->paginate(20);
+        $grid->paginate(8);
         $grid->build();
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }
@@ -72,10 +62,12 @@ class TurmasController extends Controller
     public function create()
     {
 	$page_title ="Turmas";
-	$page_description = "Novo turma";
+	$page_description = "Nova turma";
 	$filename = "";
 
         $form = \DataForm::source(New Turmahole());
+	$form->link("galerias/turmas/index","Voltar", "BL")->back('');
+	$form->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::lists('name','id'))->insertValue(\Input::get('id'));
         $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
 	$form->add('name','Turma', 'text')->rule('required');
 	$form->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
@@ -94,11 +86,9 @@ class TurmasController extends Controller
 	    	});
 	    	$image->save(public_path()."/galeria/turmas/120x80_". $filename);
 	    })->move(public_path().'/galeria/turmas/',$filename)->preview(120,80);
-	$form->add('galerias','Galerias a serem visualizadas','checkboxgroup')->options(Galeria::lists('name', 'id')->where('ativo', '=', '1')->all());
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
-            $form->link("/galerias/turmas/create","Novo Turma");
 	    \Flash::success("Turma adicionado com sucesso!");
 	    return \Redirect::to('/galerias/turmas/index');
 	});
@@ -120,8 +110,9 @@ class TurmasController extends Controller
 
         $edit = \DataEdit::source(New Turma());
 	$edit->link("galerias/turmas/index","Voltar", "BL")->back('');
-        $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
-	$edit->add('name','Turma', 'text')->rule('required');
+        $edit->add('unidade_id','Unidade', 'select')->rule('required')->options(Unidade::lists('name','id'));
+        $edit->add('ativo','Ativar', 'checkbox');
+	$edit->add('name','Nome', 'text')->rule('required');
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
@@ -138,7 +129,6 @@ class TurmasController extends Controller
 	    	});
 	    	$image->save(public_path()."/galeria/turmas/120x80_". $filename);
 	    })->move(public_path().'/galeria/turmas/',$filename)->preview(120,80);
-	$edit->add('galerias','Galerias a serem visualizadas','checkboxgroup')->options(Galeria::where('ativo', '=', '1')->lists('name', 'id')->all());
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Turma atualizado com sucesso!");
 		return \Redirect::to('galerias/turmas/index');
@@ -154,13 +144,20 @@ class TurmasController extends Controller
      */
     public function view($id)
     {
-        $page_title = 'Galeria';
-	$page_description = 'Turmas | Visualizar Galeria do '.Turma::where('id', '=', $id)->pluck('name');
-	$title = 'Unidade';
-	$route = 'unidades';
+        $page_title = 'Turmas';
+	$page_description = 'Visualizar Galeria do '.Turma::where('id', '=', $id)->pluck('name');
+	$title = 'Atividade';
+	$route = 'atividades';
 
-        $grid = \DataGrid::source(Unidade::whereHas('turmas', function ($query) use ($id) {$query->where('id', '=', $id);})->where('ativo', '=', 1));
-	$grid->add('name','Unidade', true);
+        $filter = \DataFilter::source(Gatividade::where('turma_id', '=', $id));
+	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Unidade::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/atividades/create?id=".$id,"Criar nova atividade");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter);
+	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('cover_image', 'Foto');
         $grid->paginate(8);

@@ -8,9 +8,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Zofe\Rapyd\Rapyd;
 use Image;
+use App\Turma;
 use App\Gatividade;
-use App\Galeriahole;
-use App\Imagem;
+use App\Gatividadehole;
+use App\Album;
 
 class GatividadesController extends Controller
 {
@@ -26,9 +27,8 @@ class GatividadesController extends Controller
 	$title = 'Atividades';
 	$route = 'atividades';
 
-        $filter = \DataFilter::source(new Gatividade());
-        $filter->add('name','Atividade', 'text');
-        $filter->add('description','Descri&ccedil;&atilde;o', 'text');
+	$filter = \DataFilter::source(new Gatividade());
+	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Turma::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('ano_id'));
         $filter->submit('Procurar');
         $filter->reset('Resetar');
         $filter->link("galerias/atividades/create","Nova Atividade");
@@ -43,21 +43,12 @@ class GatividadesController extends Controller
 		}
 		else return '<i class="fa fa-toggle-off" aria-hidden="true" style="color:red"></i>';
     	})->style("text-align: center; vertical-align: middle;");
-	$grid->add('name','Galeria', true)->style("text-align: center; vertical-align: middle;");
+	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
         $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
 	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
 			return '<img src="/galeria/atividades/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-	$grid->row(function ($row) {
-	    $row->cell('<a class="" title="Mover para cima" href="/posicao/galerias.atividades/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/galerias.atividades/down/{{ $id }}"><span class="fa fa-level-down"></span></a>')->style("vertical-align: middle;");
-	    $row->cell('ativo')->style("vertical-align: middle;");
-	    $row->cell('name')->style("vertical-align: middle;");
-	    $row->cell('cover_image')->style("vertical-align: middle;");
-	    $row->cell('description')->style("vertical-align: middle;");
-	    $row->cell('_edit')->style("vertical-align: middle;");
-	    $row->attributes(array('align'=>'center'));
-    	});
         $grid->paginate(8);
         $grid->build();
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
@@ -74,12 +65,14 @@ class GatividadesController extends Controller
 	$page_description = "Novo galeria";
 	$filename = "";
 
-        $form = \DataForm::source(New Galeriahole());
-        $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
-	$form->add('name','Galeria', 'text')->rule('required');
+        $form = \DataForm::source(New Gatividadehole());
+	$form->link("galerias/atividades/index","Voltar", "BL")->back('');
+	$form->add('turma_id','Turma','select')->rule('required')->option("","")->options(Turma::lists('name','id'))->insertValue(\Input::get('id'));
+        $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
+	$form->add('name','Nome', 'text')->rule('required');
 	$form->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
 	if(\Input::hasFile('cover_image')){
-    	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
+    		$filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
         }
 	$form->add('cover_image','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
@@ -93,11 +86,9 @@ class GatividadesController extends Controller
 	    	});
 	    	$image->save(public_path()."/galeria/atividades/120x80_". $filename);
 	    })->move(public_path().'/galeria/atividades/',$filename)->preview(120,80);
-	$form->add('atividades','Atividades a serem visualizadas','checkboxgroup')->options(Gatividade::lists('name', 'id')->where('ativo', '=', '1')->all());
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
-            $form->link("/galerias/atividades/create","Novo Galeria");
 	    \Flash::success("Galeria adicionada com sucesso!");
 	    return \Redirect::to('/galerias/atividades/index');
 	});
@@ -113,14 +104,15 @@ class GatividadesController extends Controller
      */
     public function edit(Request $request)
     {
-	$page_title ="Galerias";
-	$page_description = "Alterar galeria";
+	$page_title ="Atividades";
+	$page_description = "Alterar Atividades";
 	$filename = "";
 
-        $edit = \DataEdit::source(New Galeria());
+        $edit = \DataEdit::source(New Gatividade());
 	$edit->link("galerias/atividades/index","Voltar", "BL")->back('');
-        $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
-	$edit->add('name','Galeria', 'text')->rule('required');
+        $edit->add('turma_id','Turma', 'select')->rule('required')->options(Turma::lists('name','id'));
+        $edit->add('ativo','Ativar', 'checkbox');
+	$edit->add('name','Nome', 'text')->rule('required');
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
@@ -137,7 +129,6 @@ class GatividadesController extends Controller
 	    	});
 	    	$image->save(public_path()."/galeria/atividades/120x80_". $filename);
 	    })->move(public_path().'/galeria/atividades/',$filename)->preview(120,80);
-	$edit->add('galerias','Galerias a serem visualizadas','checkboxgroup')->options(Galeria::where('ativo', '=', '1')->lists('name', 'id')->all());
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Galeria atualizada com sucesso!");
 		return \Redirect::to('galerias/atividades/index');
@@ -151,15 +142,22 @@ class GatividadesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view($ano = null, $unidade = null, $turma = null, $galeria = null, $imagem = null)
+    public function view($id = null)
     {
-        $page_title = 'Albums';
-	$page_description = 'Albums | Visualizar Albums da '.Galeria::where('id', '=', $id)->pluck('name');
+        $page_title = 'Atividades';
+	$page_description = 'Visualizar Galeria da(o) '.Gatividade::where('id', '=', $id)->pluck('name');
 	$title = 'Albums';
-	$route = 'fotos';
+	$route = 'albums';
 
-        $grid = \DataGrid::source(Album::whereHas('atividades', function ($query) use ($id) {$query->where('id', '=', $id);})->where('ativo', '=', 1));
-	$grid->add('name','Unidade', true);
+        $filter = \DataFilter::source(Album::where('atividade_id', '=', $id));
+	$filter->add('album_id','Albums','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/albums/create?id=".$id,"Criar novo Album");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter);
+	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('cover_image', 'Foto');
         $grid->paginate(8);

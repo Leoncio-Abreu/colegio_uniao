@@ -8,10 +8,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Zofe\Rapyd\Rapyd;
 use Image;
+use App\Ano;
 use App\Unidade;
 use App\Unidadehole;
 use App\Turma;
-use App\Ano;
 
 class UnidadesController extends Controller
 {
@@ -110,6 +110,7 @@ class UnidadesController extends Controller
 
         $edit = \DataEdit::source(New Unidade());
 	$edit->link("galerias/unidades/index","Voltar", "BL")->back('');
+        $edit->add('ano_id','Ano', 'select')->rule('required');
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$edit->add('name','Unidade', 'text')->rule('required');
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
@@ -143,7 +144,7 @@ class UnidadesController extends Controller
      */
     public function view($id = null)
     {
-        $page_title = 'Turmas';
+        $page_title = 'Unidades';
 	$page_description = 'Visualizar galerias da '.Unidade::where('id', '=', $id)->pluck('name');
 	$title = 'Turma';
 	$route = 'turmas';
@@ -152,7 +153,7 @@ class UnidadesController extends Controller
 	$filter->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');
-        $filter->link("galerias/turmas/create?id=".$id,"Criar novo Turma");
+        $filter->link("galerias/turmas/create?id=".$id,"Criar nova Turma");
         $filter->build();
 
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
@@ -163,4 +164,5 @@ class UnidadesController extends Controller
 	$grid->build();
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }
+
 }

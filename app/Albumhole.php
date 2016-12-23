@@ -9,6 +9,6 @@ class Albumhole extends Model
 
   protected $table = 'albumshole';
 
-  protected $fillable = array('ativo','posicao','name','description','cover_image');
+  protected $fillable = array('atividade_id', 'ativo','posicao','name','description','cover_image');
 
 }

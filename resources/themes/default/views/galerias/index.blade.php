@@ -9,7 +9,7 @@
 
 
 .image-source-link {
-	color: #98C3D1;
+	color: #e35a00;
 }
 
 .mfp-with-zoom .mfp-container,
@@ -68,35 +68,49 @@ $(document).ready(function() {
 @endsection
 @section('content')
 @if(!is_null($filter)){!! $filter !!}@endif
-      <div class="container">
+<div class="container">
 	{!! $grid->paginator->render() !!}
         <div class="starter-template">
-        <div class="row">
-	  @foreach($grid->rows as $album)
-		<?php $album = $album->data ?>
-            <div class="col-lg-3">
-	      <div class="thumbnail">
-		<div class="zoom-gallery">
-		<a href="/galeria/{{$route}}/{{$album->cover_image}}" data-source="/galeria/{{$route}}/{{$album->cover_image}}" title="{{$album->description}}"><!-- style="width:193px;height:125px;"> -->
-			<img src="/galeria/{{$route}}/thumb_{{$album->cover_image}}" alt="{{$album->name}}" width="120" height="80">
-		</a>
-		</div>
-                <div class="caption">
-                  <h3>{{$album->name}}</h3>
-                  <p>{{$album->description}}</p>
-                  <p>Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
-                  <p><a href="/galerias/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-default">Entrar</a></p>
-		  <p><a href="/galerias/{{$route}}/edit?modify={{$album->id}}" class="btn btn-big btn-default">Editar {{ $title }}</a></p>
-<div class="clearfix">
-		  <a class="btn btn-warning pull-left" href="/posicao/galerias.{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>
-		  <a class="btn btn-warning pull-right" href="/posicao/galerias.{{$route}}/down/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
-</div>
-		</div>
-              </div>
-            </div>
+        	<div class="row">
+	  		@foreach($grid->rows as $album)
+			<?php $album = $album->data ?>
+			<div class="col-lg-3">
+				@if($album->name != '')
+				<div class="thumbnail">
+				@endif
+					<div class="zoom-gallery">
+						<a href="/galeria/{{$route}}/{{$album->cover_image}}" data-source="/galeria/{{$route}}/{{$album->cover_image}}" title="{{$album->description}}"><!-- style="width:193px;height:125px;"> -->
+							<img src="/galeria/{{$route}}/thumb_{{$album->cover_image}}" alt="{{$album->name}}" width="120" height="80">
+						</a>
+					</div>
+			                <div class="caption">
+				 		@if($album->name != '')
+						<h3>{{$album->name}}</h3>
+						@endif
+						@if($album->description != '')
+						<p>{{$album->description}}</p>
+						@endif
+				 		@if($album->name != '')
+				                <p>Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
+						<p><a href="/galerias/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-default">Entrar</a></p>
+						@else
+						<br>
+						@endif
+						@if (Auth::user())
+						<p><a href="/galerias/{{$route}}/edit?modify={{$album->id}}" class="btn btn-big btn-default">Editar {{ $title }}</a></p>
+						<div class="clearfix">
+							<a class="btn btn-warning pull-left" href="/posicao/galerias.{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>
+							<a class="btn btn-warning pull-right" href="/posicao/galerias.{{$route}}/down/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
+						</div>
+		  				@endif
+		 		@if($album->name != '')
+				</div> <!-- Thumbnails -->
+				@endif
+			</div> <!-- col -->
+		</div> <!-- row -->
           @endforeach
-	</div>
+	</div> <!-- /.starter-template -->
     
 	{!! $grid->paginator->render() !!}
-      </div><!-- /.container -->
+</div><!-- /.container -->
 @endsection

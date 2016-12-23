@@ -18,10 +18,12 @@
               <div class="thumbnail">
                 <a href="/galerias/view/{{$route}}/{{$album->id}}" ><img alt="{{$album->name}}" src="/galeria/{{$route}}/thumb_{{$album->cover_image}}"></a>
                 <div class="caption">
+		  @if($album->name != '')
                   <h3>{{$album->name}}</h3>
-                  <p>{{$album->description}}</p>
+		  <p>{{$album->description}}</p>
                   <p>Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
-                  <p><a href="/galerias/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-default">Entrar</a></p>
+		  <p><a href="/galerias/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-default">Entrar</a></p>
+		  @endif
 		  <p><a href="/galerias/{{$route}}/edit?modify={{$album->id}}" class="btn btn-big btn-default">Editar {{ $title }}</a></p>
 <div class="clearfix">
 		  <a class="btn btn-warning pull-left" href="/posicao/galerias.{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>

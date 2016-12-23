@@ -11,7 +11,7 @@ class Album extends Model
 
   protected $table = 'albums';
 
-  protected $fillable = array('ativo','posicao','name','description','cover_image');
+  protected $fillable = array('atividade_id', 'ativo','posicao','name','description','cover_image');
 
   public function atividades(){
     return $this->belongsTo('App\Gatividade');
