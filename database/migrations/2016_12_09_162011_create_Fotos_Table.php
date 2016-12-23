@@ -18,8 +18,9 @@ class CreateFotosTable extends Migration
       $table->integer('album_id')->references('id')->on('albums')->onDelete('CASCADE')->onUpdate('CASCADE');
       $table->integer('ativo');
       $table->integer('posicao');
-      $table->string('image');
+      $table->string('name');
       $table->string('description');
+      $table->string('cover_image');
       $table->timestamps();
     });
 
@@ -30,8 +31,9 @@ class CreateFotosTable extends Migration
       $table->integer('album_id')->references('id')->on('albums')->onDelete('CASCADE')->onUpdate('CASCADE');
       $table->integer('ativo');
       $table->integer('posicao');
-      $table->string('image');
+      $table->string('name');
       $table->string('description');
+      $table->string('cover_image');
       $table->timestamps();
     });
 
@@ -41,10 +43,10 @@ class CreateFotosTable extends Migration
 			DECLARE pos int; 
 			SELECT max(posicao) into pos FROM `fotos` where album_id = NEW.album_id;
 			IF (pos IS NULL) THEN
-				INSERT INTO `fotos` (`album_id`, `ativo`, `posicao`, `image`, `description`, `created_at`, `updated_at` ) VALUES (NEW.album_id, NEW.ativo, 1, NEW.image, NEW.description, NEW.created_at, NEW.updated_at);
+				INSERT INTO `fotos` (`album_id`, `ativo`, `posicao`, cover_image, `description`, `created_at`, `updated_at` ) VALUES (NEW.album_id, NEW.ativo, 1, NEW.cover_image, NEW.description, NEW.created_at, NEW.updated_at);
 			ELSE
 				UPDATE `fotos` set posicao = posicao + 1 where album_id = NEW.album_id;
-				INSERT INTO `fotos` (`album_id`, `ativo`, `posicao`, `image`, `description`, `created_at`, `updated_at` ) VALUES (NEW.album_id, NEW.ativo, 1, New.image, NEW.description, NEW.created_at, NEW.updated_at);
+				INSERT INTO `fotos` (`album_id`, `ativo`, `posicao`, cover_image, `description`, `created_at`, `updated_at` ) VALUES (NEW.album_id, NEW.ativo, 1, New.cover_image, NEW.description, NEW.created_at, NEW.updated_at);
 			END IF;
 		END
     ');

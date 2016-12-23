@@ -43,10 +43,10 @@ class CreateUnidadesTable extends Migration
 			DECLARE pos int; 
 			SELECT max(posicao) into pos FROM `unidades` where ano_id = New.ano_id;
 			IF (pos IS NULL) THEN
-				INSERT INTO `unidades` (`ano_id`. `ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ano_id, NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
+				INSERT INTO `unidades` (`ano_id`, `ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ano_id, NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
 			ELSE
 				UPDATE `unidades` set posicao = posicao + 1 where ano_id = New.ano_id;
-				INSERT INTO `unidades` (`ano_id`. `ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ano_id, NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
+				INSERT INTO `unidades` (`ano_id`, `ativo`, `posicao`, `name`, `description`, `cover_image`, `created_at`, `updated_at` ) VALUES (NEW.ano_id, NEW.ativo, 1, NEW.name, NEW.description, NEW.cover_image, NEW.created_at, NEW.updated_at);
 			END IF;
 		END
     ');

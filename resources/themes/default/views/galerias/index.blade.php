@@ -67,6 +67,7 @@ $(document).ready(function() {
 </script>
 @endsection
 @section('content')
+@if(!is_null($filter)){!! $filter !!}@endif
       <div class="container">
 	{!! $grid->paginator->render() !!}
         <div class="starter-template">

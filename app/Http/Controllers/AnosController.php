@@ -61,7 +61,7 @@ class AnosController extends Controller
     public function create()
     {
 	$page_title ="Anos";
-	$page_description = "Novo ano";
+	$page_description = "Novo Ano";
 	$filename = "";
 
         $form = \DataForm::source(New Anohole());
@@ -87,7 +87,6 @@ class AnosController extends Controller
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
-            $form->link("/galerias/anos/create","Novo Ano");
 	    \Flash::success("Ano adicionado com sucesso!");
 	    return \Redirect::to('/galerias/anos/index');
 	});
@@ -142,20 +141,27 @@ class AnosController extends Controller
      */
     public function view($id = null, $slide = null)
     {
-	$page_title = 'Galeria';
-
-	$page_description = 'Unidades | Visualizar Galeria de '.Ano::where('id', '=', $id)->pluck('name');
+	$page_title = 'Ano';
+	$page_description = 'Visualizar Galerias do ano de '.Ano::where('id', '=', $id)->pluck('name');
 	$title = 'Unidade';
 	$route = 'unidades';
 
-        $grid = \DataGrid::source(Unidade::where('ano_id', '=', $id));
+        $filter = \DataFilter::source(Unidade::where('ano_id', '=', $id));
+	$filter->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/unidades/create?id=".$id,"Criar nova Unidade");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('cover_image', 'Foto');
         $grid->paginate(8);
 	$grid->build();
-	if ($slide)
+	if ($slide) {
 		return	view('galerias.slide', compact('filter','grid'));
+	}
 	else
 		return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }
