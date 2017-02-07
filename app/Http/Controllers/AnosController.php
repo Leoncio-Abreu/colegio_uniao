@@ -67,8 +67,8 @@ class AnosController extends Controller
         $form = \DataForm::source(New Anohole());
 	$form->link("galerias/anos/index","Voltar", "BL")->back('');
 	$form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
-	$form->add('name','Nome', 'text')->rule('required');
-	$form->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
+	$form->add('name','Titulo', 'text')->rule('required');
+	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
         }

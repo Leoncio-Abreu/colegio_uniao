@@ -18,8 +18,8 @@ class CreateAnosTable extends Migration
       $table->integer('ativo');
       $table->integer('posicao');
       $table->string('name');
-      $table->text('description');
-      $table->string('cover_image');
+      $table->text('description')->nullable();
+      $table->string('cover_image')->nullable();
       $table->timestamps();
     });
 
@@ -30,8 +30,8 @@ class CreateAnosTable extends Migration
       $table->integer('ativo');
       $table->integer('posicao');
       $table->string('name');
-      $table->text('description');
-      $table->string('cover_image');
+      $table->text('description')->nullable();
+      $table->string('cover_image')->nullable();
       $table->timestamps();
     });
 

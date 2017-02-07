@@ -240,13 +240,6 @@ class ProductionSeeder extends Seeder
             $route->save();
         }
 
-	$routeGaleriasAtividades = Route::where('name', 'like', "galerias.atividades.%")->get()->all();
-        foreach ($routeGaleriasAtividades as $route)
-        {
-            $route->permission()->associate($permBasicAuthenticated);
-            $route->save();
-        }
-
 	$routeGaleriasAlbums = Route::where('name', 'like', "galerias.albums.%")->get()->all();
         foreach ($routeGaleriasAlbums as $route)
         {

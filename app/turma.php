@@ -3,8 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Gatividade;
-use App\Unidade;
 
 class Turma extends Model
 {
@@ -17,8 +15,8 @@ class Turma extends Model
     return $this->belongsTo('App\Unidade');
   }
 
-  public function atividades(){
-    return $this->has_many('App\Gatividade');
+  public function fotos(){
+    return $this->has_many('App\Foto');
   }
 
 }

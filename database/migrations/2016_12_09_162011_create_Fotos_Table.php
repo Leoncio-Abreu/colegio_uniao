@@ -18,8 +18,8 @@ class CreateFotosTable extends Migration
       $table->integer('album_id')->references('id')->on('albums')->onDelete('CASCADE')->onUpdate('CASCADE');
       $table->integer('ativo');
       $table->integer('posicao');
-      $table->string('name');
-      $table->string('description');
+      $table->string('name')->nullable();
+      $table->string('description')->nullable();
       $table->string('cover_image');
       $table->timestamps();
     });
@@ -31,8 +31,8 @@ class CreateFotosTable extends Migration
       $table->integer('album_id')->references('id')->on('albums')->onDelete('CASCADE')->onUpdate('CASCADE');
       $table->integer('ativo');
       $table->integer('posicao');
-      $table->string('name');
-      $table->string('description');
+      $table->string('name')->nullable();
+      $table->string('description')->nullable();
       $table->string('cover_image');
       $table->timestamps();
     });

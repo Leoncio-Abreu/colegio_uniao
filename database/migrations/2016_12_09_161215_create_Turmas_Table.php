@@ -19,8 +19,8 @@ class CreateTurmasTable extends Migration
       $table->integer('ativo');
       $table->integer('posicao');
       $table->string('name');
-      $table->text('description');
-      $table->string('cover_image');
+      $table->text('description')->nullable();
+      $table->string('cover_image')->nullable();
       $table->timestamps();
     });
 
@@ -28,11 +28,12 @@ class CreateTurmasTable extends Migration
     {
       $table->engine = 'BLACKHOLE';
       $table->increments('id')->unsigned();
-      $table->integer('unidade_id')->references('id')->on('unidades')->onDelete('CASCADE')->onUpdate('CASCADE');      $table->integer('ativo');
+      $table->integer('unidade_id')->references('id')->on('unidades')->onDelete('CASCADE')->onUpdate('CASCADE');
+      $table->integer('ativo');
       $table->integer('posicao');
       $table->string('name');
-      $table->text('description');
-      $table->string('cover_image');
+      $table->text('description')->nullable();
+      $table->string('cover_image')->nullable();
       $table->timestamps();
     });
 

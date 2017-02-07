@@ -106,11 +106,6 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::any( 'galerias/turmas/store',   ['as' => 'galerias.turmas.store', 'uses' => 'TurmasController@store']);
     Route::any( 'galerias/turmas/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.turmas.edit',    'uses' => 'TurmasController@edit']);
 
-    Route::any( 'galerias/atividades/create',   ['as' => 'galerias.atividades.create', 'uses' => 'GatividadesController@create']);
-    Route::any( 'galerias/atividades/index',   ['as' => 'galerias.atividades.index', 'uses' => 'GatividadesController@index']);
-    Route::any( 'galerias/atividades/store',   ['as' => 'galerias.atividades.store', 'uses' => 'GatividadesController@store']);
-    Route::any( 'galerias/atividades/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.atividades.edit',    'uses' => 'GatividadesController@edit']);
-
     Route::any( 'galerias/albums/create',   ['as' => 'galerias.albums.create', 'uses' => 'AlbumsController@create']);
     Route::any( 'galerias/albums/index',   ['as' => 'galerias.albums.index', 'uses' => 'AlbumsController@index']);
     Route::any( 'galerias/albums/store',   ['as' => 'galerias.albums.store', 'uses' => 'AlbumsController@store']);
