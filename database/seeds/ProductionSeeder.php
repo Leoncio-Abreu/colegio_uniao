@@ -1059,48 +1059,6 @@ class ProductionSeeder extends Seeder
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.
         ]);
-        $menuGaleriaAtividades = Menu::create([
-            'name'          => 'gatividades',
-            'label'         => 'Atividades',
-            'position'      => 5,                 // Artificially high number to ensure that it is rendered last.
-            'icon'          => 'fa fa-slideshare',
-            'separator'     => false,
-            'url'           => null,                // No url.
-            'enabled'       => true,
-            'parent_id'     => $menuGaleria->id,       // Parent is root.
-            'route_id'      => null,                // No route
-            'permission_id' => $permBasicAuthenticated,                // Get permission from sub-items. If the user has permission to see/use
-                                                   // any sub-items, the admin menu will be rendered, otherwise it will
-                                                    // not.
-        ]);
-        $menuGaleriaAtividadesNovo = Menu::create([
-            'name'          => 'gatividadesnovo',
-            'label'         => 'Adicionar Atividade',
-            'position'      => 1,                 // Artificially high number to ensure that it is rendered last.
-            'icon'          => 'fa fa-slideshare',
-            'separator'     => false,
-            'url'           => null,                // No url.
-            'enabled'       => true,
-            'parent_id'     => $menuGaleriaAtividades->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.atividades.create")->get()->first()->id,                // No route
-            'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
-                                                   // any sub-items, the admin menu will be rendered, otherwise it will
-                                                    // not.
-        ]);
-        $menuGaleriaAtividadesindex = Menu::create([
-            'name'          => 'gatividadesindex',
-            'label'         => 'Ver Atividades',
-            'position'      => 2,                 // Artificially high number to ensure that it is rendered last.
-            'icon'          => 'fa fa-slideshare',
-            'separator'     => false,
-            'url'           => null,                // No url.
-            'enabled'       => true,
-            'parent_id'     => $menuGaleriaAtividades->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.atividades.index")->get()->first()->id,                // No route
-            'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
-                                                   // any sub-items, the admin menu will be rendered, otherwise it will
-                                                    // not.
-        ]);
         $menuGaleriaAlbums = Menu::create([
             'name'          => 'albums',
             'label'         => 'Albums',

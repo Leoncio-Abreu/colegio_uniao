@@ -111,11 +111,14 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::any( 'galerias/albums/store',   ['as' => 'galerias.albums.store', 'uses' => 'AlbumsController@store']);
     Route::any( 'galerias/albums/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.albums.edit',    'uses' => 'AlbumsController@edit']);
 
-    Route::any( 'galerias/fotos/create',   ['as' => 'galerias.fotos.create', 'uses' => 'FotosController@create']);
+    Route::get('galerias/fotos/upload', ['as' => 'galerias.fotos.create', 'uses' => 'ImageController@create']);
+    Route::post('galerias/fotos/upload', ['as' => 'galerias.fotos.store' , 'uses' => 'ImageController@store']);
+
+//    Route::any( 'galerias/fotos/create',   ['as' => 'galerias.fotos.create', 'uses' => 'FotosController@create']);
     Route::any( 'galerias/fotos/index',   ['as' => 'galerias.fotos.index', 'uses' => 'FotosController@index']);
-    Route::any( 'galerias/fotos/store',   ['as' => 'galerias.fotos.store', 'uses' => 'FotosController@store']);
+//    Route::any( 'galerias/fotos/store',   ['as' => 'galerias.fotos.store', 'uses' => 'FotosController@store']);
     Route::any( 'galerias/fotos/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.fotos.edit',    'uses' => 'FotosController@edit']);
-    
+
 /*    
     Route::get('galeria/createalbum', array('as' => 'galeria.create_album_form','uses' => 'AlbumsController@getForm'));
     Route::post('galeria/createalbum', array('as' => 'galeria.create_album','uses' => 'AlbumsController@postCreate'));
