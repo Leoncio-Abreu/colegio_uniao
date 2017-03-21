@@ -27,7 +27,7 @@
 
             <!-- Your Page Content Here -->
             @yield('content')
-
+			@yield('content_footer')
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 

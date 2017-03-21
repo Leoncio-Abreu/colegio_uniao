@@ -253,7 +253,14 @@ class ProductionSeeder extends Seeder
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
         }
-	
+
+	$routeGaleriasImage = Route::where('name', 'like', "galerias.image.%")->get()->all();
+        foreach ($routeGaleriasImage as $route)
+        {
+            $route->permission()->associate($permBasicAuthenticated);
+            $route->save();
+        }
+		
 /*
         $routeGaleria = Route::where('name', 'galeria.index')->get()->first();
         $routeGaleria->permission()->associate($permOpenToAll);
@@ -914,7 +921,7 @@ class ProductionSeeder extends Seeder
             'url'           => null,                // No url.
             'enabled'       => true,
             'parent_id'     => $menuGaleriaFotos->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.fotos.create")->get()->first()->id,                // No route
+            'route_id'      => Route::where('name', 'like', "galerias.image.upload")->get()->first()->id,                // No route
             'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.

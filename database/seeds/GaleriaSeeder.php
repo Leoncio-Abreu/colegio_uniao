@@ -108,7 +108,7 @@ class GaleriaSeeder extends Seeder
             'url'           => null,                // No url.
             'enabled'       => true,
             'parent_id'     => $menuGaleriaFotos->id,       // Parent is root.
-            'route_id'      => Route::where('name', 'like', "galerias.fotos.upload")->get()->first()->id,                // No route
+            'route_id'      => Route::where('name', 'like', "galerias.image.upload")->get()->first()->id,                // No route
             'permission_id' => null,                // Get permission from sub-items. If the user has permission to see/use
                                                    // any sub-items, the admin menu will be rendered, otherwise it will
                                                     // not.

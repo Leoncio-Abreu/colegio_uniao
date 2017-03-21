@@ -2,79 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use Carbon\Carbon;
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Filesystem\Factory as Storage;
-use Illuminate\Filesystem\Filesystem;
+use App\Logic\Image\ImageRepository;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
+use App\Models\Image;
+use Log;
+class ImageController extends Controller
+{
+    protected $image;
 
-class ImageController extends Controller {
-
-    /**
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function __construct(ImageRepository $imageRepository)
     {
-        return view( 'galerias.image.create' );
+        $this->image = $imageRepository;
     }
 
-    /**
-     * @param Storage $storage
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|string
-     */
-    public function store( Storage $storage, Request $request )
+    public function getUpload()
     {
-        if ( $request->isXmlHttpRequest() )
+        return view('galerias.image.upload');
+    }
+
+    public function getUpload3()
+    {
+        return view('galerias.image.upload3');
+    }
+
+    public function postUpload()
+    {
+		Log::info('postUpload');
+        $photo = Input::all();
+        $response = $this->image->upload($photo);
+        return $response;
+
+    }
+
+    public function deleteUpload()
+    {
+        Log::info('deleteUpload: '. Input::get('id'));
+		$filename = Input::get('id');
+
+        if(!$filename)
         {
-            $image = $request->file( 'image' );
-            $timestamp = $this->getFormattedTimestamp();
-            $savedImageName = $this->getSavedImageName( $timestamp, $image );
-
-            $imageUploaded = $this->uploadImage( $image, $savedImageName, $storage );
-
-            if ( $imageUploaded )
-            {
-                $data = [
-                    'original_path' => asset( '/images/' . $savedImageName )
-                ];
-                return json_encode( $data, JSON_UNESCAPED_SLASHES );
-            }
-            return "uploading failed";
+            return 0;
         }
 
-    }
+        $response = $this->image->delete( $filename );
 
-
-    /**
-     * @param $image
-     * @param $imageFullName
-     * @param $storage
-     * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function uploadImage( $image, $imageFullName, $storage )
-    {
-        $filesystem = new Filesystem;
-        return $storage->disk( 'image' )->put( $imageFullName, $filesystem->get( $image ) );
+        return $response;
     }
 
     /**
-     * @return string
+     * Part 2 - Display already uploaded images in Dropzone
      */
-    protected function getFormattedTimestamp()
+
+    public function getServerImagesPage()
     {
-        return str_replace( [' ', ':'], '-', Carbon::now()->toDateTimeString() );
+        return view('galerias.image.upload-2');
     }
 
-    /**
-     * @param $timestamp
-     * @param $image
-     * @return string
-     */
-    protected function getSavedImageName( $timestamp, $image )
+    public function getServerImages()
     {
-        return $timestamp . '-' . $image->getClientOriginalName();
+        $images = Image::get(['original_name', 'filename']);
+
+        $imageAnswer = [];
+
+        foreach ($images as $image) {
+            $imageAnswer[] = [
+                'original' => $image->original_name,
+                'server' => $image->filename,
+                'size' => File::size(public_path('images/full_size/' . $image->filename))
+            ];
+        }
+
+        return response()->json([
+            'images' => $imageAnswer
+        ]);
     }
 }

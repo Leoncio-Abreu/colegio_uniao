@@ -45,7 +45,8 @@
         "tylercd100/lern": "~3.6.5",
         "arcanedev/settings": "^1.2",
         "libern/laravel-sql-logging": "^1.0@dev",
-	"anhskohbo/no-captcha": "^2.1"
+	"anhskohbo/no-captcha": "^2.1",
+        "enyo/dropzone": "^4.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
