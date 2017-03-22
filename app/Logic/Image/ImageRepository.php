@@ -33,7 +33,8 @@ class ImageRepository
         $extension = $photo->getClientOriginalExtension();
         $originalNameWithoutExt = substr($originalName, 0, strlen($originalName) - strlen($extension) - 1);
 
-        $filename = $this->sanitize($originalNameWithoutExt);
+//        $filename = $this->sanitize($originalNameWithoutExt);
+        $filename = $originalNameWithoutExt;
         $allowed_filename = $this->createUniqueFilename( $filename, $extension );
 
         $uploadSuccess1 = $this->original( $photo, $allowed_filename );
@@ -108,12 +109,12 @@ class ImageRepository
      */
     public function delete( $filename )
     {
-		Log::info('delete: '. $filename);
+	Log::info('delete1: '. $filename);
         $full_size_dir = Config::get('images.full_size');
         $icon_size_dir = Config::get('images.icon_size');
 
         $sessionImage = Image::where('filename', 'like', $filename)->first();
-
+	Log::info('delete2: '. $sessionImage->filename);
 
         if(empty($sessionImage))
         {
@@ -124,9 +125,10 @@ class ImageRepository
 
         }
 
+
         $full_path1 = $full_size_dir . $sessionImage->filename;
         $full_path2 = $icon_size_dir . $sessionImage->filename;
-
+	Log::info('delete3: '. $full_path1. ' ' .$full_path1);
         if ( File::exists( $full_path1 ) )
         {
             File::delete( $full_path1 );

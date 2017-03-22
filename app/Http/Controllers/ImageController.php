@@ -28,7 +28,7 @@ class ImageController extends Controller
 
     public function postUpload()
     {
-		Log::info('postUpload');
+//	Log::info('postUpload', Input::get('file'));
         $photo = Input::all();
         $response = $this->image->upload($photo);
         return $response;
@@ -37,8 +37,9 @@ class ImageController extends Controller
 
     public function deleteUpload()
     {
-        Log::info('deleteUpload: '. Input::get('id'));
-		$filename = Input::get('id');
+//        Log::info('deleteUpload0: ', Input::all());
+        Log::info('deleteUpload1: '. Input::get('id'));
+	$filename = Input::get('id');
 
         if(!$filename)
         {

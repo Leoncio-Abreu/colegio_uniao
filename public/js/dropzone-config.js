@@ -7,18 +7,19 @@ Dropzone.options.realDropzone = {
     previewsContainer: '#dropzonePreview',
     previewTemplate: document.querySelector('#preview-template').innerHTML,
     addRemoveLinks: true,
-    dictRemoveFile: 'Remove',
+    dictRemoveFile: 'Deletar',
     dictFileTooBig: 'Image is bigger than 8MB',
+//    renameFilename: function (filename) {
+//            return new Date().getTime() + '_' + filename;
+//        },
 
     // The setting up of the dropzone
     init:function() {
-
         this.on("removedfile", function(file) {
-
             $.ajax({
                 type: 'POST',
                 url: 'upload/delete',
-                data: {id: file.name, _token: $('_token').val()},
+                data: {id: $('.serverfilename', file.previewElement).val(), _token: $('_token').val()},
                 dataType: 'html',
                 success: function(data){
                     var rep = JSON.parse(data);
@@ -47,10 +48,10 @@ Dropzone.options.realDropzone = {
         }
         return _results;
     },
-    success: function(file,done) {
-        photo_counter++;
-        $("#photoCounter").text( "(" + photo_counter + ")");
+    
+    success: function(file,response) {
+          $('.serverfilename', file.previewElement).val(response.filename);
+          photo_counter++;
+          $("#photoCounter").text( "(" + photo_counter + ")");
     }
 }
-
-
