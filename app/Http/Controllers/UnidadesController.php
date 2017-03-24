@@ -20,15 +20,15 @@ class UnidadesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($ano_id=0)
     {
         $page_title = 'Unidades';
 	$page_description = 'Pesquisar Unidades';
 	$title = 'Unidades';
 	$route = 'unidades';
 
-        $filter = \DataFilter::source(new Unidade());
-	$filter->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('ano_id'));
+        $filter = \DataFilter::source(new Unidade);
+	$filter->add('ano_id','Ano','select')->option("","Todos os Anos")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');
         $filter->link("galerias/unidades/create?id=".\Input::get('ano_id'),"Criar nova Unidade");
@@ -62,15 +62,15 @@ class UnidadesController extends Controller
     public function create()
     {
 	$page_title ="Unidades";
-	$page_description = "Nova Unidade";
+	$page_description = "Adicionar Unidade";
 	$filename = '';
 
-	$form = \DataForm::source(New Unidadehole());
+	$form = \DataForm::source(New Unidade());
 	$form->link("galerias/unidades/index","Voltar", "BL")->back('');
 	$form->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::lists('name','id'))->insertValue(\Input::get('id'));
         $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$form->add('name','Nome', 'text')->rule('required');
-	$form->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
+	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
         }
@@ -88,9 +88,9 @@ class UnidadesController extends Controller
 	    })->move(public_path().'/galeria/unidades/',$filename)->preview(120,80);
 	$form->submit('Salvar');
 
-        $form->saved(function () use ($form) {
+	$form->saved(function () use ($form) {
 	    \Flash::success("Unidade adicionada com sucesso!");
-	    return \Redirect::to('/galerias/unidades/index?id={{$ano_id}}');
+	    return \Redirect::to('/galerias/unidades/index?id='.$form->field('ano_id')->value);
 	});
 	$form->build();
         return $form->view('galerias.create', compact('form', 'page_title', 'page_description'));
@@ -109,11 +109,11 @@ class UnidadesController extends Controller
 	$filename = '';
 
         $edit = \DataEdit::source(New Unidade());
-	$edit->link("galerias/unidades/index","Voltar", "BL")->back('');
+	$edit->link("galerias/unidades/index","Cancelar", "BL")->back('');
         $edit->add('ano_id','Ano', 'select')->rule('required');
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$edit->add('name','Unidade', 'text')->rule('required');
-	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
+	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
         }
@@ -144,13 +144,13 @@ class UnidadesController extends Controller
      */
     public function view($id = null)
     {
-        $page_title = 'Unidades';
-	$page_description = 'Visualizar galerias da '.Unidade::where('id', '=', $id)->pluck('name');
+        $page_title = 'Galerias da '.Unidade::where('id', '=', $id)->pluck('name');
+	$page_description = '';
 	$title = 'Turma';
 	$route = 'turmas';
 
         $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id));
-	$filter->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');
         $filter->link("galerias/turmas/create?id=".$id,"Criar nova Turma");
@@ -160,7 +160,7 @@ class UnidadesController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('cover_image', 'Foto');
-        $grid->paginate(8);
+        $grid->paginate(10);
 	$grid->build();
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
     }

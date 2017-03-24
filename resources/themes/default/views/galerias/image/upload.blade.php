@@ -16,7 +16,7 @@
 
                 <h3>Images <span id="photoCounter"></span></h3>
                 <br />
-
+			
                 {!! Form::open(['url' => route('galerias.image.upload-post'), 'class' => 'dropzone', 'files'=>true, 'id'=>'real-dropzone']) !!}
 
                 <div class="dz-message">
@@ -24,7 +24,8 @@
                 </div>
 
                 <div class="fallback">
-                    <input name="file" type="file" multiple />
+		    <input name="file" type="file" multiple />
+		    <input type="hidden" id="albums" name="albums" value="1">
                 </div>
 
                 <div class="dropzone-previews" id="dropzonePreview"></div>

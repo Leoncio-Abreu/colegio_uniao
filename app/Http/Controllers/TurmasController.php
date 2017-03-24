@@ -62,7 +62,7 @@ class TurmasController extends Controller
     public function create()
     {
 	$page_title ="Turmas";
-	$page_description = "Nova turma";
+	$page_description = "Adicionar turma";
 	$filename = "";
 
         $form = \DataForm::source(New Turmahole());
@@ -70,7 +70,7 @@ class TurmasController extends Controller
 	$form->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::lists('name','id'))->insertValue(\Input::get('id'));
         $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
 	$form->add('name','Turma', 'text')->rule('required');
-	$form->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
+	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
         }
@@ -113,7 +113,7 @@ class TurmasController extends Controller
         $edit->add('unidade_id','Unidade', 'select')->rule('required')->options(Unidade::lists('name','id'));
         $edit->add('ativo','Ativar', 'checkbox');
 	$edit->add('name','Nome', 'text')->rule('required');
-	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
+	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
         }

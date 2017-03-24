@@ -11,6 +11,7 @@ use App\Anohole;
 use Zofe\Rapyd\Rapyd;
 use Image;
 use App\Unidade;
+use App\Turma;
 
 class AnosController extends Controller
 {
@@ -61,13 +62,13 @@ class AnosController extends Controller
     public function create()
     {
 	$page_title ="Anos";
-	$page_description = "Novo Ano";
+	$page_description = "Adicionar Ano";
 	$filename = "";
 
-        $form = \DataForm::source(New Anohole());
+        $form = \DataForm::source(New Ano());
 	$form->link("galerias/anos/index","Voltar", "BL")->back('');
 	$form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
-	$form->add('name','Titulo', 'text')->rule('required');
+	$form->add('name','Titulo', 'text')->rule('required|unique:anos,name');
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
@@ -86,6 +87,127 @@ class AnosController extends Controller
 	    })->move(public_path().'/galeria/anos/',$filename)->preview(120,80);
 	$form->submit('Salvar');
 
+	Ano::created(function ($ano){
+	    $unidade1 = new Unidade;
+	    $unidade1->ano_id=$ano->id;
+	    $unidade1->name = "Unidade I";
+	    $unidade1->posicao = 2;
+	    $unidade1->save();
+
+	    $unidade2 = new Unidade;
+	    $unidade2->ano_id=$ano->id;
+	    $unidade2->name = "Unidade II";
+	    $unidade2->posicao = 1;
+	    $unidade2->save();
+
+	    $turma1 = new Turma;
+	    $turma1->unidade_id=$unidade1->id;
+	    $turma1->name = "Maternal I";
+	    $turma1->posicao = 10;
+	    $turma1->save();
+
+	    $turma2 = new Turma;
+	    $turma2->unidade_id=$unidade1->id;
+	    $turma2->name = "Maternal II";
+	    $turma2->posicao = 9;
+	    $turma2->save();
+
+	    $turma3 = new Turma;
+	    $turma3->unidade_id=$unidade1->id;
+	    $turma3->name = "1º Período";
+	    $turma3->posicao = 8;
+	    $turma3->save();
+
+	    $turma4 = new Turma;
+	    $turma4->unidade_id=$unidade1->id;
+	    $turma4->name = "2º Período";
+	    $turma4->posicao = 7;
+	    $turma4->save();
+
+	    $turma5 = new Turma;
+	    $turma5->unidade_id=$unidade1->id;
+	    $turma5->name = "1º Ano";
+	    $turma5->posicao = 6;
+	    $turma5->save();
+
+	    $turma6 = new Turma;
+	    $turma6->unidade_id=$unidade1->id;
+	    $turma6->name = "2º Ano";
+	    $turma6->posicao = 5;
+	    $turma6->save();
+	    
+	    $turma7 = new Turma;
+	    $turma7->unidade_id=$unidade1->id;
+	    $turma7->name = "3º Ano";
+	    $turma7->posicao = 4;
+	    $turma7->save();
+	    
+	    $turma8 = new Turma;
+	    $turma8->unidade_id=$unidade1->id;
+	    $turma8->name = "4º Ano";
+	    $turma8->posicao = 3;
+	    $turma8->save();
+	    
+	    $turma9 = new Turma;
+	    $turma9->unidade_id=$unidade1->id;
+	    $turma9->name = "5º Ano";
+	    $turma9->posicao = 2;
+	    $turma9->save();
+
+	    $turma10 = new Turma;
+	    $turma10->unidade_id=$unidade1->id;
+	    $turma10->name = "Atividades Extra";
+	    $turma10->posicao = 1;
+	    $turma10->save();
+
+	    $turma11 = new Turma;
+	    $turma11->unidade_id=$unidade2->id;
+	    $turma11->name = "6º Ano";
+	    $turma11->posicao = 8;
+	    $turma11->save();
+
+	    $turma12 = new Turma;
+	    $turma12->unidade_id=$unidade2->id;
+	    $turma12->name = "7º Ano";
+	    $turma12->posicao = 7;
+	    $turma12->save();
+
+	    $turma13 = new Turma;
+	    $turma13->unidade_id=$unidade2->id;
+	    $turma13->name = "8º Ano";
+	    $turma13->posicao = 6;
+	    $turma13->save();
+
+	    $turma14 = new Turma;
+	    $turma14->unidade_id=$unidade2->id;
+	    $turma14->name = "9º Ano";
+	    $turma14->posicao = 5;
+	    $turma14->save();
+
+	    $turma15 = new Turma;
+	    $turma15->unidade_id=$unidade2->id;
+	    $turma15->name = "1ª Série EM";
+	    $turma15->posicao = 4;
+	    $turma15->save();
+
+	    $turma16 = new Turma;
+	    $turma16->unidade_id=$unidade2->id;
+	    $turma16->name = "2ª Série EM";
+	    $turma16->posicao = 3;
+	    $turma16->save();
+	    
+	    $turma17 = new Turma;
+	    $turma17->unidade_id=$unidade2->id;
+	    $turma17->name = "3º Série EM";
+	    $turma17->posicao = 2;
+	    $turma17->save();
+	    
+	    $turma18 = new Turma;
+	    $turma18->unidade_id=$unidade2->id;
+	    $turma18->name = "Atividades Extra";
+	    $turma18->posicao = 1;
+	    $turma18->save();
+	});
         $form->saved(function () use ($form) {
 	    \Flash::success("Ano adicionado com sucesso!");
 	    return \Redirect::to('/galerias/anos/index');
@@ -107,10 +229,10 @@ class AnosController extends Controller
 	$filename = "";
 
         $edit = \DataEdit::source(New Ano());
-	$edit->link("galerias/anos/index","Voltar", "BL")->back('');
+	$edit->link("galerias/anos/index","Cancelar", "BL")->back('');
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$edit->add('name','Nome', 'text')->rule('required');
-	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->rule('required');
+	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
         }
@@ -157,7 +279,7 @@ class AnosController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('cover_image', 'Foto');
-        $grid->paginate(8);
+        $grid->paginate(10);
 	$grid->build();
 	if ($slide) {
 		return	view('galerias.slide', compact('filter','grid'));

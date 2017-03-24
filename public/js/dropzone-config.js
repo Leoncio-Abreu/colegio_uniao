@@ -1,4 +1,5 @@
 var photo_counter = 0;
+var albums=0;
 Dropzone.options.realDropzone = {
 
     uploadMultiple: false,
@@ -9,6 +10,10 @@ Dropzone.options.realDropzone = {
     addRemoveLinks: true,
     dictRemoveFile: 'Deletar',
     dictFileTooBig: 'Image is bigger than 8MB',
+    sending: function(file, xhr, formData){
+	albums = document.getElementById('albums').value;
+        formData.append('albums', albums);
+    },
 //    renameFilename: function (filename) {
 //            return new Date().getTime() + '_' + filename;
 //        },

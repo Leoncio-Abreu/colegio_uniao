@@ -28,12 +28,13 @@ class ImageRepository
         }
 
         $photo = $form_data['file'];
-
+//	$album = $form_data['albums'];	
+//	Log::info('Upload '.$album);
         $originalName = $photo->getClientOriginalName();
         $extension = $photo->getClientOriginalExtension();
         $originalNameWithoutExt = substr($originalName, 0, strlen($originalName) - strlen($extension) - 1);
 
-//        $filename = $this->sanitize($originalNameWithoutExt);
+        $filename = $this->sanitize($originalNameWithoutExt);
         $filename = $originalNameWithoutExt;
         $allowed_filename = $this->createUniqueFilename( $filename, $extension );
 
