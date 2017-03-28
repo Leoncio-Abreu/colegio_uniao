@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Zofe\Rapyd\Rapyd;
 use Image;
-use App\Gatividade;
+use App\Turma;
 use App\Album;
 use App\Albumhole;
 use App\Foto;
@@ -28,7 +28,7 @@ class AlbumsController extends Controller
 	$route = 'albums';
 
         $filter = \DataFilter::source(new Album());
-	$filter->add('atividade_id','Atividade','select')->rule('required')->option("","")->options(Gatividade::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('atividade_id'));
+	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Turma::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
         $filter->submit('Procurar');
         $filter->reset('Resetar');
         $filter->link("galerias/albums/create","Novo Album");
@@ -49,9 +49,11 @@ class AlbumsController extends Controller
 			return '<img src="/galerias/albums/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-        $grid->paginate(8);
+        $grid->paginate(10);
         $grid->build();
-	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
+	$back = '';
+	$id = '';
+	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','back','id'));
     }
 
     /**
@@ -65,11 +67,11 @@ class AlbumsController extends Controller
 	$page_description = "Novo album";
 	$filename = "";
 
-        $form = \DataForm::source(New Albumhole());
+        $form = \DataForm::source(New Album());
 	$form->link("galerias/albums/index","Voltar", "BL")->back('');
-	$form->add('atividade_id','Atividades','select')->rule('required')->option("","")->options(Gatividade::lists('name','id'))->insertValue(\Input::get('id'));
+	$form->add('turma_id','','hidden')->insertValue(\Input::get('id'));
         $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
-	$form->add('name','Album', 'text');
+	$form->add('name','Album', 'text')->rule('required|unique:albums,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
@@ -89,8 +91,13 @@ class AlbumsController extends Controller
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
+	Album::created(function ($album){
+	    $pos = \DB::table('albums')->where('turma_id', '=', \Input::get('id'))->max('posicao');
+	    $album->posicao=$pos+1;
+	    $album->save();
+	});
 	    \Flash::success("Album adicionada com sucesso!");
-	    return \Redirect::to('/galerias/albums/index');
+	    return \Redirect::to('/galerias/view/turmas/'.\Input::get('id'));
 	});
 	$form->build();
         return $form->view('galerias.create', compact('form', 'page_title', 'page_description'));
@@ -109,10 +116,10 @@ class AlbumsController extends Controller
 	$filename = "";
 
         $edit = \DataEdit::source(New Album());
-	$edit->link("galerias/albums/index","Voltar", "BL")->back('');
-        $edit->add('atividade_id','Atividade', 'select')->rule('required')->options(Gatividade::lists('name','id'));
+	$edit->link("galerias/view/turmas/".$edit->model['turma_id'],"Voltar", "BL")->back('');
+       	$edit->add('turma_id','','hidden');
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
-	$edit->add('name','Nome', 'text');
+	$edit->add('name','Nome', 'text')->rule('required|unique:albums,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('cover_image')){
     	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
@@ -133,7 +140,7 @@ class AlbumsController extends Controller
 	    })->move(public_path().'/galeria/albums/',$filename)->preview(120,80);
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Album atualizada com sucesso!");
-		return \Redirect::to('galerias/albums/index');
+		return \Redirect::to('galerias/view/albums/'.$edit->model['id']);
         });
 	$edit->build();
 	return $edit->view('galerias.create', compact('edit', 'page_title', 'page_description'));
@@ -147,15 +154,15 @@ class AlbumsController extends Controller
     public function view($id = null)
     {
         $page_title = 'Fotos';
-	$page_description = 'Visualizar Galeria da(o) '.Gatividade::where('id', '=', $id)->pluck('name');
+	$page_description = '';
 	$title = 'Fotos';
 	$route = 'imagems';
 
-        $filter = \DataFilter::source(Foto::where('atividade_id', '=', $id));
-	$filter->add('atividade_id','Atividade','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+        $filter = \DataFilter::source(Foto::where('album_id', '=', $id));
+	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');
-        $filter->link("galerias/albums/create?id=".$id,"Criar novo Album");
+        $filter->link("galerias/fotos/upload?id=".$id,"Adicionar Fotos");
         $filter->build();
 
         $grid = \DataGrid::source($filter);
@@ -164,7 +171,8 @@ class AlbumsController extends Controller
 	$grid->add('cover_image', 'Foto');
         $grid->paginate(8);
 	$grid->build();
-	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route'));
+	$back = 'turmas';
+	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back','id'));
     }
 
 }

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use App\Models\Image;
-use Log;
 
 class ImageRepository
 {
@@ -28,8 +27,6 @@ class ImageRepository
         }
 
         $photo = $form_data['file'];
-//	$album = $form_data['albums'];	
-//	Log::info('Upload '.$album);
         $originalName = $photo->getClientOriginalName();
         $extension = $photo->getClientOriginalExtension();
         $originalNameWithoutExt = substr($originalName, 0, strlen($originalName) - strlen($extension) - 1);
@@ -51,10 +48,13 @@ class ImageRepository
             ], 500);
 
         }
-
-        $sessionImage = new Image;
-        $sessionImage->filename      = $allowed_filename;
-        $sessionImage->original_name = $originalName;
+        
+	$pos = \DB::table('images')->where('album_id', '=', $form_data['album'])->max('posicao');
+	$sessionImage = new Image;
+	$sessionImage->ativo = 1;
+	$sessionImage->posicao = $pos + 1;	
+	$sessionImage->album_id = $form_data['album'];
+        $sessionImage->cover_image = $allowed_filename;
         $sessionImage->save();
 
         return Response::json([

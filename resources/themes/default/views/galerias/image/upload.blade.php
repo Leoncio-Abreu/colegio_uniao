@@ -25,7 +25,7 @@
 
                 <div class="fallback">
 		    <input name="file" type="file" multiple />
-		    <input type="hidden" id="albums" name="albums" value="1">
+		    <input type="hidden" id="album" name="album" value="{{\Input::get('id')}}">
                 </div>
 
                 <div class="dropzone-previews" id="dropzonePreview"></div>

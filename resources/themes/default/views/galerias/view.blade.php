@@ -70,11 +70,6 @@ $(document).ready(function() {
 @if (Auth::user())
 @if(!is_null($filter)){!! $filter !!}@endif
 @endif
-@if($back <> '')
-	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
-@else
-	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
-@Endif
 <div class="container">
 	{!! $grid->paginator->render() !!}
         <div class="starter-template">
@@ -107,7 +102,6 @@ $(document).ready(function() {
 						@endif
 						@if (Auth::user())
 						<p><a href="/galerias/{{$route}}/edit?modify={{$album->id}}" class="btn btn-big btn-default">Editar {{ $title }}</a></p>
-						<p><a href="/galerias/{{$route}}/edit?delete={{$album->id}}" class="btn btn-big btn-default">Deletar {{ $title }}</a></p>
 						<div class="clearfix">
 							<a class="btn btn-warning pull-left" href="/posicao/galerias.{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>
 							<a class="btn btn-warning pull-right" href="/posicao/galerias.{{$route}}/down/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
@@ -123,9 +117,6 @@ $(document).ready(function() {
     
 	{!! $grid->paginator->render() !!}
 </div><!-- /.container -->
-@if($back <> '')
-	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
-@else
-	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
-@Endif
+<p><a href="/galerias/view/{{$title}}/" class="btn btn-big btn-default">Voltar</a></p>
+{!! link_to(\URL::previous(), 'Voltar', ['class' => 'btn btn-default']) !!}
 @endsection

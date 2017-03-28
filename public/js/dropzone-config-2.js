@@ -7,23 +7,36 @@ Dropzone.options.realDropzone = {
     previewsContainer: '#dropzonePreview',
     previewTemplate: document.querySelector('#preview-template').innerHTML,
     addRemoveLinks: true,
-    dictRemoveFile: 'Deletar',
+    dictRemoveFile: 'Remove',
     dictFileTooBig: 'Image is bigger than 8MB',
-    sending: function(file, xhr, formData){
-	album = $('#album').val();
-        formData.append('album', album);
-    },
-//    renameFilename: function (filename) {
-//            return new Date().getTime() + '_' + filename;
-//        },
+    dictRemoveFileConfirmation: "Are you sure you wish to delete this image?",
 
     // The setting up of the dropzone
     init:function() {
+
+        // Add server images
+        var myDropzone = this;
+
+        $.get('/server-images', function(data) {
+
+            $.each(data.images, function (key, value) {
+
+                var file = {name: value.original, size: value.size};
+                myDropzone.options.addedfile.call(myDropzone, file);
+                myDropzone.createThumbnailFromUrl(file, 'images/icon_size/' + value.server);
+                myDropzone.emit("complete", file);
+                $('.serverfilename', file.previewElement).val(value.server);
+                photo_counter++;
+                $("#photoCounter").text( "(" + photo_counter + ")");
+            });
+        });
+
         this.on("removedfile", function(file) {
+
             $.ajax({
                 type: 'POST',
                 url: 'upload/delete',
-                data: {id: $('.serverfilename', file.previewElement).val(), _token: $('_token').val()},
+                data: {id: $('.serverfilename', file.previewElement).val() , _token: $('#csrf-token').val()},
                 dataType: 'html',
                 success: function(data){
                     var rep = JSON.parse(data);
@@ -52,10 +65,12 @@ Dropzone.options.realDropzone = {
         }
         return _results;
     },
-    
     success: function(file,response) {
-          $('.serverfilename', file.previewElement).val(response.filename);
-          photo_counter++;
-          $("#photoCounter").text( "(" + photo_counter + ")");
+        $('.serverfilename', file.previewElement).val(response.filename);
+        photo_counter++;
+        $("#photoCounter").text( "(" + photo_counter + ")");
     }
 }
+
+
+

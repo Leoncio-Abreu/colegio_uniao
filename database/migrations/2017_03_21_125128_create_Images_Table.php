@@ -14,8 +14,12 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('original_name');
-            $table->text('filename');
+	    $table->integer('album_id')->references('id')->on('albums')->onDelete('CASCADE')->onUpdate('CASCADE');
+      	    $table->integer('ativo');
+            $table->integer('posicao')->nullable();
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->string('cover_image');
             $table->timestamps();
         });
     }
