@@ -55,6 +55,42 @@ class AnosController extends Controller
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','id','back'));
     }
 
+    public function indexu()
+    {
+        $page_title = 'Anos';
+	$page_description = 'Pesquisar anos';
+	$title = 'Anos';
+	$route = 'anos';
+
+        $filter = \DataFilter::source(Ano::where('ativo','=',1));
+	$filter->add('id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'));
+        $filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/anos/create","Criar novo Ano");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
+	$grid->attributes(array("class"=>"table table-striped", 'align'=>'center', 'valign' => 'middle'));
+	$grid->add('<a class="" title="Mover para cima" href="/posicao/galerias.anos/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/galerias.anos/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao')->style("text-align: center; vertical-align: middle;");
+        $grid->add('ativo','Ativar', 'true')->cell( function ($value) {
+		if ($value == 1) {
+			return '<i class="fa fa-toggle-on" aria-hidden="true" style="color:green"></i>';
+		}
+		else return '<i class="fa fa-toggle-off" aria-hidden="true" style="color:red"></i>';
+    	})->style("text-align: center; vertical-align: middle;");
+	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
+	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
+			return '<img src="/galeria/anos/120x80_'.$value.'" height="120px">';
+	})->style("text-align: center; vertical-align: middle;");
+        $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
+        $grid->paginate(10);
+	$grid->build();
+	$back = '';
+	$id = '';
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','id','back'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -288,7 +324,7 @@ class AnosController extends Controller
     public function view($id = null)
     {
 	$page_title = 'Unidades';
-	$page_description = 'Visualizar Galerias do ano de '.Ano::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando galerias do ano de '.Ano::where('id', '=', $id)->pluck('name');
 	$title = 'Unidade';
 	$route = 'unidades';
 	
@@ -309,4 +345,28 @@ class AnosController extends Controller
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'id', 'back'));
     }
 
+    public function viewu($id = null)
+    {
+	$page_title = 'Unidades';
+	$page_description = 'Visualizando galerias do ano de '.Ano::where('id', '=', $id)->pluck('name');
+	$title = 'Unidade';
+	$route = 'unidades';
+	
+        $filter = \DataFilter::source(Unidade::where('ano_id', '=', $id)->where('ativo','=',1));
+	$filter->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/unidades/create?id=".$id,"Criar nova Unidade");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
+	$grid->add('name','Nome', true);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('cover_image', 'Foto');
+        $grid->paginate(10);
+	$grid->build();
+	$back = '';
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'id', 'back'));
+    }
+    
 }

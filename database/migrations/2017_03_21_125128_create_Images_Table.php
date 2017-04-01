@@ -19,7 +19,7 @@ class CreateImagesTable extends Migration
             $table->integer('posicao')->nullable();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
-            $table->string('cover_image');
+            $table->string('filename');
             $table->timestamps();
         });
     }

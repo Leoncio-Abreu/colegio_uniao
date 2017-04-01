@@ -172,4 +172,29 @@ class UnidadesController extends Controller
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','id', 'back'));
     }
 
+    public function viewu($id = null)
+    {
+        $page_title = 'Turmas';
+	$page_description = 'Galerias da '.Unidade::where('id', '=', $id)->pluck('name');
+	$title = 'Turma';
+	$route = 'turmas';
+	
+        $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id)->where('ativo','=',1));
+	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/turmas/create?id=".$id,"Criar nova Turma");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
+	$grid->add('name','Nome', true);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('cover_image', 'Foto');
+        $grid->paginate(10);
+	$grid->build();
+	$back = 'anos';
+	$id = Unidade::where('id', '=', $id)->pluck('ano_id');
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','id', 'back'));
+    }
+    
 }

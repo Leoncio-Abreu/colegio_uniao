@@ -3,19 +3,16 @@ Dropzone.options.realDropzone = {
 
     uploadMultiple: false,
     parallelUploads: 100,
-    maxFilesize: 8,
+    maxFilesize: 100,
     previewsContainer: '#dropzonePreview',
     previewTemplate: document.querySelector('#preview-template').innerHTML,
     addRemoveLinks: true,
     dictRemoveFile: 'Deletar',
     dictFileTooBig: 'Image is bigger than 8MB',
     sending: function(file, xhr, formData){
-	album = $('#album').val();
+	album = $('#album').val();alert(album);
         formData.append('album', album);
     },
-//    renameFilename: function (filename) {
-//            return new Date().getTime() + '_' + filename;
-//        },
 
     // The setting up of the dropzone
     init:function() {

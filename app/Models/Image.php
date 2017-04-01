@@ -11,7 +11,7 @@ class Image extends Model
     ];
 
     public static $messages = [
-        'file.mimes' => 'Uploaded file is not in image format',
-        'file.required' => 'Image is required'
+        'file.mimes' => 'O arquivo enviado não está no formato de imagem. (png,gif,jpeg,jpg,bmp)',
+        'file.required' => 'A imagem é necessária'
     ];
 }

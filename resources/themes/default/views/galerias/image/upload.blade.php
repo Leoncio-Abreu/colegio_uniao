@@ -3,13 +3,10 @@
 @section('head_extra')
     {!! Html::style('/packages/dropzone/dropzone.css') !!}
 @stop
-@section('content_footer')
-    {!! Html::script('/packages/dropzone/dropzone.js') !!}
-    {!! Html::script('/js/dropzone-config.js') !!}
-@stop
 
 @section('content')
 <div class="container">
+<input type="hidden" id="album" name="album" value="{{\Input::get('id')}}">
 <div class="row">
         <div class="col-md-offset-1 col-md-10">
             <div class="jumbotron how-to-create" >
@@ -25,7 +22,6 @@
 
                 <div class="fallback">
 		    <input name="file" type="file" multiple />
-		    <input type="hidden" id="album" name="album" value="{{\Input::get('id')}}">
                 </div>
 
                 <div class="dropzone-previews" id="dropzonePreview"></div>
@@ -37,8 +33,8 @@
             </div>
             <div class="jumbotron how-to-create">
                 <ul>
-                    <li>Images are uploaded as soon as you drop them</li>
-                    <li>Maximum allowed size of image is 8MB</li>
+                    <li>As imagens são enviadas assim que você as soltar</li>
+                    <li>O tamanho máximo permitido da imagem é 8MB</li>
                 </ul>
 
             </div>
@@ -92,3 +88,8 @@
 {!! Form::hidden('csrf-token', csrf_token(), ['id' => 'csrf-token']) !!}
 </div>
 @stop
+@section('content_footer')
+    {!! Html::script('/packages/dropzone/dropzone.js') !!}
+    {!! Html::script('/js/dropzone-config.js') !!}
+@stop
+

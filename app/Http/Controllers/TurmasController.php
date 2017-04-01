@@ -173,4 +173,29 @@ class TurmasController extends Controller
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back', 'id'));
     }
 
+    public function viewu($id)
+    {
+        $page_title = 'Albums';
+	$page_description = 'Visualizar Galeria do '.Turma::where('id', '=', $id)->pluck('name');
+	$title = 'Albums';
+	$route = 'albums';
+
+        $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->where('ativo','=',1));
+	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/albums/create?id=".$id,"Criar novo Album");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter);
+	$grid->add('name','Nome', true);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('cover_image', 'Foto');
+        $grid->paginate(10);
+	$grid->build();
+	$back = 'unidades';
+	$id = Turma::where('id', '=', $id)->pluck('unidade_id');
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back', 'id'));
+    }
+    
 }

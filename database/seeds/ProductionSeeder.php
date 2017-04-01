@@ -212,20 +212,20 @@ class ProductionSeeder extends Seeder
             $route->save();
         }
 
-	$routeGaleriasView = Route::where('name', 'like', "galerias.view.%")->get()->all();
+	$routeGaleriasView = Route::where('name', 'like', "galeria.%")->get()->all();
         foreach ($routeGaleriasView as $route)
         {
             $route->permission()->associate($permOpenToAll);
             $route->save();
         }
 
-	$routeGaleriasAnos = Route::where('name', 'like', "galerias.anos.%")->get()->all();
+	$routeGaleriasAnos = Route::where('name', 'like', "galerias.%")->get()->all();
         foreach ($routeGaleriasAnos as $route)
         {
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
         }
-
+/*
 	$routeGaleriasUnidades = Route::where('name', 'like', "galerias.unidades.%")->get()->all();
         foreach ($routeGaleriasUnidades as $route)
         {
@@ -260,7 +260,7 @@ class ProductionSeeder extends Seeder
             $route->permission()->associate($permBasicAuthenticated);
             $route->save();
         }
-		
+*/		
 /*
         $routeGaleria = Route::where('name', 'galeria.index')->get()->first();
         $routeGaleria->permission()->associate($permOpenToAll);
