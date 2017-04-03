@@ -48,7 +48,6 @@ class AnosController extends Controller
 			return '<img src="/galeria/anos/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-        $grid->paginate(10);
 	$grid->build();
 	$back = '';
 	$id = '';
@@ -84,7 +83,6 @@ class AnosController extends Controller
 			return '<img src="/galeria/anos/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-        $grid->paginate(10);
 	$grid->build();
 	$back = '';
 	$id = '';
@@ -325,8 +323,8 @@ class AnosController extends Controller
      */
     public function view($id = null)
     {
-	$page_title = 'Unidades';
-	$page_description = 'Visualizando galerias do ano de '.Ano::where('id', '=', $id)->pluck('name');
+	$page_title = Ano::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Unidades do ano de '.Ano::where('id', '=', $id)->pluck('name');
 	$title = 'Unidade';
 	$route = 'unidades';
 	
@@ -341,7 +339,6 @@ class AnosController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(10);
 	$grid->build();
 	$back = '';
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'id', 'back'));
@@ -349,8 +346,8 @@ class AnosController extends Controller
 
     public function viewu($id = null)
     {
-	$page_title = 'Unidades';
-	$page_description = 'Visualizando galerias do ano de '.Ano::where('id', '=', $id)->pluck('name');
+	$page_title = Ano::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Unidades do ano de '.Ano::where('id', '=', $id)->pluck('name');
 	$title = 'Unidade';
 	$route = 'unidades';
 	
@@ -365,7 +362,6 @@ class AnosController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(10);
 	$grid->build();
 	$back = '';
 	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'id', 'back'));

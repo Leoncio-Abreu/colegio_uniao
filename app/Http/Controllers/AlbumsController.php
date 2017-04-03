@@ -48,7 +48,6 @@ class AlbumsController extends Controller
 			return '<img src="/galerias/albums/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-        $grid->paginate(10);
         $grid->build();
 	$back = '';
 	$id = '';
@@ -144,8 +143,8 @@ class AlbumsController extends Controller
      */
     public function view($id = null)
     {
-        $page_title = 'Fotos';
-	$page_description = '';
+        $page_title = Album::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Fotos do Album '.Album::where('id', '=', $id)->pluck('name');
 	$title = 'Fotos';
 	$route = 'imagems';
 
@@ -160,7 +159,6 @@ class AlbumsController extends Controller
 	$grid->add('name','Unidade', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(8);
 	$grid->build();
 	$back = 'turmas';
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back','id'));
@@ -168,8 +166,8 @@ class AlbumsController extends Controller
 
     public function viewu($id = null)
     {
-        $page_title = 'Fotos';
-	$page_description = '';
+        $page_title = Album::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Fotos do Album '.Album::where('id', '=', $id)->pluck('name');
 	$title = 'Fotos';
 	$route = 'imagems';
 
@@ -183,7 +181,6 @@ class AlbumsController extends Controller
         $grid = \DataGrid::source($filter);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(8);
 	$grid->build();
 	$back = 'turmas';
 	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back','id'));

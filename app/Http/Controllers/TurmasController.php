@@ -48,7 +48,6 @@ class TurmasController extends Controller
 			return '<img src="/galeria/turmas/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-        $grid->paginate(10);
         $grid->build();
 	$back = 'turmas';
 	$id = '';
@@ -143,8 +142,8 @@ class TurmasController extends Controller
      */
     public function view($id)
     {
-        $page_title = 'Albums';
-	$page_description = 'Visualizar Galeria do '.Turma::where('id', '=', $id)->pluck('name');
+        $page_title = Turma::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Albums do(a) '.Turma::where('id', '=', $id)->pluck('name');
 	$title = 'Albums';
 	$route = 'albums';
 
@@ -159,7 +158,6 @@ class TurmasController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(10);
 	$grid->build();
 	$back = 'unidades';
 	$id = Turma::where('id', '=', $id)->pluck('unidade_id');
@@ -168,8 +166,8 @@ class TurmasController extends Controller
 
     public function viewu($id)
     {
-        $page_title = 'Albums';
-	$page_description = 'Visualizar Galeria do '.Turma::where('id', '=', $id)->pluck('name');
+        $page_title = Turma::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Albums do(a) '.Turma::where('id', '=', $id)->pluck('name');
 	$title = 'Albums';
 	$route = 'albums';
 
@@ -184,7 +182,6 @@ class TurmasController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(10);
 	$grid->build();
 	$back = 'unidades';
 	$id = Turma::where('id', '=', $id)->pluck('unidade_id');

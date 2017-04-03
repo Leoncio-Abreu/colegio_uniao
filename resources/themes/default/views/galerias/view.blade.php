@@ -71,7 +71,6 @@ $(document).ready(function() {
 @if(!is_null($filter)){!! $filter !!}@endif
 @endif
 <div class="container">
-	{!! $grid->paginator->render() !!}
         <div class="starter-template">
         	<div class="row">
 	  		@foreach($grid->rows as $album)
@@ -114,8 +113,6 @@ $(document).ready(function() {
 		</div> <!-- row -->
           @endforeach
 	</div> <!-- /.starter-template -->
-    
-	{!! $grid->paginator->render() !!}
 </div><!-- /.container -->
 <p><a href="/galerias/view/{{$title}}/" class="btn btn-big btn-default">Voltar</a></p>
 {!! link_to(\URL::previous(), 'Voltar', ['class' => 'btn btn-default']) !!}

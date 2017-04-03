@@ -48,7 +48,6 @@ class UnidadesController extends Controller
 			return '<img src="/galeria/unidades/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
-        $grid->paginate(8);
 	$grid->build();
 	$back='';
 	$id ='';
@@ -141,8 +140,8 @@ class UnidadesController extends Controller
      */
     public function view($id = null)
     {
-        $page_title = 'Turmas';
-	$page_description = 'Galerias da '.Unidade::where('id', '=', $id)->pluck('name');
+        $page_title = Unidade::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Turmas da '.Unidade::where('id', '=', $id)->pluck('name');
 	$title = 'Turma';
 	$route = 'turmas';
 	
@@ -157,7 +156,6 @@ class UnidadesController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(10);
 	$grid->build();
 	$back = 'anos';
 	$id = Unidade::where('id', '=', $id)->pluck('ano_id');
@@ -166,8 +164,8 @@ class UnidadesController extends Controller
 
     public function viewu($id = null)
     {
-        $page_title = 'Turmas';
-	$page_description = 'Galerias da '.Unidade::where('id', '=', $id)->pluck('name');
+        $page_title = Unidade::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Turmas da '.Unidade::where('id', '=', $id)->pluck('name');
 	$title = 'Turma';
 	$route = 'turmas';
 	
@@ -182,7 +180,6 @@ class UnidadesController extends Controller
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
-        $grid->paginate(10);
 	$grid->build();
 	$back = 'anos';
 	$id = Unidade::where('id', '=', $id)->pluck('ano_id');
