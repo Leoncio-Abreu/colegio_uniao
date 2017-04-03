@@ -44,7 +44,7 @@ class AlbumsController extends Controller
     	})->style("text-align: center; vertical-align: middle;");
 	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
         $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
-	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
+	$grid->add('filename', 'Foto')->cell( function ($value, $row) {
 			return '<img src="/galerias/albums/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
@@ -74,21 +74,17 @@ class AlbumsController extends Controller
         $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
 	$form->add('name','Album', 'text')->rule('required|unique:albums,name,NULL,id,turma_id,{{$turma_id}}')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
-	if(\Input::hasFile('cover_image')){
-    	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
+	if(\Input::hasFile('filename')){
+    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
         }
-	$form->add('cover_image','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
+	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
-		$form->field("cover_image")->insertValue($filename)->updateValue($filename);
-	    	$image->fit(250, 150, function($constraint) {
-	    		$constraint->upsize();
+		$form->field("filename")->insertValue($filename)->updateValue($filename);
+	    	$image->resize(250, null, function($constraint) {
+	    		$constraint->aspectRatio();
 	    	});
-		$image->save(public_path()."/galeria/albums/thumb_". $filename);
-	    	$image->fit(120, 80, function($constraint) {
-	    		$constraint->upsize();
-	    	});
-	    	$image->save(public_path()."/galeria/albums/120x80_". $filename);
-	    })->move(public_path().'/galeria/albums/',$filename)->preview(120,80);
+		$image->save(public_path()."/images/icon_size/". $filename);
+	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$form->submit('Salvar');
 
         $form->saved(function () use ($form) {
@@ -98,11 +94,9 @@ class AlbumsController extends Controller
 	    $album->save();
 	});
 	    \Flash::success("Album adicionada com sucesso!");
-	    $form->link('/galerias/view/turmas/'.$form->field('turma_id')->value,"Voltar para a galeria");
-            $form->link("galerias/albums/index","Voltar", "BL")->back('do_delete');
-//	    return \Redirect::to('/galerias/view/turmas/'.$form->field('turma_id')->value);
+	    return \Redirect::to('/galerias/view/turmas/'.$form->field('turma_id')->value);
 	});
-//	$form->build();
+	$form->build();
         return $form->view('galerias.create', compact('form', 'page_title', 'page_description'));
     }
 
@@ -124,23 +118,17 @@ class AlbumsController extends Controller
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$edit->add('name','Nome', 'text')->rule('required|unique:albums,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
-	if(\Input::hasFile('cover_image')){
-    	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
+	if(\Input::hasFile('filename')){
+    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
         }
-	$edit->add('cover_image','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
+	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
-		$edit->field("cover_image")->insertValue($filename)->updateValue($filename);
-		$image->resize (250, 150, function($constraint) {
-			$constraint->aspectRatio();
-	    		$constraint->upsize();
+		$edit->field("filename")->insertValue($filename)->updateValue($filename);
+	    	$image->resize(250, null, function($constraint) {
+	    		$constraint->aspectRatio();
 	    	});
-		$image->save(public_path()."/galeria/albums/thumb_". $filename);
-		$image->resize (120, 80, function($constraint) {
-			$constraint->aspectRatio();
-	    		$constraint->upsize();
-	    	});
-	    	$image->save(public_path()."/galeria/albums/120x80_". $filename);
-	    })->move(public_path().'/galeria/albums/',$filename)->preview(120,80);
+		$image->save(public_path()."/images/icon_size/". $filename);
+	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Album atualizado com sucesso!");
 		return \Redirect::to('galerias/view/turmas/'.$edit->model['turma_id']);
@@ -171,7 +159,7 @@ class AlbumsController extends Controller
         $grid = \DataGrid::source($filter);
 	$grid->add('name','Unidade', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('cover_image', 'Foto');
+	$grid->add('filename', 'Foto');
         $grid->paginate(8);
 	$grid->build();
 	$back = 'turmas';
@@ -193,9 +181,8 @@ class AlbumsController extends Controller
         $filter->build();
 
         $grid = \DataGrid::source($filter);
-	$grid->add('name','Unidade', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('cover_image', 'Foto');
+	$grid->add('filename', 'Foto');
         $grid->paginate(8);
 	$grid->build();
 	$back = 'turmas';

@@ -44,7 +44,7 @@ class AnosController extends Controller
     	})->style("text-align: center; vertical-align: middle;");
 	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
         $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
-	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
+	$grid->add('filename', 'Foto')->cell( function ($value, $row) {
 			return '<img src="/galeria/anos/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
@@ -80,7 +80,7 @@ class AnosController extends Controller
     	})->style("text-align: center; vertical-align: middle;");
 	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
         $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
-	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
+	$grid->add('filename', 'Foto')->cell( function ($value, $row) {
 			return '<img src="/galeria/anos/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
@@ -107,21 +107,21 @@ class AnosController extends Controller
 	$form->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$form->add('name','Titulo', 'text')->rule('required|unique:anos,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
-	if(\Input::hasFile('cover_image')){
-    	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
+	if(\Input::hasFile('filename')){
+    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
         }
-	$form->add('cover_image','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
+	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
-		$form->field("cover_image")->insertValue($filename)->updateValue($filename);
-	    	$image->fit(250, 150, function($constraint) {
+		$form->field("filename")->insertValue($filename)->updateValue($filename);
+	    	$image->resize(250, null, function($constraint) {
+	    		$constraint->aspectRatio();
+	    	});
+		$image->save(public_path()."/images/icon_size/". $filename);
+/*	    	$image->fit(120, 80, function($constraint) {
 	    		$constraint->upsize();
 	    	});
-		$image->save(public_path()."/galeria/anos/thumb_". $filename);
-	    	$image->fit(120, 80, function($constraint) {
-	    		$constraint->upsize();
-	    	});
-	    	$image->save(public_path()."/galeria/anos/120x80_". $filename);
-	    })->move(public_path().'/galeria/anos/',$filename)->preview(120,80);
+	    	$image->save(public_path()."/images//120x80_". $filename);
+ */	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$form->submit('Salvar');
 
 	Ano::created(function ($ano){
@@ -293,21 +293,23 @@ class AnosController extends Controller
         $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$edit->add('name','Nome', 'text')->rule('required|unique:anos,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
-	if(\Input::hasFile('cover_image')){
-    	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
+	if(\Input::hasFile('filename')){
+    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
         }
-	$edit->add('cover_image','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
+	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
-		$edit->field("cover_image")->insertValue($filename)->updateValue($filename);
-	    	$image->fit(250, 150, function($constraint) {
+		$edit->field("filename")->insertValue($filename)->updateValue($filename);
+	    	$image->resize(250, null, function($constraint) {
+	    		$constraint->aspectRatio();
+	    	});
+		$image->save(public_path()."/images/icon_size/". $filename);
+
+/*	    	$image->fit(120, 80, function($constraint) {
 	    		$constraint->upsize();
 	    	});
-		$image->save(public_path()."/galeria/anos/thumb_". $filename);
-	    	$image->fit(120, 80, function($constraint) {
-	    		$constraint->upsize();
-	    	});
-	    	$image->save(public_path()."/galeria/anos/120x80_". $filename);
-	    })->move(public_path().'/galeria/anos/',$filename)->preview(120,80);
+		$image->save(public_path()."/galeria/anos/12". $filename);
+
+ */	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Ano atualizado com sucesso!");
 		return \Redirect::to('galerias/anos/index');
@@ -338,7 +340,7 @@ class AnosController extends Controller
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('cover_image', 'Foto');
+	$grid->add('filename', 'Foto');
         $grid->paginate(10);
 	$grid->build();
 	$back = '';
@@ -362,7 +364,7 @@ class AnosController extends Controller
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('cover_image', 'Foto');
+	$grid->add('filename', 'Foto');
         $grid->paginate(10);
 	$grid->build();
 	$back = '';

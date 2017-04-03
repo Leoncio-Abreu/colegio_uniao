@@ -9,7 +9,7 @@ class Foto extends Model
   
   protected $table = 'images';
   
-  protected $fillable = array('album_id', 'ativo','posicao','description','image');
+  protected $fillable = array('album_id', 'ativo','posicao','description','filename');
 
   public function albums(){
     return $this->belongsTo('App\Album');

@@ -6,7 +6,7 @@ use App\Logic\Image\ImageRepository;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use App\Models\Image;
-use Log;
+
 class ImageController extends Controller
 {
     protected $image;
@@ -28,7 +28,6 @@ class ImageController extends Controller
 
     public function postUpload()
     {
-	Log::info('postUpload', Input::all());
         $photo = Input::all();
         $response = $this->image->upload($photo);
         return $response;
@@ -37,8 +36,6 @@ class ImageController extends Controller
 
     public function deleteUpload()
     {
-//        Log::info('deleteUpload0: ', Input::all());
-        Log::info('deleteUpload1: '. Input::get('id'));
 	$filename = Input::get('id');
 
         if(!$filename)

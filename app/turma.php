@@ -9,7 +9,7 @@ class Turma extends Model
 
   protected $table = 'turmas';
 
-  protected $fillable = array('atividade_id', 'ativo','posicao','name','description','cover_image');
+  protected $fillable = array('atividade_id', 'ativo','posicao','name','description','filename');
 
   public function unidades(){
     return $this->belongsTo('App\Unidade');

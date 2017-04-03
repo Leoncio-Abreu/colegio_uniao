@@ -85,10 +85,10 @@ $(document).ready(function() {
 				@if($album->name != '')
 				<div class="thumbnail">
 				@endif
-				@if($album->cover_image <> '')
+				@if($album->filename <> '')
 					<div class="zoom-gallery">
-						<a href="/galeria/{{$route}}/{{$album->cover_image}}" data-source="/galeria/{{$route}}/{{$album->cover_image}}" title="{{$album->description}}"><!-- style="width:193px;height:125px;"> -->
-							<img src="/galeria/{{$route}}/thumb_{{$album->cover_image}}" alt="{{$album->name}}" width="120" height="80">
+						<a href="/images/full_size/{{$album->filename}}" data-source="/images/full_size/{{$album->filename}}" title="{{$album->description}}"><!-- style="width:193px;height:125px;"> -->
+							<img src="/images/icon_size/{{$album->filename}}" alt="{{$album->filename}}" width="120" height="80">
 						</a>
 					</div>
 				@endif
@@ -109,8 +109,8 @@ $(document).ready(function() {
 						<p><a href="/galerias/{{$route}}/edit?modify={{$album->id}}" class="btn btn-big btn-default">Editar {{ $title }}</a></p>
 						<p><a href="/galerias/{{$route}}/edit?delete={{$album->id}}" class="btn btn-big btn-default">Deletar {{ $title }}</a></p>
 						<div class="clearfix">
-							<a class="btn btn-warning pull-left" href="/posicao/galerias.{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>
-							<a class="btn btn-warning pull-right" href="/posicao/galerias.{{$route}}/down/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
+							<a class="btn btn-warning pull-left" href="/posicao/galerias/{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>
+							<a class="btn btn-warning pull-right" href="/posicao/galerias/{{$route}}/down/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
 						</div>
 		  				@endif
 		 		@if($album->name != '')

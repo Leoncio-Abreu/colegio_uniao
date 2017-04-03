@@ -100,8 +100,8 @@ class ImageRepository
     public function icon( $photo, $filename )
     {
         $manager = new ImageManager();
-        $image = $manager->make( $photo )->resize(200, null, function ($constraint) {
-            $constraint->aspectRatio();
+        $image = $manager->make( $photo )->fit(250, 150, function ($constraint) {
+            $constraint->upsize();
             })
             ->save( Config::get('images.icon_size')  . $filename );
 

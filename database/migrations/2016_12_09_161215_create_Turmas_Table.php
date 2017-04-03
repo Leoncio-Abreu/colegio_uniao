@@ -20,7 +20,7 @@ class CreateTurmasTable extends Migration
       $table->integer('posicao')->nullable();
       $table->string('name');
       $table->text('description')->nullable();
-      $table->string('cover_image')->nullable();
+      $table->string('filename')->nullable();
       $table->timestamps();
     });
   }

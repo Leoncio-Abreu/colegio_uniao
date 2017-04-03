@@ -9,7 +9,7 @@ class Ano extends Model
 
   protected $table = 'anos';
 
-  protected $fillable = array('ativo','posicao','name','description','cover_image');
+  protected $fillable = array('ativo','posicao','name','description','filename');
 
   public function unidades()
   {

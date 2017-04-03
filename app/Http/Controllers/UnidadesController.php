@@ -44,7 +44,7 @@ class UnidadesController extends Controller
     	})->style("text-align: center; vertical-align: middle;");
 	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
         $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
-	$grid->add('cover_image', 'Foto')->cell( function ($value, $row) {
+	$grid->add('filename', 'Foto')->cell( function ($value, $row) {
 			return '<img src="/galeria/unidades/120x80_'.$value.'" height="120px">';
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
@@ -72,21 +72,17 @@ class UnidadesController extends Controller
         $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
 	$form->add('name','Nome', 'text')->rule('required|unique:unidades,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
-	if(\Input::hasFile('cover_image')){
-    	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
+	if(\Input::hasFile('filename')){
+    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
         }
-	$form->add('cover_image','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
+	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
-		$form->field("cover_image")->insertValue($filename)->updateValue($filename);
-	    	$image->fit(250, 150, function($constraint) {
-	    		$constraint->upsize();
+		$form->field("filename")->insertValue($filename)->updateValue($filename);
+	    	$image->resize(250, null, function($constraint) {
+	    		$constraint->aspectRatio();
 	    	});
-		$image->save(public_path()."/galeria/unidades/thumb_". $filename);
-	    	$image->fit(120, 80, function($constraint) {
-	    		$constraint->upsize();
-	    	});
-	    	$image->save(public_path()."/galeria/unidades/120x80_". $filename);
-	    })->move(public_path().'/galeria/unidades/',$filename)->preview(120,80);
+		$image->save(public_path()."/images/icon_size/". $filename);
+	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$form->submit('Salvar');
 
 	$form->saved(function () use ($form) {
@@ -96,7 +92,7 @@ class UnidadesController extends Controller
 	    $unidade->save();
 	});
             \Flash::success("Unidade adicionada com sucesso!");
-	    return \Redirect::to('/galerias/unidades/index?id='.$form->field('ano_id')->value);
+	    return \Redirect::to('/galerias/view/anos/'.$form->field('ano_id')->value);
 	});
 	$form->build();
         return $form->view('galerias.create', compact('form', 'page_title', 'page_description'));
@@ -119,24 +115,20 @@ class UnidadesController extends Controller
         $edit->add('ativo','Ativar', 'checkbox');
 	$edit->add('name','Unidade', 'text')->rule('required|unique:unidades,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
-	if(\Input::hasFile('cover_image')){
-    	    $filename = str_random(8).'_'.\Input::file('cover_image')->getClientOriginalName();
+	if(\Input::hasFile('filename')){
+    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
         }
-	$edit->add('cover_image','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
+	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
-		$edit->field("cover_image")->insertValue($filename)->updateValue($filename);
-	    	$image->fit(250, 150, function($constraint) {
-	    		$constraint->upsize();
+		$edit->field("filename")->insertValue($filename)->updateValue($filename);
+	    	$image->resize(250, null, function($constraint) {
+	    		$constraint->aspectRatio();
 	    	});
-		$image->save(public_path()."/galeria/unidades/thumb_". $filename);
-	    	$image->fit(120, 80, function($constraint) {
-	    		$constraint->upsize();
-	    	});
-	    	$image->save(public_path()."/galeria/unidades/120x80_". $filename);
-	    })->move(public_path().'/galeria/unidades/',$filename)->preview(120,80);
+		$image->save(public_path()."/images/icon_size/". $filename);
+	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Unidade atualizada com sucesso!");
-		return \Redirect::to('galerias/view/anos/'.$edit->model['id']);
+		return \Redirect::to('galerias/view/anos/'.$edit->model['ano_id']);
         });
 	$edit->build();
 	return $edit->view('galerias.create', compact('edit', 'page_title', 'page_description'));
@@ -164,7 +156,7 @@ class UnidadesController extends Controller
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('cover_image', 'Foto');
+	$grid->add('filename', 'Foto');
         $grid->paginate(10);
 	$grid->build();
 	$back = 'anos';
@@ -189,7 +181,7 @@ class UnidadesController extends Controller
         $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
 	$grid->add('name','Nome', true);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('cover_image', 'Foto');
+	$grid->add('filename', 'Foto');
         $grid->paginate(10);
 	$grid->build();
 	$back = 'anos';

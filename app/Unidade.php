@@ -9,7 +9,7 @@ class Unidade extends Model
 
   protected $table = 'unidades';
 
-  protected $fillable = array('ano_id', 'ativo','posicao','name','description','cover_image');
+  protected $fillable = array('ano_id', 'ativo','posicao','name','description','filename');
 
   public function turmas(){
     return $this->has_many('App\Turma');

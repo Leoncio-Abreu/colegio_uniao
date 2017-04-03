@@ -11,7 +11,7 @@
         <div class="col-md-offset-1 col-md-10">
             <div class="jumbotron how-to-create" >
 
-                <h3>Images <span id="photoCounter"></span></h3>
+                <h3>Fotos <span id="photoCounter"></span></h3>
                 <br />
 			
                 {!! Form::open(['url' => route('galerias.image.upload-post'), 'class' => 'dropzone', 'files'=>true, 'id'=>'real-dropzone']) !!}
