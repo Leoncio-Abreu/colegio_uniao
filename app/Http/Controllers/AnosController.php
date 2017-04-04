@@ -27,9 +27,9 @@ class AnosController extends Controller
 	$route = 'anos';
 
         $filter = \DataFilter::source(new Ano());
-	$filter->add('id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'));
-        $filter->submit('Filtrar');
-        $filter->reset('Resetar');
+//	$filter->add('id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'));
+//        $filter->submit('Filtrar');
+//        $filter->reset('Resetar');
         $filter->link("galerias/anos/create","Criar novo Ano");
         $filter->build();
 
@@ -294,9 +294,9 @@ class AnosController extends Controller
 	$route = 'unidades';
 	
         $filter = \DataFilter::source(Unidade::where('ano_id', '=', $id)->orderBy('posicao','asc'));
-	$filter->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
-	$filter->submit('Filtrar');
-        $filter->reset('Resetar');
+//	$filter->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+//	$filter->submit('Filtrar');
+//        $filter->reset('Resetar');
         $filter->link("galerias/unidades/create?id=".$id,"Criar nova Unidade");
         $filter->build();
 
@@ -305,7 +305,7 @@ class AnosController extends Controller
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
 	$grid->build();
-	$back = '';
+	$back = 'ano';
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'id', 'back'));
     }
     

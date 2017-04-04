@@ -25,11 +25,11 @@
 		<![endif]-->
 		<style type="text/css">
 			.jumbotron {
-				background-image: url("img/fundo_top.jpg");
+				background-image: url("/img/fundo_top.jpg");
 				background-size: cover;
 			}
 			.jumbotron_height {
-				background-image: url("img/fundo_top.jpg");
+				background-image: url("/img/fundo_top.jpg");
 				padding: 0px;
 				margin: 0px;
 			}

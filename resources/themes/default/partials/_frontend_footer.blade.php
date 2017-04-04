@@ -75,3 +75,5 @@
 		  $('.box-atividadesc').matchHeight();
 		  $('.box-atividadesf').matchHeight();
 		</script>
+		@yield('footer_extra')
+

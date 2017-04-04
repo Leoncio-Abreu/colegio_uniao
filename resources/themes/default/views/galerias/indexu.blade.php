@@ -36,40 +36,16 @@
 }
 
     </style>
-    <script src="{{ asset("/js/magnific-popup.js") }}"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-	$('.zoom-gallery').magnificPopup({
-		delegate: 'a',
-		type: 'image',
-		closeOnContentClick: false,
-		closeBtnInside: false,
-		mainClass: 'mfp-with-zoom mfp-img-mobile',
-		image: {
-			verticalFit: true,
-			titleSrc: function(item) {
-//				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" target="_blank" downlad>Baixar</a>';
-			return item.el.attr('title');
-			}
-		},
-		gallery: {
-			enabled: true
-		},
-		zoom: {
-			enabled: true,
-			duration: 300, // don't foget to change the duration also in CSS
-			opener: function(element) {
-				return element.find('img');
-			}
-		}
-		
-	});
-});
-</script>
 @endsection
 @section('content')
+@if($back == 'null')
+@elseif($back <> '')
+	<p><a href="/galeria/view/{{$back}}/{{$id}}" class="btn btn-big btn-warning">Voltar</a></p>
+@else
+	<p><a href="/galeria" class="btn btn-big btn-warning">Voltar</a></p>
+@Endif
 <div class="container">
-	<div class="starter-template">
+        <div class="starter-template">
         	<div class="row">
 	  		@foreach($grid->rows as $album)
 			<?php $album = $album->data ?>
@@ -90,8 +66,10 @@ $(document).ready(function() {
 						<p>{{$album->description}}</p>
 						@endif
 				 		@if($album->name != '')
-				                <p style='color:white'>Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
-						<p><a href="/galeria/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-default">Entrar</a></p>
+				                <p>Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
+						<p><a href="/galeria/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-warning">Entrar</a></p>
+						@else
+						<br>
 						@endif
 				       </div> <!-- caption -->
 				</div> <!-- Thumbnails -->
@@ -99,12 +77,43 @@ $(document).ready(function() {
           @endforeach
 		</div> <!-- row -->
 	</div> <!-- /.starter-template -->
-	</div> <!-- /.starter-template -->
+</div> <!-- /.container -->
 @if($back == 'null')
 @elseif($back <> '')
 	<p><a href="/galeria/view/{{$back}}/{{$id}}" class="btn btn-big btn-warning">Voltar</a></p>
 @else
-	<p><a href="/galeria/anos/index" class="btn btn-big btn-warning">Voltar</a></p>
+	<p><a href="/galeria" class="btn btn-big btn-warning">Voltar</a></p>
 @Endif
     
+@endsection
+@section('footer_extra')
+<script src="{{ asset("/js/magnific-popup.js") }}" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.zoom-gallery').magnificPopup({
+		delegate: 'a',
+		type: 'image',
+		closeOnContentClick: false,
+		closeBtnInside: false,
+		mainClass: 'mfp-with-zoom mfp-img-mobile',
+		image: {
+			verticalFit: true,
+			titleSrc: function(item) {
+			return item.el.attr('title');
+			}
+		},
+		gallery: {
+			enabled: true
+		},
+		zoom: {
+			enabled: true,
+			duration: 300, // don't foget to change the duration also in CSS
+			opener: function(element) {
+				return element.find('img');
+			}
+		}
+		
+	});
+});
+</script>
 @endsection

@@ -48,7 +48,6 @@ $(document).ready(function() {
 		image: {
 			verticalFit: true,
 			titleSrc: function(item) {
-//				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" target="_blank" downlad>Baixar</a>';
 			return item.el.attr('title');
 			}
 		},
@@ -71,7 +70,6 @@ $(document).ready(function() {
 @if (Auth::user())
 @if(!is_null($filter)){!! $filter !!}@endif
 @endif
-<div class="container">
 @if($back == 'null')
 
 @elseif($back <> '')
@@ -79,14 +77,13 @@ $(document).ready(function() {
 @else
 	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
 @Endif
+<div class="container">
         <div class="starter-template">
         	<div class="row">
 	  		@foreach($grid->rows as $album)
 			<?php $album = $album->data ?>
 			<div class="col-lg-3">
-				@if($album->name != '')
 				<div class="thumbnail">
-				@endif
 				@if($album->filename <> '')
 					<div class="zoom-gallery">
 						<a href="/images/full_size/{{$album->filename}}" data-source="/images/full_size/{{$album->filename}}" title="{{$album->description}}" ><!-- style="width:193px;height:125px;"> -->
@@ -115,14 +112,13 @@ $(document).ready(function() {
 							<a class="btn btn-warning pull-right" href="/posicao/{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
 						</div>
 		  				@endif
-		 		@if($album->name != '')
 				       </div> <!-- caption -->
 				</div> <!-- Thumbnails -->
-				@endif
 			</div> <!-- col -->
-		</div> <!-- row -->
           @endforeach
+		</div> <!-- row -->
 	</div> <!-- /.starter-template -->
+</div> <!-- /.container -->
 @if($back == 'null')
 @elseif($back <> '')
 	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
@@ -130,5 +126,4 @@ $(document).ready(function() {
 	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
 @Endif
     
-</div><!-- /.container -->
 @endsection

@@ -27,9 +27,9 @@ class AlbumsController extends Controller
 	$route = 'albums';
 
         $filter = \DataFilter::source(new Album());
-	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Turma::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
-        $filter->submit('Procurar');
-        $filter->reset('Resetar');
+//	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Turma::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
+//        $filter->submit('Procurar');
+//        $filter->reset('Resetar');
         $filter->link("galerias/albums/create","Novo Album");
         $filter->build();
 

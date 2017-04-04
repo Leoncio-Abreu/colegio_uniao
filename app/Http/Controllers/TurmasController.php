@@ -27,9 +27,9 @@ class TurmasController extends Controller
 	$route = 'turmas';
 
         $filter = \DataFilter::source(new Turma());
-	$filter->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('ano_id'));
-        $filter->submit('Procurar');
-        $filter->reset('Resetar');
+//	$filter->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('ano_id'));
+//        $filter->submit('Procurar');
+//        $filter->reset('Resetar');
         $filter->link("galerias/turmas/create","Novo Turma");
         $filter->build();
 
@@ -148,9 +148,9 @@ class TurmasController extends Controller
 	$route = 'albums';
 
         $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->orderBy('posicao','asc'));
-	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
-	$filter->submit('Filtrar');
-        $filter->reset('Resetar');
+//	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
+//	$filter->submit('Filtrar');
+//        $filter->reset('Resetar');
         $filter->link("galerias/albums/create?id=".$id,"Criar novo Album");
         $filter->build();
 

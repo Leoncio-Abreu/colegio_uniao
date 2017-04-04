@@ -22,7 +22,7 @@
 									<li><a href="http://www.iebeducation.com.br" target="_blank">IEB</a></li>
 									<li><a href="https://www.youtube.com/channel/UC_2TKlsIbCU6mfeKVkVEeIQ" target="_blank">Vídeos</a></li>
 								</ul>
-								@if (Auth::user()) <a class="btn btn-warning pull-right" href="painel" target="_blank">Painel</a>@endif
+								@if (Auth::user()) <a class="btn btn-warning pull-right" href="/painel" target="_blank">Painel</a>@endif
 							</div>
 						</div>
 					</nav>
@@ -67,7 +67,7 @@
 									<li class="{{ isActiveRoute('welcome') }}"><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
 									<li class="{{ isActiveRoute('unidades') }}"><a href="/unidades">Unidades</a></li>
 									<li class="{{ isActiveRoute('historia') }}"><a href="/historia">Hist&oacute;ria</a></li>
-									<li class="{{ isActiveRoute('galeria') }}"><a href="/galeria">Galeria</a></li>
+									<li class="{{ isActiveRoute('galeria.*') }}"><a href="/galeria">Galeria</a></li>
 									<li class="{{ isActiveRoute('contato') }}"><a href="/contato">Contato</a></li>
 								</ul>
 							</div>

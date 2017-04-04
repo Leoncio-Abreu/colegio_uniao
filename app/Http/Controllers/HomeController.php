@@ -299,7 +299,7 @@ class HomeController extends Controller
 	})->style("text-align: center; vertical-align: middle;");
         $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
 	$grid->build();
-	$back = '';
+	$back = 'null';
 	$id = '';
 	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','id','back'));
     }

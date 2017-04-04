@@ -27,9 +27,9 @@ class UnidadesController extends Controller
 	$route = 'unidades';
 
         $filter = \DataFilter::source(new Unidade);
-	$filter->add('ano_id','Ano','select')->option("","Todos os Anos")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
-	$filter->submit('Filtrar');
-        $filter->reset('Resetar');
+//	$filter->add('ano_id','Ano','select')->option("","Todos os Anos")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
+//	$filter->submit('Filtrar');
+//        $filter->reset('Resetar');
         $filter->link("galerias/unidades/create?id=".\Input::get('ano_id'),"Criar nova Unidade");
         $filter->build();
 
@@ -146,9 +146,9 @@ class UnidadesController extends Controller
 	$route = 'turmas';
 	
         $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id)->orderBy('posicao','asc'));
-	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
-	$filter->submit('Filtrar');
-        $filter->reset('Resetar');
+//	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
+//	$filter->submit('Filtrar');
+//        $filter->reset('Resetar');
         $filter->link("galerias/turmas/create?id=".$id,"Criar nova Turma");
         $filter->build();
 
