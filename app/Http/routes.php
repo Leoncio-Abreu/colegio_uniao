@@ -49,7 +49,7 @@ Route::get( 'galeria/view/anos/{id?}',   ['as' => 'galeria.view.anos', 'uses' =>
 Route::get( 'galeria/view/unidades/{id?}',   ['as' => 'galeria.view.unidades', 'uses' => 'UnidadesController@viewu']);
 Route::get( 'galeria/view/turmas/{id?}',   ['as' => 'galeria.view.turmas', 'uses' => 'TurmasController@viewu']);
 Route::get( 'galeria/view/albums/{id?}',   ['as' => 'galeria.view.albums', 'uses' => 'AlbumsController@viewu']);
-Route::get( 'galeria/view/fotos/{id?}',   ['as' => 'galeria.view.fotos', 'uses' => 'FotosController@viewu']);
+//Route::get( 'galeria/view/images/{id?}',   ['as' => 'galeria.view.fotos', 'uses' => 'FotosController@viewu']);
 
 // Routes in this group must be authorized.
 Route::group(['middleware' => 'authorize'], function () {
@@ -114,13 +114,13 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::any( 'galerias/albums/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.albums.edit',    'uses' => 'AlbumsController@edit']);
     Route::get( 'galerias/view/albums/{id?}',   ['as' => 'galerias.view.albums', 'uses' => 'AlbumsController@view']);
 
-    Route::get('galerias/fotos/upload', ['as' => 'galerias.image.upload', 'uses' => 'ImageController@getUpload']);
-    Route::post('galerias/fotos/upload', ['as' => 'galerias.image.upload-post', 'uses' =>'ImageController@postUpload']);
-    Route::post('galerias/fotos/upload/delete', ['as' => 'galerias.image.upload-remove', 'uses' =>'ImageController@deleteUpload']);
-    Route::get( 'galerias/view/fotos/{id?}',   ['as' => 'galerias.view.fotos', 'uses' => 'FotosController@view']);
+    Route::get('galerias/images/upload', ['as' => 'galerias.image.upload', 'uses' => 'ImageController@getUpload']);
+    Route::post('galerias/images/upload', ['as' => 'galerias.image.upload-post', 'uses' =>'ImageController@postUpload']);
+    Route::post('galerias/images/upload/delete', ['as' => 'galerias.image.upload-remove', 'uses' =>'ImageController@deleteUpload']);
+    Route::get( 'galerias/view/images/{id?}',   ['as' => 'galerias.view.fotos', 'uses' => 'ImageController@view']);
 	
-    Route::any( 'galerias/fotos/index',   ['as' => 'galerias.fotos.index', 'uses' => 'FotosController@index']);
-    Route::any( 'galerias/fotos/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.fotos.edit',    'uses' => 'FotosController@edit']);
+//    Route::any( 'galerias/images/index',   ['as' => 'galerias.images.index', 'uses' => 'FotosController@index']);
+    Route::any( 'galerias/images/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.images.edit',    'uses' => 'ImageController@edit']);
 
         // Site administration section
 	Route::group(['prefix' => 'admin'], function () {

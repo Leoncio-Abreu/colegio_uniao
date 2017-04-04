@@ -145,7 +145,7 @@ class UnidadesController extends Controller
 	$title = 'Turma';
 	$route = 'turmas';
 	
-        $filter = \DataFilter::source(Turma::where('unidade_id', '=', (\Input::get('delete') ? \Input::get('delete') : $id)));
+        $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id)->orderBy('posicao','asc'));
 	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');
@@ -169,7 +169,7 @@ class UnidadesController extends Controller
 	$title = 'Turma';
 	$route = 'turmas';
 	
-        $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id)->where('ativo','=',1));
+        $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id)->where('ativo','=',1)->orderBy('posicao','asc'));
 	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');

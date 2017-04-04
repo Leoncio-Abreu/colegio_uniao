@@ -67,6 +67,7 @@
 									<li class="{{ isActiveRoute('welcome') }}"><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
 									<li class="{{ isActiveRoute('unidades') }}"><a href="/unidades">Unidades</a></li>
 									<li class="{{ isActiveRoute('historia') }}"><a href="/historia">Hist&oacute;ria</a></li>
+									<li class="{{ isActiveRoute('galeria') }}"><a href="/galeria/view/anos/index">Galeria</a></li>
 									<li class="{{ isActiveRoute('contato') }}"><a href="/contato">Contato</a></li>
 								</ul>
 							</div>

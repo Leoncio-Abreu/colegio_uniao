@@ -48,7 +48,8 @@ $(document).ready(function() {
 		image: {
 			verticalFit: true,
 			titleSrc: function(item) {
-				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" target="_blank">Baixar</a>';
+//				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" target="_blank" downlad>Baixar</a>';
+			return item.el.attr('title');
 			}
 		},
 		gallery: {
@@ -70,13 +71,12 @@ $(document).ready(function() {
 @if (Auth::user())
 @if(!is_null($filter)){!! $filter !!}@endif
 @endif
+<div class="container">
 @if($back <> '')
 	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
 @else
 	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
 @Endif
-<div class="container">
-	{!! $grid->paginator->render() !!}
         <div class="starter-template">
         	<div class="row">
 	  		@foreach($grid->rows as $album)
@@ -87,7 +87,7 @@ $(document).ready(function() {
 				@endif
 				@if($album->filename <> '')
 					<div class="zoom-gallery">
-						<a href="/images/full_size/{{$album->filename}}" data-source="/images/full_size/{{$album->filename}}" title="{{$album->description}}"><!-- style="width:193px;height:125px;"> -->
+						<a href="/images/full_size/{{$album->filename}}" data-source="/images/full_size/{{$album->filename}}" title="{{$album->description}}" ><!-- style="width:193px;height:125px;"> -->
 							<img src="/images/icon_size/{{$album->filename}}" alt="{{$album->filename}}" width="120" height="80">
 						</a>
 					</div>
@@ -109,8 +109,8 @@ $(document).ready(function() {
 						<p><a href="/galerias/{{$route}}/edit?modify={{$album->id}}" class="btn btn-big btn-default">Editar {{ $title }}</a></p>
 						<p><a href="/galerias/{{$route}}/edit?delete={{$album->id}}" class="btn btn-big btn-default">Deletar {{ $title }}</a></p>
 						<div class="clearfix">
-							<a class="btn btn-warning pull-left" href="/posicao/galerias/{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>
-							<a class="btn btn-warning pull-right" href="/posicao/galerias/{{$route}}/down/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
+							<a class="btn btn-warning pull-left" href="/posicao/{{$route}}/down/{{ $album->id }}" role="button"><i class="fa fa-arrow-left"></i></a>
+							<a class="btn btn-warning pull-right" href="/posicao/{{$route}}/up/{{ $album->id }}" role="button"><i class="fa fa-arrow-right"></i></a>
 						</div>
 		  				@endif
 		 		@if($album->name != '')
@@ -119,13 +119,14 @@ $(document).ready(function() {
 			</div> <!-- col -->
 		</div> <!-- row -->
           @endforeach
+		</div> <!-- /.starter-template -->
 	</div> <!-- /.starter-template -->
-    
-	{!! $grid->paginator->render() !!}
-</div><!-- /.container -->
 @if($back <> '')
 	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
 @else
 	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
 @Endif
+						</div>
+    
+</div><!-- /.container -->
 @endsection

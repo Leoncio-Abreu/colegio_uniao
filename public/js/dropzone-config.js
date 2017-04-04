@@ -10,7 +10,7 @@ Dropzone.options.realDropzone = {
     dictRemoveFile: 'Deletar',
     dictFileTooBig: 'Image is bigger than 8MB',
     sending: function(file, xhr, formData){
-	album = $('#album').val();alert(album);
+	album = $('#album').val();
         formData.append('album', album);
     },
 

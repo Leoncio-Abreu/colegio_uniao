@@ -129,7 +129,7 @@ class TurmasController extends Controller
 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Turma atualizado com sucesso!");
-		return \Redirect::to('galerias/view/unidades/'.$edit->model['unidades_id']);
+		return \Redirect::to('galerias/view/unidades/'.$edit->model['unidade_id']);
         });
 	$edit->build();
 	return $edit->view('galerias.create', compact('edit', 'page_title', 'page_description'));
@@ -147,7 +147,7 @@ class TurmasController extends Controller
 	$title = 'Albums';
 	$route = 'albums';
 
-        $filter = \DataFilter::source(Album::where('turma_id', '=', $id));
+        $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->orderBy('posicao','asc'));
 	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');
@@ -171,7 +171,7 @@ class TurmasController extends Controller
 	$title = 'Albums';
 	$route = 'albums';
 
-        $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->where('ativo','=',1));
+        $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->where('ativo','=',1)->orderBy('posicao','asc'));
 	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
 	$filter->submit('Filtrar');
         $filter->reset('Resetar');

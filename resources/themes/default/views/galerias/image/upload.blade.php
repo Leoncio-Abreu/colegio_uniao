@@ -6,6 +6,7 @@
 
 @section('content')
 <div class="container">
+<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
 <input type="hidden" id="album" name="album" value="{{\Input::get('id')}}">
 <div class="row">
         <div class="col-md-offset-1 col-md-10">
@@ -83,7 +84,7 @@
         </div>
     </div>
     <!-- End Dropzone Preview Template -->
-
+	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
 
 {!! Form::hidden('csrf-token', csrf_token(), ['id' => 'csrf-token']) !!}
 </div>

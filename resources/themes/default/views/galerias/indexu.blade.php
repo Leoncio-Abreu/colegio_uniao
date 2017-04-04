@@ -48,7 +48,7 @@ $(document).ready(function() {
 		image: {
 			verticalFit: true,
 			titleSrc: function(item) {
-				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" target="_blank">Baixar</a>';
+				return item.el.attr('title');
 			}
 		},
 		gallery: {
@@ -76,7 +76,6 @@ $(document).ready(function() {
 	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
 @Endif
 <div class="container">
-	{!! $grid->paginator->render() !!}
         <div class="starter-template">
         	<div class="row">
 	  		@foreach($grid->rows as $album)
@@ -121,7 +120,6 @@ $(document).ready(function() {
           @endforeach
 	</div> <!-- /.starter-template -->
     
-	{!! $grid->paginator->render() !!}
 </div><!-- /.container -->
 @if($back <> '')
 	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>

@@ -71,7 +71,7 @@ class AlbumsController extends Controller
 //	$form->link("galerias/albums/index","Voltar", "BL")->back('do_delete');
 	$form->add('turma_id','','hidden')->insertValue(\Input::get('id'));
         $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
-	$form->add('name','Album', 'text')->rule('required|unique:albums,name,NULL,id,turma_id,{{$turma_id}}')->attributes(array('autofocus'=>'autofocus'));
+	$form->add('name','Titulo', 'text')->rule('required|unique:anos,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
     	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
@@ -114,8 +114,8 @@ class AlbumsController extends Controller
         $edit = \DataEdit::source(New Album());
 	$edit->link("galerias/view/turmas/".$edit->model['turma_id'],"Voltar", "BL")->back('');
        	$edit->add('turma_id','','hidden');
-        $edit->add('ativo','Ativar', 'checkbox')->insertValue(1);
-	$edit->add('name','Nome', 'text')->rule('required|unique:albums,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
+        $edit->add('ativo','Ativar', 'checkbox');
+	$edit->add('name','Nome', 'text')->rule('required|unique:anos,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
     	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
@@ -146,17 +146,17 @@ class AlbumsController extends Controller
         $page_title = Album::where('id', '=', $id)->pluck('name');
 	$page_description = 'Visualizando Fotos do Album '.Album::where('id', '=', $id)->pluck('name');
 	$title = 'Fotos';
-	$route = 'imagems';
+	$route = 'images';
+	$filter="";
 
-        $filter = \DataFilter::source(Foto::where('album_id', '=', $id));
-	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
-	$filter->submit('Filtrar');
-        $filter->reset('Resetar');
-        $filter->link("galerias/fotos/upload?id=".$id,"Adicionar Fotos");
+        $filter = \DataFilter::source(Foto::where('album_id', '=', $id)->orderBy('posicao','asc'));
+//	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+//	$filter->submit('Filtrar');
+//        $filter->reset('Resetar');
+        $filter->link("galerias/images/upload?id=".$id,"Adicionar Fotos");
         $filter->build();
 
-        $grid = \DataGrid::source($filter);
-	$grid->add('name','Unidade', true);
+	$grid = \DataGrid::source($filter);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
 	$grid->build();
@@ -169,16 +169,18 @@ class AlbumsController extends Controller
         $page_title = Album::where('id', '=', $id)->pluck('name');
 	$page_description = 'Visualizando Fotos do Album '.Album::where('id', '=', $id)->pluck('name');
 	$title = 'Fotos';
-	$route = 'imagems';
+	$route = 'images';
+	$filter="";
 
-        $filter = \DataFilter::source(Foto::where('album_id', '=', $id)->where('ativo','=',1));
-	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
-	$filter->submit('Filtrar');
-        $filter->reset('Resetar');
-        $filter->link("galerias/fotos/upload?id=".$id,"Adicionar Fotos");
+	$filter = \DataFilter::source(Foto::where('album_id', '=', $id)->orderBy('posicao','asc'));
+//	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+//	$filter->submit('Filtrar');
+//        $filter->reset('Resetar');
+        $filter->link("galerias/images/upload?id=".$id,"Adicionar Fotos");
         $filter->build();
 
-        $grid = \DataGrid::source($filter);
+
+        $grid = \DataGrid::source(new Foto);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
 	$grid->build();
