@@ -14,6 +14,13 @@ use Input;
 use Image;
 use Mail;
 use App\Links;
+use App\Ano;
+use App\Unidade;
+use App\Turma;
+use App\Album;
+use App\Foto;
+use Zofe\Rapyd\Rapyd;
+
 class HomeController extends Controller
 {
 	public function __construct() {
@@ -261,4 +268,134 @@ class HomeController extends Controller
 		}
 		return Redirect::back();
 	}
+
+    public function indexanos()
+    {
+        $page_title = 'Anos';
+	$page_description = 'Pesquisar anos';
+	$title = 'Anos';
+	$route = 'anos';
+
+        $filter = \DataFilter::source(Ano::where('ativo','=',1));
+	$filter->add('id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'));
+        $filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/anos/create","Criar novo Ano");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
+	$grid->attributes(array("class"=>"table table-striped", 'align'=>'center', 'valign' => 'middle'));
+	$grid->add('<a class="" title="Mover para cima" href="/posicao/galerias.anos/up/{{ $id }}"><span class="fa fa-level-up"></span></a>&nbsp;&nbsp;&nbsp;<a class="" title="Mover para baixo" href="/posicao/galerias.anos/down/{{ $id }}"><span class="fa fa-level-down"></span></a>','Posicao')->style("text-align: center; vertical-align: middle;");
+        $grid->add('ativo','Ativar', 'true')->cell( function ($value) {
+		if ($value == 1) {
+			return '<i class="fa fa-toggle-on" aria-hidden="true" style="color:green"></i>';
+		}
+		else return '<i class="fa fa-toggle-off" aria-hidden="true" style="color:red"></i>';
+    	})->style("text-align: center; vertical-align: middle;");
+	$grid->add('name','Nome', true)->style("text-align: center; vertical-align: middle;");
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true)->style("text-align: center; vertical-align: middle;");
+	$grid->add('filename', 'Foto')->cell( function ($value, $row) {
+			return '<img src="/galeria/anos/120x80_'.$value.'" height="120px">';
+	})->style("text-align: center; vertical-align: middle;");
+        $grid->edit('edit', 'Editar','modify|delete')->style("text-align: center; vertical-align: middle;");
+	$grid->build();
+	$back = '';
+	$id = '';
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','id','back'));
+    }
+
+    public function viewanos($id = null)
+    {
+	$page_title = Ano::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Unidades do ano de '.Ano::where('id', '=', $id)->pluck('name');
+	$title = 'Unidade';
+	$route = 'unidades';
+	
+        $filter = \DataFilter::source(Unidade::where('ano_id', '=', $id)->where('ativo','=',1)->orderBy('posicao','asc'));
+	$filter->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/unidades/create?id=".$id,"Criar nova Unidade");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
+	$grid->add('name','Nome', true);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('filename', 'Foto');
+	$grid->build();
+	$back = '';
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'id', 'back'));
+    }
+
+    public function viewunidades($id = null)
+    {
+        $page_title = Unidade::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Turmas da '.Unidade::where('id', '=', $id)->pluck('name');
+	$title = 'Turma';
+	$route = 'turmas';
+	
+        $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id)->where('ativo','=',1)->orderBy('posicao','asc'));
+	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/turmas/create?id=".$id,"Criar nova Turma");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter)->orderBy('posicao','desc');
+	$grid->add('name','Nome', true);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('filename', 'Foto');
+	$grid->build();
+	$back = 'anos';
+	$id = Unidade::where('id', '=', $id)->pluck('ano_id');
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route','id', 'back'));
+    }
+
+    public function viewturmas($id)
+    {
+        $page_title = Turma::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Albums do(a) '.Turma::where('id', '=', $id)->pluck('name');
+	$title = 'Albums';
+	$route = 'albums';
+
+        $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->where('ativo','=',1)->orderBy('posicao','asc'));
+	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
+	$filter->submit('Filtrar');
+        $filter->reset('Resetar');
+        $filter->link("galerias/albums/create?id=".$id,"Criar novo Album");
+        $filter->build();
+
+        $grid = \DataGrid::source($filter);
+	$grid->add('name','Nome', true);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('filename', 'Foto');
+	$grid->build();
+	$back = 'unidades';
+	$id = Turma::where('id', '=', $id)->pluck('unidade_id');
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back', 'id'));
+    }
+
+    public function viewalbums($id = null)
+    {
+        $page_title = Album::where('id', '=', $id)->pluck('name');
+	$page_description = 'Visualizando Fotos do Album '.Album::where('id', '=', $id)->pluck('name');
+	$title = 'Fotos';
+	$route = 'images';
+	$filter="";
+
+	$filter = \DataFilter::source(Foto::where('album_id', '=', $id)->orderBy('posicao','asc'));
+//	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
+//	$filter->submit('Filtrar');
+//        $filter->reset('Resetar');
+        $filter->link("galerias/images/upload?id=".$id,"Adicionar Fotos");
+        $filter->build();
+
+
+        $grid = \DataGrid::source(new Foto);
+        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
+	$grid->add('filename', 'Foto');
+	$grid->build();
+	$back = 'turmas';
+	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back','id'));
+    }
 }

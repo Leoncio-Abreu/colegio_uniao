@@ -72,7 +72,9 @@ $(document).ready(function() {
 @if(!is_null($filter)){!! $filter !!}@endif
 @endif
 <div class="container">
-@if($back <> '')
+@if($back == 'null')
+
+@elseif($back <> '')
 	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
 @else
 	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
@@ -114,19 +116,19 @@ $(document).ready(function() {
 						</div>
 		  				@endif
 		 		@if($album->name != '')
+				       </div> <!-- caption -->
 				</div> <!-- Thumbnails -->
 				@endif
 			</div> <!-- col -->
 		</div> <!-- row -->
           @endforeach
-		</div> <!-- /.starter-template -->
 	</div> <!-- /.starter-template -->
-@if($back <> '')
+@if($back == 'null')
+@elseif($back <> '')
 	<p><a href="/galerias/view/{{$back}}/{{$id}}" class="btn btn-big btn-default">Voltar</a></p>
 @else
 	<p><a href="/galerias/anos/index" class="btn btn-big btn-default">Voltar</a></p>
 @Endif
-						</div>
     
 </div><!-- /.container -->
 @endsection

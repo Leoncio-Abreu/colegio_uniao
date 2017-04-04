@@ -163,29 +163,5 @@ class TurmasController extends Controller
 	$id = Turma::where('id', '=', $id)->pluck('unidade_id');
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back', 'id'));
     }
-
-    public function viewu($id)
-    {
-        $page_title = Turma::where('id', '=', $id)->pluck('name');
-	$page_description = 'Visualizando Albums do(a) '.Turma::where('id', '=', $id)->pluck('name');
-	$title = 'Albums';
-	$route = 'albums';
-
-        $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->where('ativo','=',1)->orderBy('posicao','asc'));
-	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
-	$filter->submit('Filtrar');
-        $filter->reset('Resetar');
-        $filter->link("galerias/albums/create?id=".$id,"Criar novo Album");
-        $filter->build();
-
-        $grid = \DataGrid::source($filter);
-	$grid->add('name','Nome', true);
-        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('filename', 'Foto');
-	$grid->build();
-	$back = 'unidades';
-	$id = Turma::where('id', '=', $id)->pluck('unidade_id');
-	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back', 'id'));
-    }
-    
+   
 }

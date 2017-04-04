@@ -164,28 +164,4 @@ class AlbumsController extends Controller
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back','id'));
     }
 
-    public function viewu($id = null)
-    {
-        $page_title = Album::where('id', '=', $id)->pluck('name');
-	$page_description = 'Visualizando Fotos do Album '.Album::where('id', '=', $id)->pluck('name');
-	$title = 'Fotos';
-	$route = 'images';
-	$filter="";
-
-	$filter = \DataFilter::source(Foto::where('album_id', '=', $id)->orderBy('posicao','asc'));
-//	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
-//	$filter->submit('Filtrar');
-//        $filter->reset('Resetar');
-        $filter->link("galerias/images/upload?id=".$id,"Adicionar Fotos");
-        $filter->build();
-
-
-        $grid = \DataGrid::source(new Foto);
-        $grid->add('description', 'Descri&ccedil;&atilde;o', true);
-	$grid->add('filename', 'Foto');
-	$grid->build();
-	$back = 'turmas';
-	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back','id'));
-    }
-
 }

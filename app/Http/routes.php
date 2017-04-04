@@ -44,12 +44,11 @@ Route::get( 'view/atividade/{id}', ['as' => 'view.atividade',     'uses' => 'Hom
 Route::get( 'view/noticia/{id}', ['as' => 'view.noticia',     'uses' => 'HomeController@viewnoticia']);
 Route::any( 'imageupload', ['as' => 'imageupload',     'uses' => 'HomeController@imageupload']);
 
-Route::get( 'galeria/view/anos/index',   ['as' => 'galeria.view.anos.index', 'uses' => 'AnosController@indexu']);
-Route::get( 'galeria/view/anos/{id?}',   ['as' => 'galeria.view.anos', 'uses' => 'AnosController@viewu']);
-Route::get( 'galeria/view/unidades/{id?}',   ['as' => 'galeria.view.unidades', 'uses' => 'UnidadesController@viewu']);
-Route::get( 'galeria/view/turmas/{id?}',   ['as' => 'galeria.view.turmas', 'uses' => 'TurmasController@viewu']);
-Route::get( 'galeria/view/albums/{id?}',   ['as' => 'galeria.view.albums', 'uses' => 'AlbumsController@viewu']);
-//Route::get( 'galeria/view/images/{id?}',   ['as' => 'galeria.view.fotos', 'uses' => 'FotosController@viewu']);
+Route::get( 'galeria',   ['as' => 'galeria.view.anos.index', 'uses' => 'HomeController@indexanos']);
+Route::get( 'galeria/view/anos/{id?}',   ['as' => 'galeria.view.anos', 'uses' => 'HomeController@viewanos']);
+Route::get( 'galeria/view/unidades/{id?}',   ['as' => 'galeria.view.unidades', 'uses' => 'HomeController@viewunidades']);
+Route::get( 'galeria/view/turmas/{id?}',   ['as' => 'galeria.view.turmas', 'uses' => 'HomeController@viewturmas']);
+Route::get( 'galeria/view/albums/{id?}',   ['as' => 'galeria.view.albums', 'uses' => 'HomeController@viewalbums']);
 
 // Routes in this group must be authorized.
 Route::group(['middleware' => 'authorize'], function () {
@@ -117,9 +116,6 @@ Route::group(['middleware' => 'authorize'], function () {
     Route::get('galerias/images/upload', ['as' => 'galerias.image.upload', 'uses' => 'ImageController@getUpload']);
     Route::post('galerias/images/upload', ['as' => 'galerias.image.upload-post', 'uses' =>'ImageController@postUpload']);
     Route::post('galerias/images/upload/delete', ['as' => 'galerias.image.upload-remove', 'uses' =>'ImageController@deleteUpload']);
-    Route::get( 'galerias/view/images/{id?}',   ['as' => 'galerias.view.fotos', 'uses' => 'ImageController@view']);
-	
-//    Route::any( 'galerias/images/index',   ['as' => 'galerias.images.index', 'uses' => 'FotosController@index']);
     Route::any( 'galerias/images/edit/{one?}/{two?}/{three?}/{four?}/{five?}',    ['as' => 'galerias.images.edit',    'uses' => 'ImageController@edit']);
 
         // Site administration section

@@ -101,6 +101,7 @@
     width:50%;
 }
 		</style>
+@yield('head_extra')
 	</head>
 	<body id="page-top" class="index">
 		<div class="container">
