@@ -33,10 +33,10 @@ class ImageRepository
         $extension = $photo->getClientOriginalExtension();
         $originalNameWithoutExt = substr($originalName, 0, strlen($originalName) - strlen($extension) - 1);
 
-        $filename = $this->sanitize($originalNameWithoutExt);
-        $filename = $originalNameWithoutExt;
+//        $filename = $this->sanitize($originalNameWithoutExt);
+//        $filename = $originalNameWithoutExt;
         $allowed_filename = $this->createUniqueFilename( $filename, $extension );
-//	$allowed_filename = $originalName;
+	$allowed_filename = $originalName;
         $uploadSuccess1 = $this->original( $photo, $allowed_filename );
 
         $uploadSuccess2 = $this->icon( $photo, $allowed_filename );
@@ -156,7 +156,7 @@ class ImageRepository
 
     function sanitize($string, $force_lowercase = true, $anal = false)
     {
-        $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", ",", "<", ".", ">", "/", "?");
+        $strip = array(" ", "~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", ",", "<", ".", ">", "/", "?");
         $clean = trim(str_replace($strip, "", strip_tags($string)));
         $clean = str_replace(' ', "-", $clean);
         $clean = ($anal) ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean ;
