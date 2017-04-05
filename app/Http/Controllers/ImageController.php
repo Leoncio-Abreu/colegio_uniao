@@ -24,7 +24,7 @@ class ImageController extends Controller
 	$filename = "";
 
         $edit = \DataEdit::source(New Image());
-	$edit->link("galerias/anos/index","Voltar", "BL")->back('');
+	$edit->link('galerias/view/albums/'.$edit->model['album_id'],"Voltar", "BL")->back('');
 	$edit->add('album_id','','hidden');
 	$edit->add('ativo','Ativar', 'checkbox');
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->attributes(array('autofocus'=>'autofocus'));
@@ -46,7 +46,6 @@ class ImageController extends Controller
 
  */	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
-		\Flash::success("Ano atualizado com sucesso!");
 		return \Redirect::to('galerias/view/albums/'.$edit->model['album_id']);
         });
 	$edit->build();
