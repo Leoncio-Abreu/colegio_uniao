@@ -36,7 +36,7 @@ class ImageRepository
 //        $filename = $this->sanitize($originalNameWithoutExt);
 //        $filename = $originalNameWithoutExt;
         $allowed_filename = $this->createUniqueFilename( $filename, $extension );
-	$allowed_filename = $originalName;
+//	$allowed_filename = $originalName;
         $uploadSuccess1 = $this->original( $photo, $allowed_filename );
 
         $uploadSuccess2 = $this->icon( $photo, $allowed_filename );
