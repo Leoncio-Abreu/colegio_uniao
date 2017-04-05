@@ -396,6 +396,7 @@ class HomeController extends Controller
 	$grid->add('filename', 'Foto');
 	$grid->build();
 	$back = 'turmas';
+	$id = Album::where('id', '=', $id)->pluck('turma_id');
 	return	view('galerias.indexu', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'back','id'));
     }
 }
