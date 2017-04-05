@@ -57,6 +57,7 @@ class LinksController extends Controller
 		elseif ($i == 2) $nome = 'Página do Facebook';
 		elseif ($i == 3) $nome = 'Página do Instagram';
 		elseif ($i == 4) $nome = 'Página do Youtube';
+		elseif ($i == 5) $nome = 'Página da Galeria';
 		$page_title ="Links";
 		$page_description = "Alterar Links";
 
