@@ -289,7 +289,7 @@ class AnosController extends Controller
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
 	$grid->build();
-	$back = 'ano';
+	$back = '';
 	return	view('galerias.index', compact('filter', 'grid', 'page_title', 'page_description', 'title', 'route', 'id', 'back'));
     }
     
