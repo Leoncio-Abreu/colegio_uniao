@@ -63,11 +63,11 @@
 						<h3>{{$album->name}}</h3>
 						@endif
 						@if($album->description != '')
-						<p>{{$album->description}}</p>
+						<p style="color:white;">{{$album->description}}</p>
 						@endif
 				 		@if($album->name != '')
-				                <p>Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
-						<p><a href="/galeria/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-warning">Entrar</a></p>
+				                <p style="color:white;">Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
+						<p style="color:white;"><a href="/galeria/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-warning">Entrar</a></p>
 						@else
 						<br>
 						@endif
