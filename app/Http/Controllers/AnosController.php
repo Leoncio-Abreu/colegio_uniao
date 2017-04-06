@@ -27,9 +27,6 @@ class AnosController extends Controller
 	$route = 'anos';
 
         $filter = \DataFilter::source(new Ano());
-//	$filter->add('id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'));
-//        $filter->submit('Filtrar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/anos/create","Criar novo Ano");
         $filter->build();
 
@@ -71,7 +68,7 @@ class AnosController extends Controller
 	$form->add('name','Titulo', 'text')->rule('required|unique:anos,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
@@ -80,11 +77,7 @@ class AnosController extends Controller
 	    		$constraint->aspectRatio();
 	    	});
 		$image->save(public_path()."/images/icon_size/". $filename);
-/*	    	$image->fit(120, 80, function($constraint) {
-	    		$constraint->upsize();
-	    	});
-	    	$image->save(public_path()."/images//120x80_". $filename);
- */	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
+	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$form->submit('Salvar');
 
 	Ano::created(function ($ano){
@@ -257,7 +250,7 @@ class AnosController extends Controller
 	$edit->add('name','Nome', 'text')->rule('required|unique:anos,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
@@ -266,13 +259,7 @@ class AnosController extends Controller
 	    		$constraint->aspectRatio();
 	    	});
 		$image->save(public_path()."/images/icon_size/". $filename);
-
-/*	    	$image->fit(120, 80, function($constraint) {
-	    		$constraint->upsize();
-	    	});
-		$image->save(public_path()."/galeria/anos/12". $filename);
-
- */	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
+ 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
 		\Flash::success("Ano atualizado com sucesso!");
 		return \Redirect::to('galerias/anos/index');
@@ -294,9 +281,6 @@ class AnosController extends Controller
 	$route = 'unidades';
 	
         $filter = \DataFilter::source(Unidade::where('ano_id', '=', $id)->orderBy('posicao','asc'));
-//	$filter->add('ano_id','Ano','select')->rule('required')->option("","")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
-//	$filter->submit('Filtrar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/unidades/create?id=".$id,"Criar nova Unidade");
         $filter->build();
 

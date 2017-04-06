@@ -27,9 +27,6 @@ class AlbumsController extends Controller
 	$route = 'albums';
 
         $filter = \DataFilter::source(new Album());
-//	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Turma::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
-//        $filter->submit('Procurar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/albums/create","Novo Album");
         $filter->build();
 
@@ -67,14 +64,12 @@ class AlbumsController extends Controller
 
         $form = \DataForm::source(New Album());
 	$form->link("galerias/albums/index","Voltar", "BL")->back('');
-//	$form->link('/galerias/view/turmas/'.\Input::get('id'),"Voltar para a galeria")->back('do_delete');
-//	$form->link("galerias/albums/index","Voltar", "BL")->back('do_delete');
 	$form->add('turma_id','','hidden')->insertValue(\Input::get('id'));
         $form->add('ativo','Ativar:', 'checkbox')->insertValue(1);
 	$form->add('name','Titulo', 'text')->rule('required|unique:anos,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
@@ -118,7 +113,7 @@ class AlbumsController extends Controller
 	$edit->add('name','Nome', 'text')->rule('required|unique:anos,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
@@ -150,9 +145,6 @@ class AlbumsController extends Controller
 	$filter="";
 
         $filter = \DataFilter::source(Foto::where('album_id', '=', $id)->orderBy('posicao','asc'));
-//	$filter->add('album_id','Album','select')->rule('required')->option("","")->options(Foto::orderBy('posicao','desc')->lists('name','id'))->insertValue($id);
-//	$filter->submit('Filtrar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/images/upload?id=".$id,"Adicionar Fotos");
         $filter->build();
 

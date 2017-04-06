@@ -27,9 +27,6 @@ class TurmasController extends Controller
 	$route = 'turmas';
 
         $filter = \DataFilter::source(new Turma());
-//	$filter->add('unidade_id','Unidade','select')->rule('required')->option("","")->options(Unidade::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('ano_id'));
-//        $filter->submit('Procurar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/turmas/create","Novo Turma");
         $filter->build();
 
@@ -72,7 +69,7 @@ class TurmasController extends Controller
 	$form->add('name','Turma', 'text')->rule('required|unique:turmas,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
@@ -117,7 +114,7 @@ class TurmasController extends Controller
 	$edit->add('name','Nome', 'text')->rule('required|unique:turmas,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
@@ -148,9 +145,6 @@ class TurmasController extends Controller
 	$route = 'albums';
 
         $filter = \DataFilter::source(Album::where('turma_id', '=', $id)->orderBy('posicao','asc'));
-//	$filter->add('turma_id','Turma','select')->rule('required')->option("","")->options(Album::orderBy('posicao','desc')->where('turma_id', '=', $id)->lists('name','id'))->insertValue($id);
-//	$filter->submit('Filtrar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/albums/create?id=".$id,"Criar novo Album");
         $filter->build();
 

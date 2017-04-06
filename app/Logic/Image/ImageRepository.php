@@ -33,8 +33,8 @@ class ImageRepository
         $extension = $photo->getClientOriginalExtension();
         $originalNameWithoutExt = substr($originalName, 0, strlen($originalName) - strlen($extension) - 1);
 
-//        $filename = $this->sanitize($originalNameWithoutExt);
-//        $filename = $originalNameWithoutExt;
+        $filename = $this->sanitize($originalNameWithoutExt);
+        $filename = $originalNameWithoutExt;
         $allowed_filename = $this->createUniqueFilename( $filename, $extension );
 //	$allowed_filename = $originalName;
         $uploadSuccess1 = $this->original( $photo, $allowed_filename );
@@ -100,8 +100,8 @@ class ImageRepository
     public function icon( $photo, $filename )
     {
         $manager = new ImageManager();
-        $image = $manager->make( $photo )->fit(250, 150, function ($constraint) {
-            $constraint->upsize();
+        $image = $manager->make( $photo )->resize(250, 150, function ($constraint) {
+            $constraint->aspectRatio();
             })
             ->save( Config::get('images.icon_size')  . $filename );
 

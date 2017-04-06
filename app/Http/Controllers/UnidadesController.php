@@ -27,9 +27,6 @@ class UnidadesController extends Controller
 	$route = 'unidades';
 
         $filter = \DataFilter::source(new Unidade);
-//	$filter->add('ano_id','Ano','select')->option("","Todos os Anos")->options(Ano::orderBy('posicao','desc')->lists('name','id'))->insertValue(\Input::get('id'));
-//	$filter->submit('Filtrar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/unidades/create?id=".\Input::get('ano_id'),"Criar nova Unidade");
         $filter->build();
 
@@ -72,7 +69,7 @@ class UnidadesController extends Controller
 	$form->add('name','Nome', 'text')->rule('required|unique:unidades,name')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
@@ -115,7 +112,7 @@ class UnidadesController extends Controller
 	$edit->add('name','Unidade', 'text')->rule('required|unique:unidades,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.\Input::file('filename')->getClientOriginalName();
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
         }
 	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
@@ -146,9 +143,6 @@ class UnidadesController extends Controller
 	$route = 'turmas';
 	
         $filter = \DataFilter::source(Turma::where('unidade_id', '=', $id)->orderBy('posicao','asc'));
-//	$filter->add('unidade_id','Unidade','select')->option("","")->options(Unidade::orderBy('posicao','desc')->where('ano_id','=',Unidade::where('id', '=', $id)->pluck('ano_id'))->lists('name','id'));
-//	$filter->submit('Filtrar');
-//        $filter->reset('Resetar');
         $filter->link("galerias/turmas/create?id=".$id,"Criar nova Turma");
         $filter->build();
 
