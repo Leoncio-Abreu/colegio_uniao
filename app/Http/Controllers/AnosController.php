@@ -75,7 +75,8 @@ class AnosController extends Controller
 		$form->field("filename")->insertValue($filename)->updateValue($filename);
 	    	$image->resize(250, null, function($constraint) {
 	    		$constraint->aspectRatio();
-	    	});
+		});
+		$image->insert(public_path().'/img/logo_uniao_i.png', 'bottom-right', 10, 10);
 		$image->save(public_path()."/images/icon_size/". $filename);
 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$form->submit('Salvar');
@@ -225,6 +226,11 @@ class AnosController extends Controller
 	    $turma18->save();
 	});
         $form->saved(function () use ($form) {
+	    if ($form->field('filename')->value <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$form->field('filename')->value);
+		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 10, 10);
+		$img->save();
+	    }
 	    \Flash::success("Ano adicionado com sucesso!");
 	    return \Redirect::to('/galerias/anos/index');
 	});
@@ -257,13 +263,19 @@ class AnosController extends Controller
 		$edit->field("filename")->insertValue($filename)->updateValue($filename);
 	    	$image->resize(250, null, function($constraint) {
 	    		$constraint->aspectRatio();
-	    	});
+		});
+		$image->insert(public_path().'/img/logo_uniao_i.png', 'bottom-right', 10, 10);
 		$image->save(public_path()."/images/icon_size/". $filename);
- 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
+	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
-		\Flash::success("Ano atualizado com sucesso!");
+	    if ($edit->model['filename'] <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$edit->model['filename']);
+		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
+		$img->save();
+	    }
+		\Flash::success("Ano atualizado com sucesso!".public_path().'/images/full_size/'.$edit->model['filename']);
 		return \Redirect::to('galerias/anos/index');
-        });
+	});
 	$edit->build();
 	return $edit->view('galerias.create', compact('edit', 'page_title', 'page_description'));
     }
