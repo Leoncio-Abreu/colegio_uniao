@@ -58,6 +58,7 @@
 						</a>
 					</div>
 				@endif
+				@if($back <> 'turmas')
 			                <div class="caption">
 				 		@if($album->name != '')
 						<h3>{{$album->name}}</h3>
@@ -68,10 +69,9 @@
 				 		@if($album->name != '')
 				                <p style="color:white;">Criado em:  {{ date("d/m/Y",strtotime($album->created_at)) }} as {{date("H:i",strtotime($album->created_at)) }}</p>
 						<p style="color:white;"><a href="/galeria/view/{{$route}}/{{$album->id}}" class="btn btn-big btn-warning">Entrar</a></p>
-						@else
-						<br>
 						@endif
 				       </div> <!-- caption -->
+				@endif
 				</div> <!-- Thumbnails -->
 			</div> <!-- col -->
           @endforeach

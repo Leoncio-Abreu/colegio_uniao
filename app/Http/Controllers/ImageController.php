@@ -29,7 +29,7 @@ class ImageController extends Controller
 	$edit->add('ativo','Ativar', 'checkbox');
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text')->attributes(array('autofocus'=>'autofocus'));
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', mb_strtolower(\Input::file('filename')->getClientOriginalName()));
         }
 	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
@@ -37,10 +37,17 @@ class ImageController extends Controller
 	    	$image->resize(250, null, function($constraint) {
 	    		$constraint->aspectRatio();
 	    	});
+		$image->insert(public_path().'/img/logo_uniao_i.png', 'bottom-right', 10, 10);
 		$image->save(public_path()."/images/icon_size/". $filename);
 
 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
+	    if ($edit->model['filename'] <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$edit->model['filename']);
+		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
+		$img->save();
+	    }
+		\Flash::success("Album atualizado com sucesso!");
 		return \Redirect::to('galerias/view/albums/'.$edit->model['album_id']);
         });
 	$edit->build();

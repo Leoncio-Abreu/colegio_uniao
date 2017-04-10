@@ -273,7 +273,7 @@ class AnosController extends Controller
 		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
 		$img->save();
 	    }
-		\Flash::success("Ano atualizado com sucesso!".public_path().'/images/full_size/'.$edit->model['filename']);
+		\Flash::success("Ano atualizado com sucesso!");
 		return \Redirect::to('galerias/anos/index');
 	});
 	$edit->build();

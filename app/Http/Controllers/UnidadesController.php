@@ -66,17 +66,18 @@ class UnidadesController extends Controller
 	$form->link("galerias/unidades/index","Voltar", "BL")->back('');
 	$form->add('ano_id','','hidden')->insertValue(\Input::get('id'));
         $form->add('ativo','Ativar', 'checkbox')->insertValue(1);
-	$form->add('name','Nome', 'text')->rule('required|unique:unidades,name')->attributes(array('autofocus'=>'autofocus'));
+	$form->add('name','Nome', 'text')->rule('required')->attributes(array('autofocus'=>'autofocus'));
 	$form->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', mb_strtolower(\Input::file('filename')->getClientOriginalName()));
         }
 	$form->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($form, $filename) {
 		$form->field("filename")->insertValue($filename)->updateValue($filename);
 	    	$image->resize(250, null, function($constraint) {
 	    		$constraint->aspectRatio();
-	    	});
+		});
+		$image->insert(public_path().'/img/logo_uniao_i.png', 'bottom-right', 10, 10);
 		$image->save(public_path()."/images/icon_size/". $filename);
 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$form->submit('Salvar');
@@ -87,6 +88,11 @@ class UnidadesController extends Controller
 	    $unidade->posicao=$pos+1;
 	    $unidade->save();
 	});
+	    if ($form->field('filename')->value <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$form->field('filename')->value);
+		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 10, 10);
+		$img->save();
+	    }
             \Flash::success("Unidade adicionada com sucesso!");
 	    return \Redirect::to('/galerias/view/anos/'.$form->field('ano_id')->value);
 	});
@@ -109,20 +115,26 @@ class UnidadesController extends Controller
 	$edit->link("galerias/view/anos/".$edit->model['ano_id'],"Voltar", "BL")->back('');
        	$edit->add('ano_id','','hidden');
         $edit->add('ativo','Ativar', 'checkbox');
-	$edit->add('name','Unidade', 'text')->rule('required|unique:unidades,name,'.$edit->model['id'])->attributes(array('autofocus'=>'autofocus'));
+	$edit->add('name','Unidade', 'text')->rule('required')->attributes(array('autofocus'=>'autofocus'));
 	$edit->add('description','Descri&ccedil;&atilde;o', 'text');
 	if(\Input::hasFile('filename')){
-    	    $filename = str_random(8).'_'.str_replace(' ', '_', \Input::file('filename')->getClientOriginalName());
+    	    $filename = str_random(8).'_'.str_replace(' ', '_', mb_strtolower(\Input::file('filename')->getClientOriginalName()));
         }
 	$edit->add('filename','Foto', 'image')->rule('mimes:jpeg,jpg,png,gif|required|max:10000')
 	    ->image(function ($image) use ($edit, $filename) {
 		$edit->field("filename")->insertValue($filename)->updateValue($filename);
 	    	$image->resize(250, null, function($constraint) {
 	    		$constraint->aspectRatio();
-	    	});
+		});
+		$image->insert(public_path().'/img/logo_uniao_i.png', 'bottom-right', 10, 10);
 		$image->save(public_path()."/images/icon_size/". $filename);
 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
+	    if ($edit->model['filename'] <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$edit->model['filename']);
+		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
+		$img->save();
+	    }
 		\Flash::success("Unidade atualizada com sucesso!");
 		return \Redirect::to('galerias/view/anos/'.$edit->model['ano_id']);
         });
