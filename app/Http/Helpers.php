@@ -11,7 +11,7 @@
 */
 function isActiveRoute($route, $output = "active")
 {
-    if (preg_match( '/^' . $route . '$/i' , Route::currentRouteName() )) return $output;
+    if (Route::currentRouteName() == $route) return $output;
 }
 
 /*

@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Repositories\AuditRepository as Audit;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Redirect;
 use Setting;
@@ -23,11 +25,16 @@ use Zofe\Rapyd\Rapyd;
 
 class HomeController extends Controller
 {
-	public function __construct() {
+	public function __construct(Application $app, Audit $audit) {
         // this function will run before every action in the controller
+
+        parent::__construct($app, $audit);
+        // Set default crumbtrail for controller.
+        session(['crumbtrail.leaf' => 'home']);
+
         $this->beforeFilter(function()
         {
- 		$slides = Slide::orderBy('posicao','desc')
+	    $slides = Slide::orderBy('posicao','desc')
                     ->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
                     ->where('ativo', '=', '1')
                     ->get();
@@ -56,8 +63,9 @@ class HomeController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function welcome()
+    public function welcome(Request $request)
     {
+        $request->session()->reflash();
 		$noticias = Noticia::orderBy('posicao','desc')
                     ->where('visualizar', '<', \DB::raw('CURRENT_TIMESTAMP'))
                     ->where('ativo', '=', '1')

@@ -27,7 +27,8 @@
         width: 390px;
     }
 </style>
-
+    <!-- Optional header section  -->
+    @yield('head_extra')
 </head>
 <body class="login-page">
 

@@ -31,6 +31,8 @@
     </form>
 
     {!! link_to_route('login', trans('auth/dialog.button.sign-in'), [], ['class' => "text-center"]) !!}<br>
-    {!! link_to_route('register', trans('auth/dialog.button.register-membership'), [], ['class' => "text-center"]) !!}
+    @if (Setting::get('app.allow_registration'))
+        {!! link_to_route('register', trans('auth/dialog.button.register-membership'), [], ['class' => "text-center"]) !!}
+    @endif
 
 @endsection

@@ -33,7 +33,7 @@ return [
     'columns'             => [
         'user'                =>  'Usuário',
         'message'             =>  'Mensagem',
-        'class'               =>  'Classee',
+        'class'               =>  'Classe',
         'url'                 =>  'URL',
         'date'                =>  'Data',
         'file'                =>  'Arquivo',
