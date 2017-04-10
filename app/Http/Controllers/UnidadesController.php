@@ -88,8 +88,8 @@ class UnidadesController extends Controller
 	    $unidade->posicao=$pos+1;
 	    $unidade->save();
 	});
-	    if ($form->field('filename')->value <> ''){
-		$img = Image::make(public_path().'/images/full_size/'.$form->field('filename')->value);
+	    if ($form->model['filename'] <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$form->model['filename']);
 		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 10, 10);
 		$img->save();
 	    }

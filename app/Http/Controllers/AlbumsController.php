@@ -88,11 +88,11 @@ class AlbumsController extends Controller
 	    $album->posicao=$pos+1;
 	    $album->save();
 	});
-	    if ($form->field('filename')->value <> ''){
-		$img = Image::make(public_path().'/images/full_size/'.$form->field('filename')->value);
-		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 10, 10);
+	    if ($form->model['filename'] <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$form->model['filename']);
+		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
 		$img->save();
-	    }
+	}
 	    \Flash::success("Album adicionada com sucesso!");
 	    return \Redirect::to('/galerias/view/turmas/'.$form->field('turma_id')->value);
 	});

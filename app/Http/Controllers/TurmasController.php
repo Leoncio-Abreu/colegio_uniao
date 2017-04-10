@@ -87,8 +87,8 @@ class TurmasController extends Controller
 	    $turma->posicao=$pos+1;
 	    $turma->save();
 	});
-	    if ($form->field('filename')->value <> ''){
-		$img = Image::make(public_path().'/images/full_size/'.$form->field('filename')->value);
+	    if ($form->model['filename'] <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$form->model['filename']);
 		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 10, 10);
 		$img->save();
 	    }

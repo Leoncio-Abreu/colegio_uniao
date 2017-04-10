@@ -226,9 +226,9 @@ class AnosController extends Controller
 	    $turma18->save();
 	});
         $form->saved(function () use ($form) {
-	    if ($form->field('filename')->value <> ''){
-		$img = Image::make(public_path().'/images/full_size/'.$form->field('filename')->value);
-		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 10, 10);
+	    if ($form->model['filename'] <> ''){
+		$img = Image::make(public_path().'/images/full_size/'.$form->model['filename']);
+		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
 		$img->save();
 	    }
 	    \Flash::success("Ano adicionado com sucesso!");
