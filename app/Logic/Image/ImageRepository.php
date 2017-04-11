@@ -27,7 +27,6 @@ class ImageRepository
         }
 
 	$photo = $form_data['file'];
-	\Log::info('add: '. $form_data['album']);
 	$album_id = $form_data['album'];
         $originalName = $photo->getClientOriginalName();
         $extension = $photo->getClientOriginalExtension();
@@ -115,12 +114,10 @@ class ImageRepository
      */
     public function delete( $filename )
     {
-	\Log::info('delete1: '. $filename);
         $full_size_dir = Config::get('images.full_size');
         $icon_size_dir = Config::get('images.icon_size');
 
         $sessionImage = Image::where('filename', 'like', $filename)->first();
-	\Log::info('delete2: '. $sessionImage->filename);
 
         if(empty($sessionImage))
         {
@@ -134,7 +131,6 @@ class ImageRepository
 
         $full_path1 = $full_size_dir . $sessionImage->filename;
         $full_path2 = $icon_size_dir . $sessionImage->filename;
-	\Log::info('delete3: '. $full_path1. ' ' .$full_path1);
         if ( File::exists( $full_path1 ) )
         {
             File::delete( $full_path1 );
