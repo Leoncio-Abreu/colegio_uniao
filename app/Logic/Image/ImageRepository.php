@@ -89,7 +89,8 @@ class ImageRepository
     public function original( $photo, $filename )
     {
         $manager = new ImageManager();
-        $image = $manager->make( $photo )->save(Config::get('images.full_size') . $filename );
+	$manager1 = $manager->make( $photo )->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
+	$image = $manager1->save(Config::get('images.full_size') . $filename );
 
         return $image;
     }
@@ -100,7 +101,8 @@ class ImageRepository
     public function icon( $photo, $filename )
     {
         $manager = new ImageManager();
-        $image = $manager->make( $photo )->resize(250, 150, function ($constraint) {
+	$manager1 = $manager->make( $photo )->insert(public_path().'/img/logo_uniao_i.png', 'bottom-right', 10, 10);
+	$image = $manager1->resize(250, 150, function ($constraint) {
             $constraint->aspectRatio();
             })
             ->save( Config::get('images.icon_size')  . $filename );
