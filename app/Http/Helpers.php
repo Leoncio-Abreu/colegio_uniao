@@ -31,3 +31,11 @@ function areActiveRoutes(Array $routes, $output = "active")
     }
 
 }
+function getWatermark($img)
+{
+	$wtm = \Image::make(public_path().'/img/logo_uniao.png')->resize(round($img->width()*8/100,0), null, function($constraint) {
+	    		$constraint->aspectRatio();
+		});
+//	$img->insert($wtm, 'bottom-right', 10, 10);
+	return $wtm;
+}

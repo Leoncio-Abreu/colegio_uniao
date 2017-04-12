@@ -77,6 +77,7 @@ class TurmasController extends Controller
 	    	$image->resize(250, null, function($constraint) {
 	    		$constraint->aspectRatio();
 	    	});
+		$image->insert(getWatermark($image), 'bottom-right', 10, 10);
 		$image->save(public_path()."/images/icon_size/". $filename);
 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$form->submit('Salvar');
@@ -89,7 +90,7 @@ class TurmasController extends Controller
 	});
 	    if ($form->model['filename'] <> ''){
 		$img = Image::make(public_path().'/images/full_size/'.$form->model['filename']);
-		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 10, 10);
+		$img->insert(getWatermark($img), 'bottom-right', 20, 20);
 		$img->save();
 	    }
 	    \Flash::success("Turma adicionado com sucesso!");
@@ -127,13 +128,13 @@ class TurmasController extends Controller
 	    	$image->resize(250, null, function($constraint) {
 	    		$constraint->aspectRatio();
 		});
-		$image->insert(public_path().'/img/logo_uniao_i.png', 'bottom-right', 10, 10);
+		$image->insert(getWatermark($image), 'bottom-right', 10, 10);
 		$image->save(public_path()."/images/icon_size/". $filename);
 	    })->move(public_path().'/images/full_size/',$filename)->preview(250,150);
 	$edit->saved(function () use ($edit) {
-	    if ($edit->model['filename'] <> ''){
+	    if ($edit->model['filename'] <> '' and !\Input::get('do_delete')){
 		$img = Image::make(public_path().'/images/full_size/'.$edit->model['filename']);
-		$img->insert(public_path().'/img/logo_uniao_f.png', 'bottom-right', 20, 20);
+		$img->insert(getWatermark($img), 'bottom-right', 20, 20);
 		$img->save();
 	    }
 		\Flash::success("Turma atualizado com sucesso!");
