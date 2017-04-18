@@ -399,7 +399,7 @@ class HomeController extends Controller
         $filter->build();
 
 
-        $grid = \DataGrid::source(new Foto);
+        $grid = \DataGrid::source($filter);
         $grid->add('description', 'Descri&ccedil;&atilde;o', true);
 	$grid->add('filename', 'Foto');
 	$grid->build();
